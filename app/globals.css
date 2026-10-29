@@ -8,6 +8,7 @@
    chunks shared an identical `data-precedence="next"` value with no
    guaranteed relative order) — a single file removes that ambiguity. */
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "katex/dist/katex.min.css";
 
 :root {
   /* Colour tokens (light) — assets/css/main.css, :root block */
@@ -517,4 +518,345 @@ html[data-theme="dark"] .site-footer .footer-text {
 }
 html[data-theme="dark"] .site-footer .footer-text a {
   color: #ff8f4f;
+}
+
+/* Dropdown caret — Bootstrap's default ::after triangle is small and
+   tight; the original (relying on the same default, inherited at a
+   larger base font-size) reads as a bigger caret with more breathing
+   room, so it's sized up explicitly here. */
+.navbar-nav .dropdown-toggle::after {
+  margin-left: 0.4em;
+  vertical-align: 0.15em;
+  border-top-width: 0.4em;
+  border-right-width: 0.4em;
+  border-left-width: 0.4em;
+}
+
+/* Intro / hero card — assets/css/main.css: .hero-section, .hero-content,
+   .hero-description, .hero-logos, .logo-item, .logo-img, .ee-logo. The
+   margin here is what creates the gap below the navbar the original has
+   and this build was missing. */
+.hero-section {
+  background: linear-gradient(135deg, rgba(0, 51, 102, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(0, 51, 102, 0.08);
+  border-radius: 15px;
+  margin: 1.5rem 0 2rem;
+  position: relative;
+  overflow: hidden;
+}
+html[data-theme="dark"] .hero-section {
+  background: linear-gradient(135deg, rgba(0, 51, 102, 0.08) 0%, rgba(0, 0, 0, 0.1) 100%);
+  border-color: rgba(0, 51, 102, 0.15);
+}
+.hero-content {
+  padding: 0;
+}
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--global-text-color);
+  text-align: left;
+}
+.hero-logos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  height: 100%;
+}
+.logo-item {
+  transition: transform 0.3s ease;
+}
+.logo-img {
+  max-height: 80px;
+  width: auto;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+.ee-logo {
+  max-height: 75px;
+}
+@media (max-width: 768px) {
+  .hero-section {
+    margin: 1rem 0;
+    border-radius: 12px;
+  }
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .hero-section {
+    margin: 0.5rem 0 1rem;
+    border-radius: 8px;
+  }
+  .hero-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+/* Group photo caption — assets/css/main.css: .caption */
+.caption {
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Lab Director section — assets/css/main.css: h2.category, .lab-director-section,
+   .profile-card, .profile-image, .card-icons, .biography-content */
+h2.category {
+  color: var(--global-text-color-light);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--global-divider-color);
+  padding-bottom: 0.5rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+.lab-director-section {
+  margin: 2rem 0;
+}
+.profile-card {
+  padding: 1rem 0;
+  text-align: center;
+}
+.profile-image {
+  max-width: 200px;
+  transition: transform 250ms ease;
+}
+.card-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  text-align: center;
+  color: var(--global-text-color);
+}
+.card-icons a {
+  padding: 0.25rem;
+}
+.biography-content {
+  padding: 1rem 0;
+}
+
+/* News / Publications / Funding headings — plain <h2><a>...</a></h2> + <hr> */
+.news h2 a,
+.publications h2 a {
+  color: inherit;
+}
+
+/* News list — assets/css/main.css: .news-items, .news-item, .news-meta,
+   .news-date, .news-badge, .news-content, .news-arrow-icon */
+.news-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.news-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+  align-items: flex-start;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+.news-item:hover {
+  background-color: rgba(var(--global-theme-color-rgb), 0.03);
+}
+.news-meta {
+  flex-shrink: 0;
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.news-date {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.news-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: var(--global-theme-color);
+  color: #ffffff;
+  width: fit-content;
+}
+.news-content {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.news-title {
+  color: var(--global-theme-color);
+  font-weight: 600;
+}
+.news-arrow-icon {
+  display: none;
+}
+.coauthor-link {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 576px) {
+  .news-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .news-meta {
+    min-width: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+/* Publications list — assets/css/main.css: .bibliography, .pub-item,
+   .abbr, .title, .author, .periodical, .links, .hidden/.open toggles */
+.bibliography {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+.bibliography li {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  padding-bottom: 1rem;
+}
+.bibliography li .abbr {
+  margin-bottom: 0.5rem;
+}
+.bibliography li .abbr abbr {
+  width: 7em;
+  display: inline-block;
+  background-color: var(--global-theme-color);
+  color: #ffffff;
+  text-align: center;
+  font-size: 0.75rem;
+  padding: 0.2rem 0;
+}
+.bibliography li .title {
+  font-weight: bolder;
+}
+.bibliography li .title .publication-title-link {
+  color: var(--global-text-color);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.bibliography li .title .publication-title-link:hover {
+  color: var(--global-theme-color);
+  border-bottom-color: var(--global-theme-color);
+}
+.bibliography li .author a {
+  border-bottom: 1px dashed var(--global-theme-color);
+}
+.bibliography li .author a:hover {
+  border-bottom-style: solid;
+  text-decoration: none;
+}
+.bibliography li .author > em {
+  border-bottom: 1px solid;
+  font-style: normal;
+}
+.bibliography li .periodical {
+  color: var(--global-text-color-light);
+}
+.bibliography li .links {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+.bibliography li .links a.btn,
+.bibliography li .links button.btn {
+  color: var(--global-text-color);
+  border: 2px solid var(--global-text-color);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin-left: 0.25rem;
+  background: none;
+}
+.bibliography li .links a.btn:hover,
+.bibliography li .links button.btn:hover {
+  background-color: var(--global-theme-color);
+  border-color: var(--global-theme-color);
+  color: #ffffff;
+}
+.bibliography li .links a.article-btn {
+  background-color: var(--global-theme-color);
+  border-color: var(--global-theme-color);
+  color: #ffffff;
+}
+.bibliography li .hidden {
+  font-size: 0.875rem;
+  max-height: 0;
+  overflow: hidden;
+  text-align: justify;
+  transition: all 0.15s ease;
+}
+.bibliography li .hidden p {
+  line-height: 1.4em;
+  margin: 10px;
+}
+.bibliography li .hidden.open {
+  max-height: 100em;
+}
+.bibliography li div.abstract.hidden {
+  border: dashed 1px var(--global-bg-color);
+}
+.bibliography li div.abstract.hidden.open {
+  border-color: var(--global-text-color);
+}
+
+/* Funding — assets/css/main.css: .funding, .swiper-slide img hover.
+   Rendered as a static responsive grid rather than the original's Swiper
+   carousel (see Step Report); the per-logo sizing and hover scale match. */
+.funding-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.funding-logo img {
+  transition: transform 0.3s ease;
+}
+.funding-logo img:hover {
+  transform: scale(1.02);
+}
+
+/* Social icon block — assets/css/main.css: .social, .contact-icons */
+.social {
+  text-align: center;
+  padding: 2rem 0;
+}
+.contact-icons {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.contact-icons a {
+  color: var(--global-text-color-light);
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+.contact-icons a:hover {
+  color: var(--global-theme-color);
+  transform: translateY(-2px);
 }

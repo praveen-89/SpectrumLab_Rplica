@@ -24,6 +24,14 @@ function extractLinks($, root) {
   return links;
 }
 
+async function extractHomeSummary() {
+  const home$ = await loadPage(".");
+  const bio = home$(".lab-director-section .biography-text").first();
+  stripIcons(home$, bio);
+  bio.find(".read-more-link").remove();
+  return htmlToMarkdown(bio.html() ?? "");
+}
+
 async function run() {
   const $ = await loadPage(PAGE);
   const root = $("#main-content");
@@ -31,6 +39,7 @@ async function run() {
   const name = root.find("h1").first().text().trim();
   const image = root.find("picture img").first().attr("src");
   const links = extractLinks($, root);
+  const summary = await extractHomeSummary();
 
   const biography = root.find(".biography-body").first();
   stripIcons($, biography);
@@ -56,7 +65,7 @@ async function run() {
     activitiesMd,
   ].join("\n\n");
 
-  await writeMarkdownFile(OUT_PATH, { name, group: "Lab Director", image, links }, body);
+  await writeMarkdownFile(OUT_PATH, { name, group: "lab-director", image, links, summary }, body);
   console.log(`Wrote director profile to ${OUT_PATH}`);
 }
 

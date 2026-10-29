@@ -1,11 +1,12 @@
 ---
 name: "Chandra Sekhar Seelamantula"
-group: "Lab Director"
+group: "lab-director"
 image: "/assets/img/people/current/lab_director/CSSPic-800.webp"
 links:
   orcid: "https://orcid.org/0000-0001-9049-1912"
   scholar: "https://scholar.google.com/citations?user=1g1i1B4AAAAJ"
   twitter: "https://twitter.com/CSSeelamantula"
+summary: "Chandra Sekhar Seelamantula is a **Professor** in the Department of Electrical Engineering at the Indian Institute of Science (IISc), Bangalore. He received his Bachelor of Engineering degree with _Prof. K. K. Nair Gold Medal_ from Osmania University in 1999 and Ph.D. from IISc in 2005.\n\nAfter completing postdoctoral research at EPFL, Switzerland (2006–2009), he joined IISc as faculty in 2009 and now leads the **Spectrum Lab**. His research interests include signal processing, machine learning, Generative AI, computational imaging, and AI for Healthcare.\n\nHe has served in various editorial roles including Senior Area Editor for IEEE Signal Processing Letters and Associate Editor for IEEE Transactions on Image Processing. He is a recipient of multiple awards including the Grand Challenges Exploration Award from Gates Foundation and the Qualcomm Innovation Fellowship."
 ---
 ## Biography
 

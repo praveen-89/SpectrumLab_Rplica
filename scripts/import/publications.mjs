@@ -7,9 +7,25 @@
 
 import { join } from "node:path";
 import { writeFile, mkdir } from "node:fs/promises";
-import { loadPage, htmlToMarkdown, stripIcons, CONTENT_DIR } from "./_shared.mjs";
+import { loadPage, htmlToMarkdown, stripIcons, writeJsonFile, CONTENT_DIR, DATA_DIR } from "./_shared.mjs";
 
 const OUT_PATH = join(CONTENT_DIR, "papers.bib");
+const COAUTHORS_PATH = join(DATA_DIR, "coauthors.json");
+
+function extractCoauthors($) {
+  // itemprop="author" sits directly on the <a> for most authors, but on a
+  // wrapping <em> for the director (rendered in italics) — handle both.
+  const coauthors = {};
+  $('[itemprop="author"]').each((_, el) => {
+    const node = $(el);
+    const anchor = node.is("a") ? node : node.find("a").first();
+    if (anchor.length === 0) return;
+    const href = anchor.attr("href");
+    const name = node.text().replace(/\s+/g, " ").trim();
+    if (href && name) coauthors[name] = href;
+  });
+  return coauthors;
+}
 
 function extractAbbr($, item) {
   const text = item.find(".abbr abbr").first().text().trim();
@@ -85,7 +101,11 @@ async function run() {
 
       return injectCustomFields(rawBibtex, {
         abbr,
-        abstract,
+        // Doubled so a literal single backslash survives the bibtex
+        // parser's verbatim-field tokenizer, which otherwise eats one
+        // level of backslash from LaTeX-looking text (e.g. "\mathbf" in
+        // inline math) even in verbatim mode — see lib/content/publications.ts.
+        abstract: abstract?.replace(/\\/g, "\\\\"),
         html: links.url,
         code: links.code,
         article_page: links.articlePage,
@@ -99,6 +119,10 @@ async function run() {
 
   console.log(`Wrote ${entries.length} publications to ${OUT_PATH}`);
   console.log(`  abbr: ${withAbbr}, abstract: ${withAbstract}, url: ${withUrl}, code: ${withCode}, article_page: ${withArticlePage}`);
+
+  const coauthors = extractCoauthors($);
+  await writeJsonFile(COAUTHORS_PATH, coauthors);
+  console.log(`Wrote ${Object.keys(coauthors).length} coauthor name variants to ${COAUTHORS_PATH}`);
 }
 
 run().catch((error) => {

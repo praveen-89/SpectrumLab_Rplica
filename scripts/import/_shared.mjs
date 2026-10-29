@@ -22,7 +22,11 @@ const turndown = new TurndownService({ headingStyle: "atx", emDelimiter: "_" });
 export function htmlToMarkdown(html) {
   if (!html) return "";
   const rewritten = html.replace(/href="https?:\/\/(www\.)?spectrum\.ee\.iisc\.ac\.in/g, 'href="');
-  return turndown.turndown(rewritten).trim();
+  const markdown = turndown.turndown(rewritten).trim();
+  // Turndown escapes literal backslashes for markdown safety, which breaks
+  // LaTeX commands ("\mathbf" becoming "\\mathbf") inside inline math —
+  // undo that escaping within $...$ spans specifically.
+  return markdown.replace(/\$[^$]*\$/g, (segment) => segment.replace(/\\\\/g, "\\"));
 }
 
 /** Removes decorative icon-font <i> elements (fa-/ti-/ai- prefixed classes) from a cheerio selection. */

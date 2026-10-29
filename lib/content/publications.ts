@@ -30,12 +30,14 @@ function monthToNumber(month: string | undefined): number {
   return Number.isFinite(asNumber) ? asNumber : 0;
 }
 
-function formatAuthors(entry: Entry): string {
+// "firstName lastName" order matches the "S. Mandal" / "C. S. Seelamantula"
+// name-variant keys in data/coauthors.json, built from the same source page.
+function formatAuthors(entry: Entry): string[] {
   const authors = entry.fields.author;
-  if (!authors) return "";
-  return authors
-    .map((author) => author.name ?? [author.firstName, author.lastName].filter(Boolean).join(" "))
-    .join(", ");
+  if (!authors) return [];
+  return authors.map(
+    (author) => author.name ?? [author.firstName, author.lastName].filter(Boolean).join(" "),
+  );
 }
 
 function field(entry: Entry, name: string): string | undefined {
@@ -71,9 +73,22 @@ export async function readPublications(): Promise<Publication[]> {
   if (cached) return cached;
 
   const raw = await readFile(BIB_PATH, "utf-8");
-  const { entries, errors } = parse(raw);
-  if (errors.length > 0) {
+  // "abstract" is parsed verbatim so inline LaTeX math ("$\mathbf{...}$")
+  // survives intact for our own markdown + KaTeX pipeline, instead of
+  // being normalized/stripped like author and title text should be.
+  const { entries, errors } = parse(raw, { verbatimFields: ["abstract"] });
+  // Per the parser's own docs, these are recoverable diagnostics (e.g. an
+  // unrecognised LaTeX macro inside an abstract) — entries are still
+  // returned. Only treat parsing as having failed if nothing came back.
+  if (entries.length === 0 && errors.length > 0) {
     throw new Error(`Failed to parse ${BIB_PATH}: ${errors.map((error) => error.error).join("; ")}`);
+  }
+  if (errors.length > 0) {
+    console.warn(
+      `readPublications: ${errors.length} recoverable diagnostic(s) from ${BIB_PATH}: ${errors
+        .map((error) => error.error)
+        .join("; ")}`,
+    );
   }
 
   const publications = entries
