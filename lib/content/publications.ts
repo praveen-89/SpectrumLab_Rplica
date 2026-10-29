@@ -6,28 +6,34 @@ import { publicationSchema, type Publication } from "./schemas";
 
 const BIB_PATH = join(process.cwd(), "content", "papers.bib");
 
-const MONTHS = [
-  "jan",
-  "feb",
-  "mar",
-  "apr",
-  "may",
-  "jun",
-  "jul",
-  "aug",
-  "sep",
-  "oct",
-  "nov",
-  "dec",
+const MONTH_NAMES = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
-function monthToNumber(month: string | undefined): number {
-  if (!month) return 0;
-  const normalized = month.trim().toLowerCase().slice(0, 3);
-  const index = MONTHS.indexOf(normalized);
-  if (index >= 0) return index + 1;
-  const asNumber = Number(month);
-  return Number.isFinite(asNumber) ? asNumber : 0;
+// BibTeX's predefined month macros (bare "apr" etc., no braces/quotes) are
+// expanded by this parser to the plain cardinal number ("4"), not the
+// name — so the loader normalizes to a 3-letter name ("Apr") for display,
+// accepting either form as input (numeric or already-named).
+function formatMonth(month: string | undefined): string | undefined {
+  if (!month) return undefined;
+  const trimmed = month.trim();
+  const asNumber = Number(trimmed);
+  if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 12) {
+    return MONTH_NAMES[asNumber - 1];
+  }
+  const index = MONTH_NAMES.findIndex((name) => name.toLowerCase() === trimmed.slice(0, 3).toLowerCase());
+  return index >= 0 ? MONTH_NAMES[index] : trimmed;
 }
 
 // "firstName lastName" order matches the "S. Mandal" / "C. S. Seelamantula"
@@ -51,7 +57,7 @@ function toPublication(entry: Entry): Publication {
     key: entry.key,
     type: entry.type,
     year: Number.isFinite(year) ? year : 0,
-    month: field(entry, "month"),
+    month: formatMonth(field(entry, "month")),
     title: field(entry, "title") ?? "",
     authors: formatAuthors(entry),
     venue: field(entry, "booktitle") ?? field(entry, "journal") ?? field(entry, "publisher"),
@@ -76,7 +82,13 @@ export async function readPublications(): Promise<Publication[]> {
   // "abstract" is parsed verbatim so inline LaTeX math ("$\mathbf{...}$")
   // survives intact for our own markdown + KaTeX pipeline, instead of
   // being normalized/stripped like author and title text should be.
-  const { entries, errors } = parse(raw, { verbatimFields: ["abstract"] });
+  // sentenceCase: false keeps titles/venues exactly as written in the
+  // source BibTeX ("Velocity Adaptation for Flow-Matching Models"), rather
+  // than the parser's default heuristic re-casing to sentence case.
+  const { entries, errors } = parse(raw, {
+    verbatimFields: ["abstract"],
+    sentenceCase: false,
+  });
   // Per the parser's own docs, these are recoverable diagnostics (e.g. an
   // unrecognised LaTeX macro inside an abstract) — entries are still
   // returned. Only treat parsing as having failed if nothing came back.
@@ -91,9 +103,10 @@ export async function readPublications(): Promise<Publication[]> {
     );
   }
 
-  const publications = entries
-    .map(toPublication)
-    .sort((a, b) => b.year - a.year || monthToNumber(b.month) - monthToNumber(a.month));
+  // Sort by year only; Array#sort is stable (guaranteed by spec), so
+  // entries from the same year keep their relative order from papers.bib,
+  // which already matches the original page's order.
+  const publications = entries.map(toPublication).sort((a, b) => b.year - a.year);
 
   cached = publications;
   return publications;

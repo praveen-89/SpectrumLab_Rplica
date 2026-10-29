@@ -10,7 +10,8 @@ import { renderMarkdown } from "@/lib/content/markdown";
 import { homePageSchema, newsItemSchema, personSchema, funderSchema } from "@/lib/content/schemas";
 import NewsList from "@/components/NewsList";
 import PublicationEntry, { type PublicationAuthor } from "@/components/PublicationEntry";
-import { GoogleScholarIcon, GitHubIcon, TwitterIcon } from "@/components/icons";
+import FundingCarousel from "@/components/FundingCarousel";
+import { GoogleScholarIcon, GitHubIcon, TwitterIcon, EmailIcon } from "@/components/icons";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -135,6 +136,9 @@ export default async function Home() {
                   </Link>
                 </h2>
                 <div className="card-icons">
+                  <a href={`mailto:${site.social.email}`} title="e-mail">
+                    <EmailIcon />
+                  </a>
                   {director.links?.scholar && (
                     <a href={director.links.scholar} title="Google Scholar" target="_blank" rel="external nofollow noopener">
                       <GoogleScholarIcon />
@@ -207,37 +211,16 @@ export default async function Home() {
       <hr />
       <div className="funding">
         <div className="container-md">
-          <div className="row">
-            {funders.map((funder) => {
-              const logo = (
-                <Image
-                  src={funder.logo}
-                  alt={funder.name}
-                  width={220}
-                  height={140}
-                  className="img-fluid mx-auto d-block"
-                  style={{ width: 220, height: 140, objectFit: "contain" }}
-                />
-              );
-              return (
-                <div className="col-6 col-md-4 funding-logo" key={funder.name}>
-                  {funder.url ? (
-                    <a href={funder.url} rel="external nofollow noopener" target="_blank">
-                      {logo}
-                    </a>
-                  ) : (
-                    logo
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <FundingCarousel funders={funders} />
         </div>
       </div>
 
       {/* Social */}
       <div className="social">
         <div className="contact-icons">
+          <a href={`mailto:${site.social.email}`} title="Email" aria-label="Email">
+            <EmailIcon size={28} />
+          </a>
           <a href={site.social.googleScholarUrl} title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="external nofollow noopener">
             <GoogleScholarIcon size={28} />
           </a>

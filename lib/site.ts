@@ -5,6 +5,7 @@ export type SiteConfig = {
   description: string;
   url: string;
   social: {
+    email: string;
     googleScholarUrl: string;
     githubUrl: string;
     twitterUrl: string;

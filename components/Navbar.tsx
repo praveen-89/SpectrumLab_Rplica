@@ -86,6 +86,10 @@ export default function Navbar() {
             </span>
           </Link>
 
+          <div className="d-lg-none mobile-nav-actions">
+            <ThemeToggle id="mobile-light-toggle" />
+          </div>
+
           <Nav as="ul" id="navbarNav" className="navbar-nav d-none d-lg-flex">
             {navEntries.map((entry) => (
               <NavEntryItem key={entry.label} entry={entry} isActive={isActive} />
@@ -114,9 +118,6 @@ export default function Navbar() {
                 onNavigate={closeDrawer}
               />
             ))}
-            <Nav.Item as="li" className="toggle-container">
-              <ThemeToggle />
-            </Nav.Item>
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>

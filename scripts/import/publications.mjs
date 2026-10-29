@@ -60,7 +60,12 @@ function extractLinks($, item) {
 }
 
 function injectCustomFields(rawBibtex, fields) {
-  const toAdd = Object.entries(fields).filter(([, value]) => value);
+  // A few entries' exported BibTeX already carries one of these fields
+  // (e.g. article_page, when the source itself templated it in) — don't
+  // add it a second time.
+  const toAdd = Object.entries(fields).filter(
+    ([key, value]) => value && !new RegExp(`\\b${key}\\s*=`).test(rawBibtex),
+  );
   if (toAdd.length === 0) return rawBibtex;
 
   const trimmed = rawBibtex.trim();

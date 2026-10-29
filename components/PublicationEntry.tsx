@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import { FileIcon } from "./icons";
 
 export type PublicationAuthor = {
   name: string;
@@ -54,6 +55,16 @@ export default function PublicationEntry({
   const [showAbstract, setShowAbstract] = useState(false);
   const [showBibtex, setShowBibtex] = useState(false);
 
+  // Derived from the original template's actual behaviour across all 241
+  // entries, not a per-entry special case:
+  // - "Cite" only shows when a url/html field is present (238/238 match
+  //   exactly across the source page — an odd coupling, but an exact one).
+  // - "Link" shows for that same url field, except when it's identical to
+  //   the DOI-derived link (https://doi.org/<doi>), which the template
+  //   treats as redundant and suppresses.
+  const showCite = Boolean(url);
+  const showLink = Boolean(url) && url !== (doi ? `https://doi.org/${doi}` : undefined);
+
   return (
     <li>
       <div className="row pub-item" data-year={year} data-type-key={entryKey}>
@@ -74,19 +85,15 @@ export default function PublicationEntry({
           </div>
           <div className="author">
             {authors.map((author, index) => {
-              const node = author.href ? (
-                <a href={author.href}>{author.name}</a>
-              ) : (
-                author.name
-              );
-              const rendered = author.italic ? <em key={author.name}>{node}</em> : node;
+              const node = author.href ? <a href={author.href}>{author.name}</a> : author.name;
+              const rendered = author.italic ? <em>{node}</em> : node;
               const isLast = index === authors.length - 1;
               const isSecondLast = index === authors.length - 2;
               return (
-                <span key={author.name}>
+                <Fragment key={author.name}>
                   {rendered}
                   {!isLast && (isSecondLast ? ", and " : ", ")}
-                </span>
+                </Fragment>
               );
             })}
           </div>
@@ -100,18 +107,25 @@ export default function PublicationEntry({
                 Abstract
               </button>
             )}
-            <button type="button" className="btn btn-sm" onClick={() => setShowBibtex((v) => !v)}>
-              Cite
-            </button>
-            <button type="button" className="btn btn-sm" onClick={() => downloadBibtex(entryKey, bibtex)}>
-              Download .bib
-            </button>
             {doi && (
-              <a href={`https://doi.org/${doi}`} className="btn btn-sm" target="_blank" rel="external nofollow noopener">
+              <a
+                href={`https://doi.org/${doi}`}
+                className="btn btn-sm"
+                target="_blank"
+                rel="external nofollow noopener"
+              >
                 DOI
               </a>
             )}
-            {url && (
+            {showCite && (
+              <button type="button" className="btn btn-sm" onClick={() => setShowBibtex((v) => !v)}>
+                Cite
+              </button>
+            )}
+            <button type="button" className="btn btn-sm" onClick={() => downloadBibtex(entryKey, bibtex)}>
+              Download .bib
+            </button>
+            {showLink && (
               <a href={url} className="btn btn-sm" target="_blank" rel="external nofollow noopener">
                 Link
               </a>
@@ -128,6 +142,7 @@ export default function PublicationEntry({
             )}
             {articlePage && (
               <a href={articlePage} className="btn btn-sm article-btn">
+                <FileIcon size={14} />
                 Article
               </a>
             )}

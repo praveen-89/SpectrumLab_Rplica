@@ -235,7 +235,11 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   }
 }
 
-/* Mobile (<992px): toggler left, centered brand, drawer trigger right. */
+/* Mobile (<992px): toggler left, logo next to it (not centered — the
+   original's .navbar-brand is itself display:flex with no justify-content,
+   so despite its own text-align:center rule — inert on a flex container —
+   content defaults to flex-start, i.e. left, right after the hamburger),
+   mobile theme toggle at the far right. */
 @media (max-width: 991px) {
   #navbar .navbar-container {
     display: flex;
@@ -250,8 +254,10 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   .navbar-brand {
     order: 2;
     flex: 1;
-    justify-content: center;
     margin: 0 !important;
+  }
+  .mobile-nav-actions {
+    order: 3;
   }
 }
 
@@ -447,7 +453,8 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   padding: 0.5rem 1.5rem;
 }
 
-#light-toggle {
+#light-toggle,
+#mobile-light-toggle {
   padding: 0;
   border: 0;
   background-color: inherit;
@@ -606,20 +613,13 @@ html[data-theme="dark"] .hero-section {
   text-align: center;
 }
 
-/* Lab Director section — assets/css/main.css: h2.category, .lab-director-section,
-   .profile-card, .profile-image, .card-icons, .biography-content */
-h2.category {
-  color: var(--global-text-color-light);
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border-bottom: 1px solid var(--global-divider-color);
-  padding-bottom: 0.5rem;
-  margin-top: 3rem;
-  margin-bottom: 1.5rem;
-  text-align: right;
-}
+/* Lab Director section — assets/css/main.css: .lab-director-section,
+   .profile-card, .profile-image, .card-icons, .biography-content.
+   Note: h2.category's uppercase/right-aligned/small-font rule is always
+   scoped to an ancestor (.projects h2.category, .people h2.category,
+   .places h2.category) in the original — none of which match
+   .lab-director-section, so there it's just a plain <h2>. An earlier,
+   unscoped version of this rule here wrongly applied that styling. */
 .lab-director-section {
   margin: 2rem 0;
 }
@@ -630,6 +630,16 @@ h2.category {
 .profile-image {
   max-width: 200px;
   transition: transform 250ms ease;
+}
+.card-title {
+  color: var(--global-text-color);
+  font-weight: 600;
+}
+.card-title a {
+  color: inherit;
+}
+.profile-card .card-title {
+  font-size: 1.5rem;
 }
 .card-icons {
   display: flex;
@@ -645,6 +655,29 @@ h2.category {
 }
 .biography-content {
   padding: 1rem 0;
+}
+.biography-text p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: var(--global-text-color);
+  text-align: justify;
+  hyphens: auto;
+  /* The original relies on hyphens:auto alone and overflows horizontally
+     on narrow viewports when a run of text won't break — this adds the
+     safety net it's missing instead of copying that bug. */
+  overflow-wrap: break-word;
+}
+.btn-outline-primary {
+  border-color: var(--global-theme-color);
+  color: var(--global-theme-color);
+}
+.btn-outline-primary:hover {
+  background-color: var(--global-theme-color);
+  color: #ffffff;
+}
+.read-more-link {
+  text-align: center;
+  margin-top: 1rem;
 }
 
 /* News / Publications / Funding headings — plain <h2><a>...</a></h2> + <hr> */
@@ -697,13 +730,40 @@ h2.category {
   color: #ffffff;
   width: fit-content;
 }
+/* Per-category badge colours — only some categories have one; the rest
+   fall back to .news-badge's theme-colour background above. */
+.news-badge--talk {
+  background: #6366f1;
+}
+.news-badge--seminar {
+  background: #8b5cf6;
+}
+.news-badge--lecture {
+  background: #0ea5e9;
+}
+.news-badge--symposium {
+  background: #f59e0b;
+}
+.news-badge--sparc-course {
+  background: #10b981;
+}
+.news-badge--phd-colloquium {
+  background: #ec4899;
+}
+.news-badge--short-course {
+  background: #14b8a6;
+}
 .news-content {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+/* .news-title has two rules in the original with equal specificity; the
+   later one (plain text colour, not theme colour) wins, which is why a
+   linked item like the "Talk by Prof. ..." entry reads as plain text. */
 .news-title {
-  color: var(--global-theme-color);
-  font-weight: 600;
+  color: var(--global-text-color);
+  font-weight: 500;
+  transition: color 150ms ease;
 }
 .news-arrow-icon {
   display: none;
@@ -769,7 +829,7 @@ h2.category {
   border-bottom-style: solid;
   text-decoration: none;
 }
-.bibliography li .author > em {
+.bibliography li .author em {
   border-bottom: 1px solid;
   font-style: normal;
 }
@@ -802,6 +862,9 @@ h2.category {
   border-color: var(--global-theme-color);
   color: #ffffff;
 }
+.bibliography li .links a.article-btn svg {
+  margin-right: 0.25rem;
+}
 .bibliography li .hidden {
   font-size: 0.875rem;
   max-height: 0;
@@ -823,20 +886,63 @@ h2.category {
   border-color: var(--global-text-color);
 }
 
-/* Funding — assets/css/main.css: .funding, .swiper-slide img hover.
-   Rendered as a static responsive grid rather than the original's Swiper
-   carousel (see Step Report); the per-logo sizing and hover scale match. */
-.funding-logo {
+/* Funding carousel — assets/css/main.css: .funding, .mySwiper .swiper-slide,
+   .swiper-pagination-bullet. Rebuilt with CSS scroll-snap (components/
+   FundingCarousel.tsx) instead of Swiper.js: no extra library, and the
+   track is a plain scrollable row so it still works with JS disabled. */
+.funding {
+  padding: 1rem 0;
+}
+.funding-carousel {
+  position: relative;
+}
+.funding-track {
   display: flex;
-  justify-content: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.funding-track::-webkit-scrollbar {
+  display: none;
+}
+.funding-slide {
+  flex: 0 0 calc(100% / var(--slides-per-view, 3));
+  scroll-snap-align: start;
+  display: flex;
   align-items: center;
+  justify-content: center;
   padding: 1rem;
 }
-.funding-logo img {
+.funding-slide img {
   transition: transform 0.3s ease;
 }
-.funding-logo img:hover {
+.funding-slide img:hover {
   transform: scale(1.02);
+}
+.funding .swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--global-text-color-light);
+  opacity: 0.4;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--global-theme-color);
+  transform: scale(1.2);
 }
 
 /* Social icon block — assets/css/main.css: .social, .contact-icons */
