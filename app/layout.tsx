@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
-import { Google_Sans, Roboto, Roboto_Slab } from "next/font/google";
+import { Roboto, Roboto_Slab } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { site } from "@/lib/site";
 
 // The original site loads "SF Pro Display/Text" via a private Adobe Typekit
 // kit we have no access to; -apple-system/BlinkMacSystemFont resolve to the
 // same San Francisco family on Apple devices, so the visual result is close
-// without that dependency. Google Sans and Roboto are self-hosted here
-// instead of fetched from fonts.googleapis.com at request time.
-const googleSans = Google_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-google-sans",
-  display: "swap",
-});
-
+// without that dependency. Roboto is self-hosted here instead of fetched
+// from fonts.googleapis.com at request time. "Google Sans" was dropped: it
+// only ever appeared as the last fallback in the font stack, never used
+// elsewhere, and isn't in next/font/google's fallback-metrics table.
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
@@ -31,13 +29,12 @@ const robotoSlab = Roboto_Slab({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spectrum.ee.iisc.ac.in"),
+  metadataBase: new URL(site.url),
   title: {
-    template: "%s | Spectrum Lab",
-    default: "Spectrum Lab",
+    template: `%s | ${site.name}`,
+    default: site.name,
   },
-  description:
-    "Spectrum Lab at IISc Bengaluru, led by Prof. Chandra Sekhar Seelamantula, conducts cutting-edge research in signal processing, computational imaging, machine learning, and AI for healthcare.",
+  description: site.description,
   keywords: [
     "IISc",
     "Indian Institute of Science",
@@ -66,18 +63,17 @@ export const metadata: Metadata = {
     "neuromorphic",
     "radar",
   ],
-  authors: [{ name: "Spectrum Lab" }],
+  authors: [{ name: site.name }],
   openGraph: {
     type: "website",
     locale: "en",
-    title: "Spectrum Lab",
-    description:
-      "Spectrum Lab at IISc Bengaluru, led by Prof. Chandra Sekhar Seelamantula, conducts cutting-edge research in signal processing, computational imaging, machine learning, and AI for healthcare.",
+    title: site.name,
+    description: site.description,
   },
   twitter: {
     card: "summary",
-    site: "@SpectrumLabIISc",
-    creator: "@SpectrumLabIISc",
+    site: site.social.twitterHandle,
+    creator: site.social.twitterHandle,
   },
   icons: {
     icon: "/assets/favicon/favicon_io/favicon.ico",
@@ -92,10 +88,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${googleSans.variable} ${roboto.variable} ${robotoSlab.variable}`}
+      className={`${roboto.variable} ${robotoSlab.variable}`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <a href="#main-content" className="visually-hidden-focusable">
+          Skip to main content
+        </a>
+        <Providers>
+          <Navbar />
+          <main id="main-content" className="container mt-5" role="main">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

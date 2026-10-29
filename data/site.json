@@ -1,0 +1,11 @@
+{
+  "name": "Spectrum Lab",
+  "description": "Spectrum Lab at IISc Bengaluru, led by Prof. Chandra Sekhar Seelamantula, conducts cutting-edge research in signal processing, computational imaging, machine learning, and AI for healthcare.",
+  "url": "https://spectrum.ee.iisc.ac.in",
+  "social": {
+    "googleScholarUrl": "https://scholar.google.com/citations?user=1g1i1B4AAAAJ",
+    "githubUrl": "https://github.com/spectrum-lab-iisc",
+    "twitterUrl": "https://twitter.com/SpectrumLabIISc",
+    "twitterHandle": "@SpectrumLabIISc"
+  }
+}

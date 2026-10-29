@@ -23,10 +23,10 @@
 
   /* Font families. SF Pro is Typekit-only in the original and not
      reproduced here; -apple-system/BlinkMacSystemFont resolve to it on
-     Apple devices anyway. Google Sans and Roboto come from next/font/google
-     via the CSS variables set on <html> in app/layout.tsx. */
+     Apple devices anyway. Roboto comes from next/font/google via the CSS
+     variable set on <html> in app/layout.tsx. */
   --font-body: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, system-ui,
-    "Segoe UI", var(--font-roboto), var(--font-google-sans), Arial, sans-serif;
+    "Segoe UI", var(--font-roboto), Arial, sans-serif;
   --font-heading: var(--font-body);
   --font-serif: var(--font-body);
   --font-code: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono",
@@ -85,6 +85,7 @@ html[data-theme="dark"] {
 
 body {
   margin: 0;
+  padding-bottom: 70px;
   color: var(--global-text-color);
   background-color: var(--global-bg-color);
   font-family: var(--font-body);
@@ -148,4 +149,219 @@ a:hover {
 
 .container {
   max-width: var(--container-max-width);
+}
+
+/* Navbar — assets/css/main.css: .navbar, .navbar-brand, .navbar-logo,
+   .navbar-toggler, .navbar-nav .nav-item.active, #light-toggle */
+
+.spectrum-logo-light {
+  display: block;
+}
+.spectrum-logo-dark {
+  display: none;
+}
+html[data-theme="dark"] .spectrum-logo-light {
+  display: none;
+}
+html[data-theme="dark"] .spectrum-logo-dark {
+  display: block;
+}
+
+#navbar {
+  box-shadow: none;
+  border-bottom: 1px solid var(--global-divider-color);
+  background-color: var(--global-bg-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  min-height: 60px;
+  padding: 0.5rem 0;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
+}
+
+#navbar.navbar-scrolled {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="dark"] #navbar.navbar-scrolled {
+  box-shadow: 0 2px 4px hsla(0, 0%, 100%, 0.1);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.navbar-logo {
+  height: 45px;
+  width: auto;
+  max-width: 280px;
+  object-fit: contain;
+  transition:
+    height 0.3s ease,
+    max-width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .navbar-logo {
+    height: 40px;
+    max-width: 220px;
+  }
+}
+@media (max-width: 480px) {
+  .navbar-logo {
+    height: 36px;
+    max-width: 180px;
+  }
+}
+@media (max-width: 400px) {
+  .navbar-logo {
+    height: 32px;
+    max-width: 150px;
+  }
+}
+@media (max-width: 360px) {
+  .navbar-logo {
+    height: 28px;
+    max-width: 130px;
+  }
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+.navbar-toggler .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--global-text-color);
+  border-radius: 1px;
+  margin-bottom: 4px;
+  transition: all 0.2s;
+}
+.navbar-toggler .top-bar {
+  transform: rotate(0);
+  transform-origin: 10% 10%;
+}
+.navbar-toggler .bottom-bar {
+  transform: rotate(0);
+  transform-origin: 10% 90%;
+}
+.navbar-toggler:not(.collapsed) .top-bar {
+  transform: rotate(45deg);
+}
+.navbar-toggler:not(.collapsed) .middle-bar {
+  opacity: 0;
+}
+.navbar-toggler:not(.collapsed) .bottom-bar {
+  transform: rotate(-45deg);
+}
+
+.navbar-nav .nav-item.active > .nav-link {
+  position: relative;
+  font-weight: var(--font-weight-heading);
+  color: var(--global-theme-color);
+}
+.navbar-nav .nav-item.active > .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--global-theme-color);
+  border-radius: 1px;
+  transition: width 150ms ease;
+}
+.navbar-nav .nav-item.active > .nav-link:hover {
+  color: var(--global-hover-color);
+}
+.navbar-nav .nav-item.active > .nav-link:hover::after {
+  background: var(--global-hover-color);
+  width: 28px;
+}
+.navbar-nav .dropdown-menu .dropdown-item.active {
+  color: var(--global-theme-color);
+  font-weight: var(--font-weight-medium);
+}
+
+#light-toggle {
+  padding: 0;
+  border: 0;
+  background-color: inherit;
+  color: var(--global-text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Footer — assets/css/main.css: .site-footer.fixed-bottom, .footer-popup */
+
+.site-footer.fixed-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1030;
+  background: hsla(0, 0%, 100%, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.35rem 0;
+}
+html[data-theme="dark"] .site-footer.fixed-bottom {
+  background: rgba(28, 28, 29, 0.88);
+  border-top-color: hsla(0, 0%, 100%, 0.1);
+}
+.site-footer.footer-popup {
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform 300ms ease,
+    opacity 300ms ease;
+  pointer-events: none;
+}
+.site-footer.footer-popup.footer-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.site-footer .footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.5rem;
+}
+.site-footer .footer-text {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: center;
+  color: #333;
+}
+html[data-theme="dark"] .site-footer .footer-text {
+  color: #e8e8e8;
+}
+.site-footer .footer-text a {
+  color: var(--global-theme-color);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.site-footer .footer-text a:hover {
+  color: var(--global-hover-color);
+  text-decoration: underline;
+}
+html[data-theme="dark"] .site-footer .footer-text a {
+  color: #ff8f4f;
 }

@@ -1,0 +1,45 @@
+[
+  { "label": "Home", "href": "/" },
+  { "label": "Publications", "href": "/publications/" },
+  { "label": "News", "href": "/news/" },
+  {
+    "label": "Talks",
+    "items": [
+      { "label": "Talks Delivered", "href": "/talks/delivered/" },
+      { "label": "Talks Organized", "href": "/talks/organized/" }
+    ]
+  },
+  { "label": "Funding", "href": "/funding/" },
+  { "label": "Recognition", "href": "/recognition/" },
+  { "label": "Teaching", "href": "/teaching/" },
+  { "label": "Opportunities", "href": "/opportunities/" },
+  {
+    "label": "People",
+    "items": [
+      { "label": "PhD Students", "href": "/people/phd-students/" },
+      { "label": "M.Tech Students", "href": "/people/mtech-students/" },
+      { "label": "M.Tech Research Students", "href": "/people/mtech-research/" },
+      { "divider": true },
+      { "label": "PhD Graduates", "href": "/people/phd-graduates/" },
+      { "label": "M.Tech Graduates", "href": "/people/mtech-graduates/" },
+      { "label": "M.Tech Research Graduates", "href": "/people/mtech-research-graduates/" },
+      { "divider": true },
+      { "label": "Research Associates", "href": "/people/research-associates/" },
+      { "label": "Project Associates", "href": "/people/project-associates/" },
+      { "label": "Interns", "href": "/people/interns/" },
+      { "divider": true },
+      { "label": "Current Post Docs", "href": "/people/current-post-docs/" },
+      { "label": "Past Post Docs", "href": "/people/past-post-docs/" },
+      { "divider": true },
+      { "label": "Administrator", "href": "/people/administrator/" }
+    ]
+  },
+  {
+    "label": "Gallery",
+    "items": [
+      { "label": "Photos", "href": "/gallery/photos/" },
+      { "label": "Videos", "href": "/gallery/videos/" }
+    ]
+  },
+  { "label": "Contact", "href": "/contactus/" }
+]

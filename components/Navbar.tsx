@@ -1,0 +1,141 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { Navbar as BsNavbar, Nav, NavDropdown } from "react-bootstrap";
+import ThemeToggle from "./ThemeToggle";
+import { isNavDivider, isNavDropdown, navEntries, type NavEntry } from "@/lib/nav";
+
+const withTrailingSlash = (path: string) => (path.endsWith("/") ? path : `${path}/`);
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const isActive = (href: string) => withTrailingSlash(pathname) === withTrailingSlash(href);
+
+  // Mirrors the original's single scroll listener, which both adds the
+  // navbar's scrolled shadow and reveals the footer popup near the bottom
+  // of the page (assets/js inline script on the crawled pages).
+  useEffect(() => {
+    const navbar = document.getElementById("navbar");
+    const footer = document.querySelector(".footer-popup");
+
+    function handleScroll() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      navbar?.classList.toggle("navbar-scrolled", scrollTop > 20);
+
+      if (footer) {
+        const nearBottom =
+          scrollTop + window.innerHeight >= document.documentElement.scrollHeight - 100;
+        footer.classList.toggle("footer-visible", nearBottom);
+      }
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header className="site-header">
+      <BsNavbar
+        id="navbar"
+        expand="lg"
+        fixed="top"
+        className="navbar-light"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className="container-fluid navbar-container">
+          <BsNavbar.Toggle aria-controls="navbarNav" aria-label="Toggle navigation">
+            <span className="visually-hidden">Toggle navigation</span>
+            <span className="icon-bar top-bar" />
+            <span className="icon-bar middle-bar" />
+            <span className="icon-bar bottom-bar" />
+          </BsNavbar.Toggle>
+
+          <BsNavbar.Brand as={Link} href="/" aria-label="Spectrum Lab - Home">
+            <span className="spectrum-logo-light">
+              <Image
+                src="/assets/img/logo/spectrum/SpectrumLogo%20Black-800.webp"
+                alt="Spectrum Lab"
+                className="navbar-logo"
+                width={800}
+                height={63}
+                priority
+              />
+            </span>
+            <span className="spectrum-logo-dark">
+              <Image
+                src="/assets/img/logo/spectrum/SpectrumLogo%20White-800.webp"
+                alt="Spectrum Lab"
+                className="navbar-logo"
+                width={800}
+                height={63}
+                priority
+              />
+            </span>
+          </BsNavbar.Brand>
+
+          <BsNavbar.Collapse id="navbarNav">
+            <Nav as="ul" className="mx-auto flex-wrap">
+              {navEntries.map((entry) => (
+                <NavEntryItem key={entry.label} entry={entry} isActive={isActive} />
+              ))}
+              <Nav.Item as="li" className="toggle-container">
+                <ThemeToggle />
+              </Nav.Item>
+            </Nav>
+          </BsNavbar.Collapse>
+        </div>
+      </BsNavbar>
+    </header>
+  );
+}
+
+function NavEntryItem({
+  entry,
+  isActive,
+}: {
+  entry: NavEntry;
+  isActive: (href: string) => boolean;
+}) {
+  if (isNavDropdown(entry)) {
+    const active = entry.items.some((item) => !isNavDivider(item) && isActive(item.href));
+    return (
+      <NavDropdown
+        as="li"
+        title={entry.label}
+        align="end"
+        renderMenuOnMount
+        className={active ? "active" : undefined}
+      >
+        {entry.items.map((item, index) =>
+          isNavDivider(item) ? (
+            <NavDropdown.Divider key={`divider-${index}`} />
+          ) : (
+            <NavDropdown.Item
+              key={item.href}
+              as={Link}
+              href={item.href}
+              className={isActive(item.href) ? "active" : undefined}
+            >
+              {item.label}
+            </NavDropdown.Item>
+          ),
+        )}
+      </NavDropdown>
+    );
+  }
+
+  const active = isActive(entry.href);
+  return (
+    <Nav.Item as="li" className={active ? "active" : undefined}>
+      <Nav.Link as={Link} href={entry.href}>
+        {entry.label}
+        {active && <span className="visually-hidden">(current)</span>}
+      </Nav.Link>
+    </Nav.Item>
+  );
+}
