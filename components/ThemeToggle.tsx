@@ -2,10 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon } from "./icons";
+import { MoonIcon, SunIcon, SystemIcon } from "./icons";
+
+// Matches the original's theme.js cycle order exactly: system -> light ->
+// dark -> system. next-themes is configured with storageKey="theme" in
+// Providers.tsx, the same localStorage key theme.js uses.
+function nextSetting(current: "system" | "light" | "dark") {
+  if (current === "system") return "light";
+  if (current === "light") return "dark";
+  return "system";
+}
 
 export default function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -19,7 +28,7 @@ export default function ThemeToggle() {
     return <button id="light-toggle" type="button" title="Change theme" aria-label="Toggle dark mode" />;
   }
 
-  const isDark = resolvedTheme === "dark";
+  const current = theme === "light" || theme === "dark" ? theme : "system";
 
   return (
     <button
@@ -27,9 +36,11 @@ export default function ThemeToggle() {
       type="button"
       title="Change theme"
       aria-label="Toggle dark mode"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={() => setTheme(nextSetting(current))}
     >
-      {isDark ? <SunIcon /> : <MoonIcon />}
+      {current === "system" && <SystemIcon />}
+      {current === "light" && <SunIcon />}
+      {current === "dark" && <MoonIcon />}
     </button>
   );
 }

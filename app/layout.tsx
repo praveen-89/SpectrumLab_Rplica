@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Slab } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
@@ -90,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${roboto.variable} ${robotoSlab.variable}`}
     >
-      <body>
+      <body className="fixed-top-nav">
         <a href="#main-content" className="visually-hidden-focusable">
           Skip to main content
         </a>

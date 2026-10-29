@@ -1,4 +1,13 @@
-/* Global styles, ported from the original al-folio theme's main.css. */
+/* Global styles, ported from the original al-folio theme's main.css.
+   Bootstrap is pulled in here via @import, rather than as a separate
+   import in app/layout.tsx, so it is always textually first in this one
+   compiled stylesheet. Next/Turbopack's production build splits each
+   global CSS import into its own chunk and orders same-precedence chunks
+   non-deterministically across builds (verified: dev's single merged
+   chunk had our rules last as expected, but the separate production
+   chunks shared an identical `data-precedence="next"` value with no
+   guaranteed relative order) — a single file removes that ambiguity. */
+@import "bootstrap/dist/css/bootstrap.min.css";
 
 :root {
   /* Colour tokens (light) — assets/css/main.css, :root block */
@@ -22,11 +31,19 @@
   --global-back-to-top-text-color: #ffffff;
 
   /* Font families. SF Pro is Typekit-only in the original and not
-     reproduced here; -apple-system/BlinkMacSystemFont resolve to it on
-     Apple devices anyway. Roboto comes from next/font/google via the CSS
-     variable set on <html> in app/layout.tsx. */
-  --font-body: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, system-ui,
-    "Segoe UI", var(--font-roboto), Arial, sans-serif;
+     reproduced here. -apple-system/BlinkMacSystemFont come first so real
+     macOS/iOS devices still get true San Francisco. They're placed ahead
+     of our self-hosted Roboto (var(--font-roboto), from next/font/google
+     via the CSS variable set on <html> in app/layout.tsx) rather than
+     after it, because Windows silently substitutes plain name fallbacks
+     like "Helvetica Neue"/"Helvetica" with Arial at the OS font-matching
+     level — if those came before Roboto, the browser would never reach
+     it, having already "matched" Arial under another name. -apple-system
+     and system-ui are special CSS keywords, not OS-substitutable names,
+     so on non-Apple platforms they simply don't match and the chain
+     correctly falls through to Roboto. */
+  --font-body: -apple-system, BlinkMacSystemFont, var(--font-roboto), system-ui, "Segoe UI",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-heading: var(--font-body);
   --font-serif: var(--font-body);
   --font-code: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono",
@@ -93,6 +110,18 @@ body {
   line-height: var(--line-height-body);
   letter-spacing: var(--letter-spacing-body);
   font-weight: var(--font-weight-regular);
+}
+
+/* assets/css/main.css: body.fixed-top-nav{padding-top:56px} — offsets
+   content below the fixed navbar. The original <main class="container
+   mt-5"> adds its own 3rem margin-top on top of this; both are needed. */
+body.fixed-top-nav {
+  padding-top: 56px;
+}
+@media (max-width: 576px) {
+  body.fixed-top-nav {
+    padding-top: 50px;
+  }
 }
 
 h1,
@@ -188,6 +217,43 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   box-shadow: 0 2px 4px hsla(0, 0%, 100%, 0.1);
 }
 
+/* Desktop (>=992px): the original stacks the navbar in two centered rows
+   — logo on top, nav links below — rather than side by side. */
+@media (min-width: 992px) {
+  #navbar .navbar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #navbar .navbar-toggler {
+    display: none;
+  }
+  .navbar-nav {
+    justify-content: center;
+  }
+}
+
+/* Mobile (<992px): toggler left, centered brand, drawer trigger right. */
+@media (max-width: 991px) {
+  #navbar .navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #navbar .navbar-toggler {
+    order: 1;
+    margin-right: 0.5rem;
+  }
+  .navbar-brand {
+    order: 2;
+    flex: 1;
+    justify-content: center;
+    margin: 0 !important;
+  }
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -254,14 +320,26 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   transform: rotate(0);
   transform-origin: 10% 90%;
 }
-.navbar-toggler:not(.collapsed) .top-bar {
+.navbar-toggler[aria-expanded="true"] .top-bar {
   transform: rotate(45deg);
 }
-.navbar-toggler:not(.collapsed) .middle-bar {
+.navbar-toggler[aria-expanded="true"] .middle-bar {
   opacity: 0;
 }
-.navbar-toggler:not(.collapsed) .bottom-bar {
+.navbar-toggler[aria-expanded="true"] .bottom-bar {
   transform: rotate(-45deg);
+}
+
+/* assets/css/main.css: .nav-link{color:var(--global-text-color)} plus the
+   .navbar.navbar-light-scoped hover rule — the base colour Bootstrap's own
+   .nav-link ships is unaware of our theme tokens, so without this dark
+   mode renders nav links in Bootstrap's default dark grey on our dark
+   background, nearly unreadable. */
+.navbar-nav .nav-link {
+  color: var(--global-text-color);
+}
+.navbar-nav .nav-item .nav-link:hover {
+  color: var(--global-hover-color);
 }
 
 .navbar-nav .nav-item.active > .nav-link {
@@ -288,9 +366,84 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   background: var(--global-hover-color);
   width: 28px;
 }
+.navbar-nav .dropdown-menu {
+  background-color: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+}
+.navbar-nav .dropdown-item {
+  color: var(--global-text-color);
+}
+.navbar-nav .dropdown-item:hover {
+  color: var(--global-hover-color);
+  background-color: var(--global-hover-bg-color);
+}
 .navbar-nav .dropdown-menu .dropdown-item.active {
   color: var(--global-theme-color);
   font-weight: var(--font-weight-medium);
+}
+
+/* Desktop dropdowns open on hover, as in the original, in addition to
+   react-bootstrap's own click-to-toggle ".show" behaviour. */
+@media (min-width: 992px) {
+  .navbar-nav .dropdown:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Mobile off-canvas drawer (<992px) — react-bootstrap Offcanvas instead
+   of the original's hand-rolled drawer-open/overlay JS, restyled to match:
+   280px panel, divider border, dark backdrop (Bootstrap's default offcanvas
+   backdrop is already ~rgba(0,0,0,.5), matching the original closely). */
+.navbar-drawer .offcanvas {
+  width: 280px;
+  max-width: 85vw;
+  background-color: var(--global-bg-color);
+  border-right: 1px solid var(--global-divider-color);
+}
+.navbar-drawer .navbar-nav {
+  padding: 1rem 0.5rem;
+  width: 100%;
+}
+.navbar-drawer .navbar-nav .nav-item {
+  width: 100%;
+}
+.navbar-drawer .navbar-nav .nav-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  text-align: left;
+}
+.navbar-drawer .navbar-nav .nav-item .nav-link:hover {
+  background-color: var(--global-hover-bg-color);
+  color: var(--global-theme-color);
+}
+.navbar-drawer .navbar-nav .nav-item.active > .nav-link {
+  background-color: rgba(var(--global-theme-color-rgb), 0.1);
+}
+.navbar-drawer .navbar-nav .nav-item.active > .nav-link::after {
+  display: none;
+}
+.navbar-drawer .navbar-nav .dropdown-menu {
+  position: static;
+  float: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  display: none;
+}
+.navbar-drawer .navbar-nav .dropdown.show .dropdown-menu {
+  display: block;
+}
+.navbar-drawer .navbar-nav .dropdown-item {
+  padding: 0.5rem 1.5rem;
+  color: var(--global-text-color-light);
+  text-align: left;
+}
+.navbar-drawer .toggle-container {
+  padding: 0.5rem 1.5rem;
 }
 
 #light-toggle {

@@ -62,3 +62,12 @@ export function MoonIcon(props: IconProps) {
     </Svg>
   );
 }
+
+export function SystemIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 3a9 9 0 0 0 0 18z" />
+    </Svg>
+  );
+}
