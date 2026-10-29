@@ -1,0 +1,5 @@
+---
+date: "2025-06-30"
+category: "Paper Published"
+---
+Our work plug-and-play technique for FRI signal reconstruction, [“DeepFRI,”](https://ieeexplore.ieee.org/document/11080367) is now on IEEE Transactions on Signal Processing!

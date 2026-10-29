@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Indian Institute of Science",
+    "logo": "/assets/img/funders/IISc_Master_Seal_Transparent-800.webp",
+    "url": "https://www.iisc.ac.in"
+  },
+  {
+    "name": "Indian Space Research Organisation",
+    "logo": "/assets/img/funders/isro-800.webp",
+    "url": "https://www.isro.gov.in/"
+  },
+  {
+    "name": "Ministry of Education",
+    "logo": "/assets/img/funders/goi.svg",
+    "url": "https://www.education.gov.in/"
+  },
+  {
+    "name": "National Research Foundation",
+    "logo": "/assets/img/funders/National_Research_Foundation_logo.svg",
+    "url": "https://serb.gov.in/"
+  },
+  {
+    "name": "Qualcomm",
+    "logo": "/assets/img/funders/Qualcomm-800.webp",
+    "url": "https://www.qualcomm.com"
+  },
+  {
+    "name": "Zeiss",
+    "logo": "/assets/img/funders/Zeiss-800.webp"
+  }
+]
