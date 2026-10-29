@@ -27,3 +27,16 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+## Step Report
+Every step must end with a report in this exact format:
+
+```
+## Step Report — <step name>
+**Done:** bullet list of what was built or changed
+**Files:** created / modified / deleted, one line each with a short purpose
+**Decisions:** any choice not dictated by the prompt, and why
+**Checks:** lint / typecheck / build results (pass/fail, warnings)
+**Open issues:** anything incomplete, uncertain, or needing my input
+**Commit:** hash and message
+```

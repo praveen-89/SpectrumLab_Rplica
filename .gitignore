@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# reference snapshot of the original site (dev tool output, not shipped)
+/.reference/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
