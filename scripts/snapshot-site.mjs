@@ -12,8 +12,18 @@ const MAX_PAGES = 1000;
 
 const PAGES_DIR = join(process.cwd(), ".reference", "pages");
 const REFERENCE_ASSETS_DIR = join(process.cwd(), ".reference", "assets");
+const CDN_DIR = join(process.cwd(), ".reference", "assets", "cdn");
 const PUBLIC_DIR = join(process.cwd(), "public");
 const PAGES_JSON = join(process.cwd(), ".reference", "pages.json");
+
+// --external-css: also download cross-host <link rel="stylesheet"> files
+// (CDN-hosted CSS like MDB UI Kit, Swiper) into .reference/assets/cdn/ for
+// study. Off by default since these aren't part of the site itself.
+const DOWNLOAD_EXTERNAL_CSS = process.argv.includes("--external-css");
+const externalCssQueue = [];
+const queuedExternalCss = new Set();
+let externalCssDownloaded = 0;
+let externalCssFailed = 0;
 
 const TEXT_ASSET_EXTENSIONS = new Set([".css", ".js"]);
 const SKIPPED_PROTOCOLS = ["mailto:", "tel:", "javascript:"];
@@ -91,6 +101,20 @@ function extractLinkRels(html) {
     if (/stylesheet|icon|manifest/i.test(rel)) hrefs.push(href);
   }
   return hrefs;
+}
+
+function extractExternalStylesheetUrls(html, baseUrl) {
+  const urls = [];
+  const linkTagPattern = /<link\s+[^>]*>/gi;
+  for (const tagMatch of html.matchAll(linkTagPattern)) {
+    const tag = tagMatch[0];
+    const rel = extractAttr(tag, "rel") ?? "";
+    const href = extractAttr(tag, "href");
+    if (!href || !/stylesheet/i.test(rel)) continue;
+    const resolved = resolveUrl(href, baseUrl);
+    if (resolved && !isSameHost(resolved)) urls.push(resolved);
+  }
+  return urls;
 }
 
 function extractSrcsetUrls(srcset) {
@@ -196,6 +220,50 @@ async function fetchPage(pathname) {
 
   for (const href of extractImageUrls(html)) queueAsset(href, finalUrl);
   for (const href of extractLinkRels(html)) queueAsset(href, finalUrl);
+
+  if (DOWNLOAD_EXTERNAL_CSS) {
+    for (const url of extractExternalStylesheetUrls(html, finalUrl)) {
+      const key = url.toString();
+      if (queuedExternalCss.has(key)) continue;
+      queuedExternalCss.add(key);
+      externalCssQueue.push(url);
+    }
+  }
+}
+
+function externalCssFilePath(url) {
+  const decodedPath = decodeURIComponent(url.pathname);
+  return join(CDN_DIR, url.host, decodedPath);
+}
+
+async function downloadExternalCss(url) {
+  const filePath = externalCssFilePath(url);
+  if (await fileExists(filePath)) {
+    console.log(`[cdn-css] skip (exists) ${url}`);
+    return;
+  }
+
+  console.log(`[cdn-css] downloading ${url}`);
+  await delay(REQUEST_DELAY_MS);
+
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (error) {
+    externalCssFailed += 1;
+    console.log(`[cdn-css] FAILED ${url}: ${error.message}`);
+    return;
+  }
+  if (!response.ok) {
+    externalCssFailed += 1;
+    console.log(`[cdn-css] FAILED ${url}: HTTP ${response.status}`);
+    return;
+  }
+
+  const text = await response.text();
+  await mkdir(dirname(filePath), { recursive: true });
+  await writeFile(filePath, text, "utf-8");
+  externalCssDownloaded += 1;
 }
 
 async function downloadAsset(url) {
@@ -256,6 +324,11 @@ async function run() {
     await downloadAsset(url);
   }
 
+  while (externalCssQueue.length > 0) {
+    const url = externalCssQueue.shift();
+    await downloadExternalCss(url);
+  }
+
   await mkdir(dirname(PAGES_JSON), { recursive: true });
   await writeFile(PAGES_JSON, JSON.stringify(pageRecords, null, 2), "utf-8");
 
@@ -264,6 +337,10 @@ async function run() {
   console.log(`Assets downloaded: ${assetsDownloaded}`);
   console.log(`Assets skipped (already present): ${assetsSkipped}`);
   console.log(`Assets failed: ${assetsFailed}`);
+  if (DOWNLOAD_EXTERNAL_CSS) {
+    console.log(`External CSS downloaded: ${externalCssDownloaded}`);
+    console.log(`External CSS failed: ${externalCssFailed}`);
+  }
 }
 
 run().catch((error) => {

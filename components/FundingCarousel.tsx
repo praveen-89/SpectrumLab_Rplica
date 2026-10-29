@@ -42,31 +42,53 @@ function usePrefersReducedMotion() {
 export default function FundingCarousel({ funders }: { funders: Funder[] }) {
   const slidesPerView = useSlidesPerView();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [inView, setInView] = useState(false);
 
   const goTo = (next: number) => {
     const wrapped = ((next % funders.length) + funders.length) % funders.length;
     setIndex(wrapped);
   };
 
+  // Autoplay only runs while the carousel is actually visible — otherwise
+  // a tick scrolls its own track while off-screen for no one to see, and
+  // (before the scrollTo fix below) was the second half of what dragged
+  // the whole page back to this section on every tick.
   useEffect(() => {
-    if (paused || prefersReducedMotion) return;
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.5,
+    });
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || prefersReducedMotion || !inView) return;
     const timer = setInterval(() => goTo(index + 1), AUTOPLAY_DELAY_MS);
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-arms on every index change, not just mount
-  }, [paused, prefersReducedMotion, index]);
+  }, [paused, prefersReducedMotion, inView, index]);
 
+  // Scrolls only the track's own horizontal scroll position — never the
+  // window. scrollIntoView() (the previous approach) scrolls any
+  // ancestor, including the page itself, when the target isn't already
+  // visible, which is exactly what pulled the window down to this section
+  // on load and on every autoplay tick.
   useEffect(() => {
     const track = trackRef.current;
-    const slide = track?.children[index];
-    slide?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    const slide = track?.children[index] as HTMLElement | undefined;
+    if (track && slide) track.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
   }, [index]);
 
   return (
     <div
       className="funding-carousel"
+      ref={rootRef}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}

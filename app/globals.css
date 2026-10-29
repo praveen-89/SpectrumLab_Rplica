@@ -218,6 +218,16 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   box-shadow: 0 2px 4px hsla(0, 0%, 100%, 0.1);
 }
 
+/* Hides the navbar on scroll-down, reveals it on scroll-up (see the
+   scroll handler in Navbar.tsx) — but never while the drawer is open. */
+#navbar.navbar-hidden {
+  transform: translateY(-100%);
+}
+#navbar.navbar-hidden.navbar-menu-open,
+#navbar.navbar-menu-open {
+  transform: translateY(0) !important;
+}
+
 /* Desktop (>=992px): the original stacks the navbar in two centered rows
    — logo on top, nav links below — rather than side by side. */
 @media (min-width: 992px) {
@@ -675,9 +685,35 @@ html[data-theme="dark"] .hero-section {
   background-color: var(--global-theme-color);
   color: #ffffff;
 }
-.read-more-link {
-  text-align: center;
-  margin-top: 1rem;
+/* MDB .btn, same as the publications buttons, plus the box-shadow MDB
+   gives every .btn — kept here since this one (unlike the publications
+   buttons) doesn't carry the z-depth-0 class that cancels it. */
+.btn-outline-primary.btn-sm {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 9px -4px rgba(0, 0, 0, 0.35);
+}
+/* Scoped exactly as the original: .lab-director-section .biography-content
+   .read-more-link is left-aligned at desktop; a @media(max-width:768px)
+   override (missed in an earlier pass) centers it only on narrower
+   screens. An unscoped .read-more-link{text-align:center} rule here had
+   wrongly applied the mobile value at every width. */
+.lab-director-section .biography-content .read-more-link {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+@media (max-width: 768px) {
+  .lab-director-section .biography-content .read-more-link {
+    margin-top: 1rem;
+    text-align: center;
+  }
+}
+.read-more-link .btn {
+  transition: all 250ms ease;
+}
+.read-more-link .btn:hover {
+  transform: translateY(-1px);
 }
 
 /* News / Publications / Funding headings — plain <h2><a>...</a></h2> + <hr> */
@@ -759,7 +795,15 @@ html[data-theme="dark"] .hero-section {
 }
 /* .news-title has two rules in the original with equal specificity; the
    later one (plain text colour, not theme colour) wins, which is why a
-   linked item like the "Talk by Prof. ..." entry reads as plain text. */
+   linked item like the "Talk by Prof. ..." entry reads as plain text.
+   That class never actually reaches our markup, though: NewsList renders
+   the body through the Markdown pipeline, which drops arbitrary HTML
+   classes from source links. A news item whose entire blurb is just the
+   title link (no surrounding prose) renders as <p><a>...</a></p> with the
+   <a> as the paragraph's only child — unlike a coauthor-link embedded
+   mid-sentence, which has text siblings — so that structural pattern
+   stands in for the missing class. */
+.news-content p > a:only-child,
 .news-title {
   color: var(--global-text-color);
   font-weight: 500;
@@ -794,8 +838,6 @@ html[data-theme="dark"] .hero-section {
 }
 .bibliography li {
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--global-divider-color);
-  padding-bottom: 1rem;
 }
 .bibliography li .abbr {
   margin-bottom: 0.5rem;
@@ -833,9 +875,9 @@ html[data-theme="dark"] .hero-section {
   border-bottom: 1px solid;
   font-style: normal;
 }
-.bibliography li .periodical {
-  color: var(--global-text-color-light);
-}
+/* .periodical has no rule in the original at all — it just inherits the
+   base text colour, and its <em>-wrapped venue is italic for free via the
+   browser default (nothing resets font-style here, unlike .author em). */
 .bibliography li .links {
   text-align: right;
   margin-top: 0.5rem;
@@ -850,6 +892,13 @@ html[data-theme="dark"] .hero-section {
   padding-bottom: 0.25rem;
   margin-left: 0.25rem;
   background: none;
+  /* MDB UI Kit's .btn (loaded from the CDN in the original, studied via
+     .reference/assets/cdn/) sets these on every .btn; main.css's own
+     border/padding above override MDB's version of those two, but these
+     three survive uncontested — they're why the buttons read uppercase. */
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
 }
 .bibliography li .links a.btn:hover,
 .bibliography li .links button.btn:hover {

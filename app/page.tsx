@@ -107,6 +107,7 @@ export default async function Home() {
             height={263}
             priority
             sizes="(max-width: 768px) 100vw, 930px"
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
       </div>

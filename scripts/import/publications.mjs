@@ -40,6 +40,17 @@ function extractAbstract($, item) {
   return markdown || undefined;
 }
 
+const MONTH_PATTERN = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/;
+
+// The rendered periodical line ("In <venue>,  Apr 2026") is sometimes the
+// *only* place a month appears — a couple of entries' exported BibTeX
+// omits it entirely (the periodical text is templated from separate date
+// metadata the .bib export doesn't carry).
+function extractMonth($, item) {
+  const text = item.find(".periodical").first().text();
+  return MONTH_PATTERN.exec(text)?.[1];
+}
+
 function extractLinks($, item) {
   const links = { url: undefined, code: undefined, articlePage: undefined };
   item.find(".links a[role=button]").each((_, el) => {
@@ -97,6 +108,7 @@ async function run() {
       const abbr = extractAbbr($, item);
       const abstract = extractAbstract($, item);
       const links = extractLinks($, item);
+      const month = extractMonth($, item);
 
       if (abbr) withAbbr += 1;
       if (abstract) withAbstract += 1;
@@ -114,6 +126,7 @@ async function run() {
         html: links.url,
         code: links.code,
         article_page: links.articlePage,
+        month,
       });
     })
     .get()

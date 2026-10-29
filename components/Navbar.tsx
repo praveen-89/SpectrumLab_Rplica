@@ -17,28 +17,65 @@ export default function Navbar() {
 
   const closeDrawer = () => setDrawerOpen(false);
 
-  // Mirrors the original's single scroll listener, which both adds the
-  // navbar's scrolled shadow and reveals the footer popup near the bottom
-  // of the page (assets/js inline script on the crawled pages).
+  // Mirrors the original's scroll script exactly: shadow after 20px,
+  // hidden (translateY(-100%)) while scrolling down past a 50px/5px
+  // threshold, shown again on scroll up, always shown within 50px of the
+  // top or 100px of the bottom, and kept visible whenever the drawer is
+  // open (so it can't hide itself out from under an open menu). Also
+  // reveals the footer popup near the bottom, same as before.
   useEffect(() => {
     const navbar = document.getElementById("navbar");
     const footer = document.querySelector(".footer-popup");
+    let lastScrollTop = 0;
+    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+    const scrollThreshold = 5;
+    const hideThreshold = 50;
 
     function handleScroll() {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollDelta = scrollTop - lastScrollTop;
+      const documentHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+
       navbar?.classList.toggle("navbar-scrolled", scrollTop > 20);
 
       if (footer) {
-        const nearBottom =
-          scrollTop + window.innerHeight >= document.documentElement.scrollHeight - 100;
+        const nearBottom = scrollTop + windowHeight >= documentHeight - 100;
         footer.classList.toggle("footer-visible", nearBottom);
       }
+
+      if (scrollTop <= hideThreshold || scrollTop + windowHeight >= documentHeight - 100) {
+        navbar?.classList.remove("navbar-hidden");
+        lastScrollTop = scrollTop;
+        return;
+      }
+
+      if (Math.abs(scrollDelta) > scrollThreshold) {
+        navbar?.classList.toggle("navbar-hidden", scrollDelta > 0);
+      }
+
+      lastScrollTop = scrollTop;
+    }
+
+    function throttledScroll() {
+      if (scrollTimer) return;
+      scrollTimer = setTimeout(() => {
+        handleScroll();
+        scrollTimer = null;
+      }, 16);
     }
 
     handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", throttledScroll);
+      if (scrollTimer) clearTimeout(scrollTimer);
+    };
   }, []);
+
+  useEffect(() => {
+    document.getElementById("navbar")?.classList.toggle("navbar-menu-open", drawerOpen);
+  }, [drawerOpen]);
 
   return (
     <header className="site-header">

@@ -56,7 +56,11 @@ export default function PublicationEntry({
   const [showBibtex, setShowBibtex] = useState(false);
 
   // Derived from the original template's actual behaviour across all 241
-  // entries, not a per-entry special case:
+  // entries, not a per-entry special case. Order is fixed by the template
+  // (Article, Abstract, DOI, Cite, Download, Link, Code, PDF) — confirmed
+  // by checking every entry that has article_page (always first, e.g.
+  // "ARTICLE · DOWNLOAD .BIB" with nothing else) plus Velocity (Cite,
+  // Download, Link) and SplineSplat (Abstract, DOI, Cite, Download).
   // - "Cite" only shows when a url/html field is present (238/238 match
   //   exactly across the source page — an odd coupling, but an exact one).
   // - "Link" shows for that same url field, except when it's identical to
@@ -102,6 +106,12 @@ export default function PublicationEntry({
           </div>
 
           <div className="links">
+            {articlePage && (
+              <a href={articlePage} className="btn btn-sm article-btn">
+                <FileIcon size={14} />
+                Article
+              </a>
+            )}
             {abstractHtml && (
               <button type="button" className="btn btn-sm" onClick={() => setShowAbstract((v) => !v)}>
                 Abstract
@@ -138,12 +148,6 @@ export default function PublicationEntry({
             {pdf && (
               <a href={pdf} className="btn btn-sm" target="_blank" rel="external nofollow noopener">
                 PDF
-              </a>
-            )}
-            {articlePage && (
-              <a href={articlePage} className="btn btn-sm article-btn">
-                <FileIcon size={14} />
-                Article
               </a>
             )}
           </div>
