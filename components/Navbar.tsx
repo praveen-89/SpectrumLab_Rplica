@@ -122,7 +122,7 @@ export default function Navbar() {
             aria-controls="navbarNavDrawer"
             aria-expanded={drawerOpen}
             aria-label="Toggle navigation"
-            onClick={() => setDrawerOpen(true)}
+            onClick={() => setDrawerOpen((open) => !open)}
           >
             <span className="visually-hidden">Toggle navigation</span>
             <span className="icon-bar top-bar" />

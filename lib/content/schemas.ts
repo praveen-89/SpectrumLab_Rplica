@@ -170,6 +170,10 @@ export const teachingScheduleItemSchema = z.object({
 });
 export const courseSchema = z.object({
   title: z.string(),
+  // Shown only on the /teaching/ list card's title ("E9 213 Time-Frequency
+  // Analysis"); the course's own detail-page <h1> uses `title` alone
+  // ("Time-Frequency Analysis"), matching the original's split rendering.
+  code: z.string().optional(),
   // "regular" / "short" group the list page's two sections; a module of a
   // short-course series (e.g. "Module I: Dimension Reduction") also uses
   // "short" so it's reachable, but is only linked from its series page,

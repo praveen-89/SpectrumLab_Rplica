@@ -207,6 +207,12 @@ html[data-theme="dark"] .spectrum-logo-dark {
   -webkit-backdrop-filter: blur(12px);
   min-height: 60px;
   padding: 0.5rem 0;
+  /* .fixed-top (Bootstrap) gives this z-index 1030, below the offcanvas
+     drawer's 1045 — since #navbar's own z-index sets its stacking context,
+     a higher z-index on just .navbar-toggler inside it can't rise above a
+     sibling outside that context. Raise the whole bar instead, so the
+     toggler stays clickable above the open drawer (see .navbar-toggler). */
+  z-index: 1046;
   transition:
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.3s ease;
@@ -2069,10 +2075,33 @@ html[data-theme="dark"] .card {
   display: block;
 }
 
-/* Funding page grant list — assets/css/main.css: .iconinstitution,
-   .icondepartment. The original has no dedicated .funding-card/.funding-grid
-   rules beyond these icon colors — cards are plain Bootstrap .p-3/.mb-4
-   blocks with no border/shadow. */
+/* Funding page grant list — .iconinstitution/.icondepartment are from
+   assets/css/main.css; .funding-grid/.funding-card are from a page-inline
+   <style> block on the original's /funding/ page itself (not main.css). */
+.funding-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .funding-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.funding-card {
+  border: 1px solid var(--global-divider-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: var(--global-card-bg-color);
+  border-radius: 8px;
+  height: 100%;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+.funding-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 .iconinstitution {
   color: var(--global-theme-color);
   margin-right: 0.3rem;
@@ -2351,6 +2380,10 @@ html[data-theme="dark"] .card {
   font-size: 0.9rem;
   color: var(--global-text-color-light);
   margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .course-card__meta .meta-row {
   display: flex;

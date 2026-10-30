@@ -1,5 +1,6 @@
 ---
 title: "Time-Frequency Analysis"
+code: "E9 213"
 section: "regular"
 term: "Aug. 2025"
 description: "Time-frequency transforms, sampling theories, splines, wavelets and multiresolution analysis"

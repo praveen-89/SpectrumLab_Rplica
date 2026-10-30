@@ -8,7 +8,7 @@ export default function CourseCard({ course }: { course: CourseWithSlug }) {
       <header className="course-card__header">
         <h3 className="course-card__title">
           <Link href={`/teaching/${course.slug}/`} className="text-reset">
-            {course.title}
+            {course.code ? `${course.code} ${course.title}` : course.title}
           </Link>
         </h3>
         {course.term && <span className="pill pill--muted">{course.term}</span>}
