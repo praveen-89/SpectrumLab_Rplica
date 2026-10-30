@@ -1,0 +1,50 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { readData } from "@/lib/content/data";
+import { peopleGroupMetaSchema } from "@/lib/content/schemas";
+import { readPeopleByGroup } from "@/lib/content/people";
+import PeopleGrid from "@/components/PeopleGrid";
+import PeopleGroupNav from "@/components/PeopleGroupNav";
+
+async function findGroupMeta(group: string) {
+  const groups = await readData("people-groups.json", peopleGroupMetaSchema);
+  return groups.find((g) => g.group === group);
+}
+
+export async function generateStaticParams() {
+  const groups = await readData("people-groups.json", peopleGroupMetaSchema);
+  return groups.map((g) => ({ group: g.group }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ group: string }> }): Promise<Metadata> {
+  const { group } = await params;
+  const meta = await findGroupMeta(group);
+  if (!meta) return {};
+  return {
+    title: meta.title,
+    alternates: { canonical: `/people/${group}/` },
+  };
+}
+
+export default async function PeopleGroupPage({ params }: { params: Promise<{ group: string }> }) {
+  const { group } = await params;
+  const meta = await findGroupMeta(group);
+  if (!meta) notFound();
+
+  const people = await readPeopleByGroup(meta.group);
+
+  return (
+    <div className="post">
+      <header className="post-header">
+        <h1 className="post-title">{meta.title}</h1>
+        <h2 className="post-description">{meta.description}</h2>
+      </header>
+      <PeopleGroupNav activeHref={`/people/${group}/`} />
+      <article>
+        <div className="people">
+          <PeopleGrid people={people} groupByYear={meta.group === "mtech-graduates"} />
+        </div>
+      </article>
+    </div>
+  );
+}

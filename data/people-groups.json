@@ -1,0 +1,14 @@
+[
+  { "group": "phd-students", "title": "PhD Students", "description": "Current PhD students in the Spectrum Lab" },
+  { "group": "mtech-students", "title": "M.Tech Students", "description": "Current M.Tech students in the Spectrum Lab" },
+  { "group": "mtech-research", "title": "M.Tech Research Students", "description": "" },
+  { "group": "phd-graduates", "title": "PhD Graduates", "description": "PhD graduates from the Spectrum Lab" },
+  { "group": "mtech-graduates", "title": "M.Tech Graduates", "description": "M.Tech graduates from the Spectrum Lab" },
+  { "group": "mtech-research-graduates", "title": "M.Tech Research Graduates", "description": "M.Tech (Research) graduates from the Spectrum Lab" },
+  { "group": "research-associates", "title": "Research Associates", "description": "Research Associates from the Spectrum Lab" },
+  { "group": "project-associates", "title": "Project Associates", "description": "Current Project Associates in the Spectrum Lab" },
+  { "group": "interns", "title": "Interns", "description": "Interns from the Spectrum Lab" },
+  { "group": "current-post-docs", "title": "Current Post Docs", "description": "Current Post Doctoral researchers at Spectrum Lab" },
+  { "group": "past-post-docs", "title": "Past Post Docs", "description": "Past Post Doctoral researchers from Spectrum Lab" },
+  { "group": "administrator", "title": "Administrator", "description": "Administrative staff of the Spectrum Lab" }
+]

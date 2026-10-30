@@ -44,6 +44,7 @@ export const newsItemSchema = z.object({
 export type NewsItem = z.infer<typeof newsItemSchema>;
 
 export const personLinksSchema = z.object({
+  email: z.string().optional(),
   scholar: z.string().optional(),
   github: z.string().optional(),
   linkedin: z.string().optional(),
@@ -71,6 +72,30 @@ export const personGroupSchema = z.enum([
 ]);
 export type PersonGroup = z.infer<typeof personGroupSchema>;
 
+// The lab director's "Professional Activities" accordion (react-bootstrap
+// Accordion in DirectorProfile.tsx). The original nests a nested-accordion
+// of year/category groups inside each top-level section (e.g. "Committees
+// & Editorial Boards" contains collapsible "Current Roles", "Editorial
+// Service", ... sub-groups) — modelled here as static (non-collapsing)
+// grouped lists instead of a second collapse level, per CLAUDE.md's
+// allowance for picking "whichever is cleanest" for this content.
+export const accordionItemSchema = z.object({
+  title: z.string(),
+  meta: z.string().optional(),
+});
+export const accordionGroupSchema = z.object({
+  label: z.string().optional(),
+  // A Font Awesome icon name (e.g. "star", "pen"), rendered next to the group label.
+  icon: z.string().optional(),
+  items: z.array(accordionItemSchema),
+});
+export const accordionSectionSchema = z.object({
+  title: z.string(),
+  icon: z.string().optional(),
+  groups: z.array(accordionGroupSchema),
+});
+export type AccordionSection = z.infer<typeof accordionSectionSchema>;
+
 export const personSchema = z.object({
   name: z.string(),
   group: personGroupSchema,
@@ -79,9 +104,19 @@ export const personSchema = z.object({
   order: z.number().optional(),
   // Short bio shown on the home page, distinct from the full profile body.
   summary: z.string().optional(),
+  // Lab director only.
+  awards: z.array(z.string()).default([]),
+  accordion: z.array(accordionSectionSchema).default([]),
   body: z.string(),
 });
 export type Person = z.infer<typeof personSchema>;
+
+export const peopleGroupMetaSchema = z.object({
+  group: personGroupSchema,
+  title: z.string(),
+  description: z.string(),
+});
+export type PeopleGroupMeta = z.infer<typeof peopleGroupMetaSchema>;
 
 export const funderSchema = z.object({
   name: z.string(),

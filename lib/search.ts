@@ -3,9 +3,10 @@ import { navEntries, isNavDropdown, isNavDivider } from "./nav";
 import { readPublications } from "./content/publications";
 import { readCollection } from "./content/collection";
 import { newsItemSchema } from "./content/schemas";
+import { readPeople } from "./content/people";
 import { site } from "./site";
 
-export type SearchSection = "Navigation" | "Dropdown" | "Publications" | "News" | "Socials" | "Theme";
+export type SearchSection = "Navigation" | "Dropdown" | "Publications" | "News" | "People" | "Socials" | "Theme";
 export type ThemeAction = "light" | "dark" | "system";
 
 export type SearchItem = {
@@ -81,6 +82,18 @@ export async function buildSearchIndex(): Promise<SearchItem[]> {
       title: item.title ?? plainTextPreview(item.body),
       section: "News",
       href,
+    });
+  }
+
+  const people = await readPeople();
+  for (const person of people) {
+    const description = person.summary ? plainTextPreview(person.summary) : plainTextPreview(person.body);
+    items.push({
+      id: `person-${person.slug}`,
+      title: person.name,
+      description,
+      section: "People",
+      href: `/people/${person.slug}/`,
     });
   }
 
