@@ -1,0 +1,94 @@
+[
+  {
+    "youtubeId": "EDrGSguQMBU",
+    "title": "Spider GANs: Leveraging Friendly Neighbors to Accelerate GAN Training",
+    "date": "June 18, 2023",
+    "speaker": {
+      "name": "Siddarth Asokan",
+      "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+    },
+    "caption": "Video presentation accompanying the CVPR 2023 paper on Spider GANs - a novel approach to accelerate GAN training by l..."
+  },
+  {
+    "youtubeId": "re5JogFECzE",
+    "title": "Fully-Automated Semantic Segmentation of Wireless Capsule Endoscopy Images",
+    "date": "April 06, 2020",
+    "caption": "Presentation from April 2020 on automated semantic segmentation for wireless capsule endoscopy."
+  },
+  {
+    "youtubeId": "5_IhnVJzYNk",
+    "title": "Automatic Classification of Artery/Vein from Single-Wavelength Fundus Images",
+    "date": "April 03, 2020",
+    "caption": "ISBI 2020 presentation on automatic classification of arteries and veins from fundus images."
+  },
+  {
+    "youtubeId": "trI2_wJ8EPw",
+    "title": "ePrescription App",
+    "caption": "Demonstration of the ePrescription mobile application."
+  },
+  {
+    "youtubeId": "UDaLDf1_PGs",
+    "title": "iCare: Glaucoma Pre-Screening App (Android)",
+    "caption": "Android app demonstration for glaucoma pre-screening."
+  },
+  {
+    "youtubeId": "gVpizEpOYrs",
+    "title": "NAYANA: Glaucoma Pre-Screening App (iOS)",
+    "caption": "iOS app demonstration for glaucoma pre-screening."
+  },
+  {
+    "youtubeId": "LGpxmuPEK0o",
+    "title": "AI Healthcare Diagnostic Platform: i-Care",
+    "caption": "Demonstration of the i-Care AI healthcare diagnostic platform."
+  },
+  {
+    "youtubeId": "rkCOURNNXHc",
+    "title": "AI Healthcare Diagnostic Platform: Wireless Capsule Endoscopy",
+    "caption": "Demonstration of AI diagnostic platform for wireless capsule endoscopy analysis."
+  },
+  {
+    "youtubeId": "vVTJn1fJdMc",
+    "title": "AI Healthcare Diagnostic Platform: COVID-19",
+    "caption": "Demonstration of AI-powered COVID-19 diagnostic platform."
+  },
+  {
+    "youtubeId": "vz72WsxzikQ",
+    "title": "Epoch Estimation from a Speech Signal using a Deep Neural Network",
+    "caption": "Demonstration of DNN-based epoch estimation from speech signals."
+  },
+  {
+    "youtubeId": "bHhDpKs-kAQ",
+    "title": "Adaptive Weighted Minimax Concave Penalty Based Image Reconstruction",
+    "caption": "Demonstration of adaptive weighted minimax concave penalty for image reconstruction."
+  },
+  {
+    "youtubeId": "ZsSRCPZM97A",
+    "title": "ConFirmNet: Convolutional FirmNet and Applications to Compressive Sensing",
+    "caption": "Demonstration of ConFirmNet architecture for compressive sensing applications."
+  },
+  {
+    "youtubeId": "r3q05c1PIRg",
+    "title": "Deep Learning Meets Sparse Coding: Deep Unrolling for Compressive Sensing",
+    "caption": "Demonstration of deep unrolling techniques for compressive sensing."
+  },
+  {
+    "youtubeId": "GcRYP0wce94",
+    "title": "An Ensemble of Proximal Networks for Sparse Coding",
+    "caption": "Demonstration of ensemble proximal networks for sparse coding applications."
+  },
+  {
+    "youtubeId": "7JkHaAqxHss",
+    "title": "Wirtinger Flow Algorithms for Phase Retrieval from Fourier Magnitude",
+    "caption": "Demonstration of Wirtinger Flow algorithms for solving the phase retrieval problem."
+  },
+  {
+    "youtubeId": "JdMvjfvdW38",
+    "title": "A Time Based Sampling Framework for Finite Rate of Innovation Signals",
+    "caption": "Demonstration of a novel time-based sampling framework for FRI signals."
+  },
+  {
+    "youtubeId": "YetswOe1rPQ",
+    "title": "Differentiate-and-fire Time-Encoding of Finite-Rate-of-Innovation Signals",
+    "caption": "Demonstration of differentiate-and-fire time-encoding approach for FRI signals."
+  }
+]

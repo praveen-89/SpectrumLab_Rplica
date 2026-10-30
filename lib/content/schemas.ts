@@ -284,3 +284,38 @@ export const publicationSchema = z.object({
   bibtex: z.string(),
 });
 export type Publication = z.infer<typeof publicationSchema>;
+
+export const articleAuthorSchema = z.object({
+  name: z.string(),
+  href: z.string().optional(),
+});
+export const articleSchema = z.object({
+  title: z.string(),
+  excerpt: z.string(),
+  date: z.string().optional(),
+  updatedDate: z.string().optional(),
+  authors: z.array(articleAuthorSchema).default([]),
+  // Markdown, including $…$/$$…$$ KaTeX and "{% youtube VIDEO_ID %}" shortcodes.
+  body: z.string(),
+});
+export type Article = z.infer<typeof articleSchema>;
+
+export const galleryPhotoSchema = z.object({
+  src: z.string(),
+  caption: z.string().optional(),
+});
+export const galleryEventSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  photos: z.array(galleryPhotoSchema),
+});
+export type GalleryEvent = z.infer<typeof galleryEventSchema>;
+
+export const galleryVideoSchema = z.object({
+  youtubeId: z.string(),
+  title: z.string(),
+  date: z.string().optional(),
+  speaker: talkPersonSchema.optional(),
+  caption: z.string().optional(),
+});
+export type GalleryVideo = z.infer<typeof galleryVideoSchema>;

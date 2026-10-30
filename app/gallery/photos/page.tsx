@@ -1,0 +1,28 @@
+import type { Metadata } from "next";
+import { readData } from "@/lib/content/data";
+import { galleryEventSchema } from "@/lib/content/schemas";
+import PhotoGallery from "@/components/PhotoGallery";
+
+const DESCRIPTION = "A collection of memorable moments from our lab events and activities";
+
+export const metadata: Metadata = {
+  title: "Photos",
+  description: DESCRIPTION,
+  alternates: { canonical: "/gallery/photos/" },
+};
+
+export default async function GalleryPhotosPage() {
+  const events = await readData("gallery-photos.json", galleryEventSchema);
+
+  return (
+    <div className="post">
+      <header className="post-header">
+        <h1 className="post-title">Photos</h1>
+        <h2 className="post-description">{DESCRIPTION}</h2>
+      </header>
+      <article>
+        <PhotoGallery events={events} />
+      </article>
+    </div>
+  );
+}

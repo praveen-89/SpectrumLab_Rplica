@@ -2426,3 +2426,274 @@ html[data-theme="dark"] .card {
   border-radius: 0.75rem;
   margin: 1.5rem 0;
 }
+
+/* Gallery videos — page-inline <style> in the original (not main.css):
+   .videos-wrapper, .videos-grid, .video-card. */
+.videos-wrapper {
+  min-height: 60vh;
+}
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.video-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--global-card-bg-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.video-card__thumbnail {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: var(--global-divider-color);
+  border: none;
+  cursor: pointer;
+}
+.video-card__thumbnail img {
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+.video-card:hover .video-card__thumbnail img {
+  transform: scale(1.05);
+}
+.video-card__play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0.85;
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+  pointer-events: none;
+}
+.video-card:hover .video-card__play-overlay {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.video-card__player {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+.video-card__player iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.video-card__content {
+  padding: 1rem 1.25rem 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.video-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+.video-card__desc {
+  font-size: 0.9rem;
+  color: var(--global-text-color-light);
+  margin: 0 0 0.75rem;
+  flex: 1;
+}
+.video-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--global-text-color-light);
+}
+.video-card__speaker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--global-theme-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Gallery photos — reimplemented as a plain CSS grid + native <dialog>
+   lightbox (not the original's per-event Swiper carousels), per this
+   step's brief. See PhotoGallery.tsx and the Step Report's
+   "Deviations from original". */
+.photo-gallery__event {
+  margin-bottom: 3rem;
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.photo-grid__item {
+  position: relative;
+  aspect-ratio: 1;
+  border: none;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--global-divider-color);
+}
+.photo-grid__image {
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+.photo-grid__item:hover .photo-grid__image {
+  transform: scale(1.06);
+}
+.photo-lightbox {
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: var(--global-card-bg-color);
+  color: var(--global-text-color);
+}
+.photo-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+.photo-lightbox__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--global-text-color);
+  cursor: pointer;
+}
+.photo-lightbox__image {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+.photo-lightbox__caption {
+  margin: 1rem 0 0;
+  text-align: center;
+  color: var(--global-text-color-light);
+  font-size: 0.9rem;
+}
+
+/* Articles list + detail — new pages, not in the original (see Step
+   Report). Kept visually consistent with the rest of the site. */
+.articles-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+}
+.article-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+.article-item__date {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.article-item__title {
+  margin: 0.4rem 0 0.5rem;
+  font-size: 1.3rem;
+}
+.article-item__title a {
+  color: var(--global-text-color);
+  text-decoration: none;
+}
+.article-item__title a:hover {
+  color: var(--global-theme-color);
+}
+.article-item__excerpt {
+  color: var(--global-text-color-light);
+  margin: 0;
+}
+.article-page {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  scroll-margin-top: calc(var(--navbar-height, 56px) + 1rem);
+}
+.article-title {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+.article-excerpt {
+  font-size: 1.1rem;
+  color: var(--global-text-color-light);
+  margin-bottom: 1rem;
+}
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: var(--global-text-color-light);
+}
+.article-authors a {
+  color: var(--global-theme-color);
+}
+.article-content {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.article-content p {
+  margin-bottom: 1.25rem;
+}
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 1.5rem auto;
+}
+.article-content h2 {
+  margin-top: 2.5rem;
+}
+.youtube-embed {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.youtube-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

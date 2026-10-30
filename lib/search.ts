@@ -4,9 +4,18 @@ import { readPublications } from "./content/publications";
 import { readCollection } from "./content/collection";
 import { newsItemSchema } from "./content/schemas";
 import { readPeople } from "./content/people";
+import { readArticles } from "./content/articles";
 import { site } from "./site";
 
-export type SearchSection = "Navigation" | "Dropdown" | "Publications" | "News" | "People" | "Socials" | "Theme";
+export type SearchSection =
+  | "Navigation"
+  | "Dropdown"
+  | "Publications"
+  | "News"
+  | "People"
+  | "Articles"
+  | "Socials"
+  | "Theme";
 export type ThemeAction = "light" | "dark" | "system";
 
 export type SearchItem = {
@@ -94,6 +103,17 @@ export async function buildSearchIndex(): Promise<SearchItem[]> {
       description,
       section: "People",
       href: `/people/${person.slug}/`,
+    });
+  }
+
+  const articles = await readArticles();
+  for (const article of articles) {
+    items.push({
+      id: `article-${article.slug}`,
+      title: article.title,
+      description: article.excerpt,
+      section: "Articles",
+      href: `/articles/${article.slug}/`,
     });
   }
 

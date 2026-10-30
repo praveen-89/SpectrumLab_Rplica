@@ -8,6 +8,7 @@ import { readPublications } from "../lib/content/publications";
 import { readTalks } from "../lib/content/talks";
 import { readCourses } from "../lib/content/teaching";
 import { readPage } from "../lib/content/page";
+import { readArticles } from "../lib/content/articles";
 import {
   newsItemSchema,
   personSchema,
@@ -16,6 +17,8 @@ import {
   recognitionItemSchema,
   opportunitiesPageSchema,
   contactPageSchema,
+  galleryEventSchema,
+  galleryVideoSchema,
 } from "../lib/content/schemas";
 
 async function run() {
@@ -51,6 +54,15 @@ async function run() {
 
   const contact = await readPage("contact", contactPageSchema);
   console.log(`contact: ${contact.address.length} address lines`);
+
+  const articles = await readArticles();
+  console.log(`articles: ${articles.length} items`);
+
+  const galleryPhotos = await readData("gallery-photos.json", galleryEventSchema);
+  console.log(`gallery photo events: ${galleryPhotos.length} (${galleryPhotos.reduce((n, e) => n + e.photos.length, 0)} photos)`);
+
+  const galleryVideos = await readData("gallery-videos.json", galleryVideoSchema);
+  console.log(`gallery videos: ${galleryVideos.length} items`);
 }
 
 run().catch((error) => {

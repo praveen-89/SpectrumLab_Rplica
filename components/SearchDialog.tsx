@@ -10,7 +10,16 @@ import type { SearchItem, SearchSection } from "@/lib/search";
 // array: Navigation and Dropdown items are interleaved there by nav
 // order, but ninja-keys (like cmdk) groups by section for display either
 // way, so this fixed order reproduces the same grouped result.
-const SECTION_ORDER: SearchSection[] = ["Navigation", "Dropdown", "Publications", "News", "People", "Socials", "Theme"];
+const SECTION_ORDER: SearchSection[] = [
+  "Navigation",
+  "Dropdown",
+  "Publications",
+  "News",
+  "People",
+  "Articles",
+  "Socials",
+  "Theme",
+];
 
 export default function SearchDialog({
   open,
