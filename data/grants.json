@@ -1,0 +1,170 @@
+[
+  {
+    "title": "Seismic source characterization using state-of-the-art signal processing and machine learning techniques",
+    "institution": "Ministry of Earth Sciences",
+    "role": "PI",
+    "startYear": 2023,
+    "endYear": 2025,
+    "coInvestigators": "Prof. Surendra Nadh Somala (IIT Hyderabad)"
+  },
+  {
+    "title": "A robust, non-convex optimization framework for analysis and synthesis sparse models",
+    "institution": "SERB — Core Research Grant",
+    "role": "PI",
+    "startYear": 2021,
+    "endYear": 2024,
+    "coInvestigators": "Prof. Prasanta Kumar Ghosh (EE, IISc)"
+  },
+  {
+    "title": "Adaptive low-rank sparse decomposition",
+    "institution": "SERB-MATRICS",
+    "role": "PI",
+    "startYear": 2020,
+    "endYear": 2023
+  },
+  {
+    "title": "AI powered diagnostics for wireless capsule endoscopy",
+    "institution": "Bill & Melinda Gates Foundation & DBT-BIRAC",
+    "role": "PI",
+    "startYear": 2020,
+    "endYear": 2022
+  },
+  {
+    "title": "iCare — Artificial intelligence powered solutions for eyecare (SERB-TARE)",
+    "institution": "SERB",
+    "role": "Co-PI",
+    "startYear": 2019,
+    "endYear": 2022,
+    "coInvestigators": "Mr. Harish Kumar J.R. (MIT, Manipal)"
+  },
+  {
+    "title": "Development of a high-speed neuromorphic imaging system",
+    "institution": "Institute of Eminence (IoE), IISc",
+    "role": "PI",
+    "startYear": 2019,
+    "endYear": 2021,
+    "coInvestigators": "Prof. Prasanta Ghosh, Prof. Kunal Chaudhury, et al."
+  },
+  {
+    "title": "In pursuit of a neuromorphic sampling theory",
+    "institution": "Pratiksha Trust",
+    "role": "Co-PI",
+    "startYear": 2019,
+    "endYear": 2020,
+    "coInvestigators": "Dr. Chetan Singh Thakur (DESE, IISc)"
+  },
+  {
+    "title": "Theoretical analysis of generative adversarial networks (GANs)",
+    "institution": "Robert Bosch Centre for Cyberphysical Systems, IISc",
+    "role": "PI",
+    "startYear": 2019,
+    "endYear": 2020
+  },
+  {
+    "title": "Satellite image denoising and deconvolution in multiplicative noise",
+    "institution": "ISRO-IISc Space Technology Cell",
+    "role": "PI",
+    "startYear": 2018,
+    "endYear": 2020,
+    "coInvestigators": "Dr. Debajyoti Dhar, Mr. Ashutosh Gupta (SAC, Ahmedabad)"
+  },
+  {
+    "title": "Three-dimensional reconstruction using a neuromorphic event-based camera",
+    "institution": "Pratiksha Trust",
+    "role": "PI",
+    "startYear": 2018,
+    "endYear": 2019,
+    "coInvestigators": "Dr. Chetan Singh Thakur (DESE, IISc)"
+  },
+  {
+    "title": "Satellite image denoising in hardware",
+    "institution": "ISRO-IISc Space Technology Cell",
+    "role": "PI",
+    "startYear": 2017,
+    "endYear": 2020,
+    "coInvestigators": "Dr. GN Rathna (EE, IISc)"
+  },
+  {
+    "title": "An automated and efficient glaucoma prescreening system (IMPRINT Project)",
+    "institution": "MHRD and ICMR",
+    "role": "PI",
+    "startYear": 2017,
+    "endYear": 2019,
+    "coInvestigators": "Dr. Yogish Kamath (KMC, Manipal)"
+  },
+  {
+    "title": "A low-cost, portable, super-resolution ultrasound scanner (IMPRINT Project)",
+    "institution": "MHRD and Ministry of Health and Family Welfare",
+    "role": "PI",
+    "startYear": 2016,
+    "endYear": 2020
+  },
+  {
+    "title": "Sub-Nyquist sampling — Challenges, fundamental limits, algorithms and applications",
+    "institution": "Science and Engineering Research Board (SERB)",
+    "role": "PI",
+    "startYear": 2016,
+    "endYear": 2018
+  },
+  {
+    "title": "Masters project grants in signal processing and machine learning",
+    "institution": "Robert Bosch Centre for Cyberphysical Systems at IISc",
+    "role": "PI",
+    "startYear": 2016,
+    "endYear": 2017
+  },
+  {
+    "title": "Development of a 3-D Riesz scanner",
+    "institution": "ISRO-IISc Space Technology Cell",
+    "role": "PI",
+    "startYear": 2015,
+    "endYear": 2018,
+    "coInvestigators": "Mr. Manish Saxena (SAC, Ahmedabad)"
+  },
+  {
+    "title": "Sparsity based reconstruction in high-frequency SONAR imaging",
+    "institution": "Defense Research and Development Organization (DRDO) - IISc joint research programme",
+    "role": "PI",
+    "startYear": 2014,
+    "endYear": 2018,
+    "coInvestigators": "Dr. P. Murali Krishna (NPOL, Cochin)"
+  },
+  {
+    "title": "Voice-activated camera steering (Demo-1, Demo-2)",
+    "institution": "XII Plan Grant",
+    "role": "PI",
+    "startYear": 2014,
+    "endYear": 2016
+  },
+  {
+    "title": "Development of text-to-speech synthesis systems for Indian languages - Phase II",
+    "institution": "Department of Information Technology",
+    "role": "Co-PI",
+    "startYear": 2012,
+    "endYear": 2017,
+    "coInvestigators": "Prof. Hema Murthy (IITM), Prof. S. R. M. Prasanna (IITG), et al."
+  },
+  {
+    "title": "Robust and efficient signal processing techniques for multicomponent FM signal parameter estimation",
+    "institution": "Indian Space Research Organization (ISRO) - IISc Space Technology Cell",
+    "role": "PI",
+    "startYear": 2012,
+    "endYear": 2015
+  },
+  {
+    "title": "Exploring the dynamics of acoustic landscape in field cricket choruses using microphone arrays",
+    "institution": "Council for Scientific and Industrial Research (CSIR)",
+    "role": "Co-PI",
+    "startYear": 2010,
+    "endYear": 2014,
+    "coInvestigators": "Prof. Rohini Balakrishnan (CES, IISc)"
+  },
+  {
+    "title": "Interdisciplinary centre in neuroscience and Technology",
+    "institution": "Department of Science and Technology",
+    "role": "Co-PI",
+    "startYear": 2010,
+    "endYear": 2014,
+    "coInvestigators": "Prof. V. Ravindranath, Prof. A. Murthy, et al."
+  }
+]

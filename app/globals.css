@@ -2011,3 +2011,418 @@ html[data-theme="dark"] .card {
   color: var(--global-text-color-light);
   display: block;
 }
+
+/* Funding page grant list — assets/css/main.css: .iconinstitution,
+   .icondepartment. The original has no dedicated .funding-card/.funding-grid
+   rules beyond these icon colors — cards are plain Bootstrap .p-3/.mb-4
+   blocks with no border/shadow. */
+.iconinstitution {
+  color: var(--global-theme-color);
+  margin-right: 0.3rem;
+}
+.icondepartment {
+  color: var(--global-theme-color);
+  margin-right: 0.3rem;
+}
+.funding-card__title {
+  color: var(--global-theme-color);
+}
+
+/* Recognition page — assets/css/main.css: .recognition-filters,
+   .recognition-grid, .recognition-card, .category-tag. */
+.recognition-filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+.recognition-filters .filter-btn {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  color: var(--global-text-color-light);
+  padding: 0.45rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 250ms ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+.recognition-filters .filter-btn:hover {
+  border-color: var(--global-theme-color);
+  color: var(--global-theme-color);
+}
+.recognition-filters .filter-btn.active {
+  background: var(--global-theme-color);
+  border-color: var(--global-theme-color);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(var(--global-theme-color-rgb), 0.2);
+}
+.recognition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+.recognition-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease,
+    border-color 300ms ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+.recognition-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--global-theme-color);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.recognition-card:hover .recognition-card__image-container img {
+  transform: scale(1.04);
+}
+.recognition-card__image-container {
+  position: relative;
+  height: 190px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--global-bg-color);
+  border-bottom: 1px solid var(--global-divider-color);
+}
+.recognition-card__image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+.recognition-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(var(--global-theme-color-rgb), 0.1), rgba(var(--global-theme-color-rgb), 0.03));
+  color: var(--global-theme-color);
+}
+.recognition-card__image-container .photo-count {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.recognition-card__year {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  color: var(--global-theme-color);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.recognition-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.75rem;
+}
+.recognition-card .category-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(var(--global-theme-color-rgb), 0.08);
+  color: var(--global-theme-color);
+}
+.recognition-card .category-tag.tag-fellowship {
+  background: rgba(40, 167, 69, 0.08);
+  color: #28a745;
+}
+.recognition-card .category-tag.tag-medal {
+  background: rgba(23, 162, 184, 0.08);
+  color: #17a2b8;
+}
+.recognition-card .category-tag.tag-invention {
+  background: rgba(253, 126, 20, 0.08);
+  color: #fd7e14;
+}
+.recognition-card__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--global-text-color);
+  margin: 0;
+  line-height: 1.35;
+}
+.recognition-card__people {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--global-text-color-light);
+  line-height: 1.4;
+}
+.recognition-card__people svg {
+  margin-top: 3px;
+  color: var(--global-theme-color);
+  flex-shrink: 0;
+}
+.recognition-card__people span {
+  font-weight: 500;
+}
+@media (max-width: 576px) {
+  .recognition-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Teaching pages — assets/css/main.css: .teaching-wrapper, .section-label,
+   .teaching-grid, .course-card, .course-wrapper, .course-header,
+   .material-card, .logistics-grid, .pill. */
+.teaching-wrapper,
+.course-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.section-label__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: rgba(var(--global-theme-color-rgb), 0.1);
+  color: var(--global-theme-color);
+}
+.section-label__text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--global-text-color);
+}
+.course-section {
+  margin-bottom: 3rem;
+}
+.teaching-grid--courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.course-card {
+  position: relative;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+.minimal-card--interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.course-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.course-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+.course-card__title a {
+  position: relative;
+  z-index: 2;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pill--muted {
+  background: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+  color: var(--global-text-color-light);
+}
+.pill--accent {
+  background: rgba(var(--global-theme-color-rgb), 0.1);
+  color: var(--global-theme-color);
+}
+.course-card__desc {
+  font-size: 0.9rem;
+  color: var(--global-text-color-light);
+  margin-bottom: 0.75rem;
+}
+.course-card__meta .meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--global-text-color-light);
+  margin-bottom: 0.35rem;
+}
+.course-card__meta .meta-row svg {
+  color: var(--global-theme-color);
+  flex-shrink: 0;
+}
+.course-card__arrow {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  color: var(--global-theme-color);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 250ms ease;
+}
+.course-card:hover .course-card__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.course-header {
+  margin-bottom: 2rem;
+}
+.course-syllabus,
+.minimal-card--elevated {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.course-header__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.content-section {
+  margin-bottom: 2rem;
+}
+.logistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.logistics-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.logistics-item__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--global-text-color-light);
+}
+.logistics-item__value {
+  font-size: 0.9rem;
+  color: var(--global-text-color);
+}
+.teaching-grid--materials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.material-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+}
+.material-card__title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--global-text-color);
+  margin: 0;
+}
+.material-card__desc {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  margin: 0.25rem 0 0;
+}
+.btn-minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn-minimal--ghost {
+  border: 1px solid var(--global-divider-color);
+  color: var(--global-text-color);
+}
+.btn-minimal--ghost:hover {
+  border-color: var(--global-theme-color);
+  color: var(--global-theme-color);
+}
+.btn-minimal--primary {
+  background: var(--global-theme-color);
+  color: #ffffff;
+}
+.btn-minimal--primary:hover {
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+/* Opportunities page — Bootstrap .alert/.card markup, no custom classes
+   in the original beyond its generic icon colours. */
+.opportunities .alert svg {
+  margin-right: 0.4rem;
+}
+.opportunities .card-header svg {
+  margin-right: 0.4rem;
+}
+.application-process p {
+  display: inline;
+  margin: 0;
+}
+
+/* Contact page — reuses .social/.contact-icons from the home page. */
+.contact-map {
+  width: 100%;
+  height: 512px;
+  border: none;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+}

@@ -1,0 +1,482 @@
+[
+  {
+    "type": "fellowship",
+    "year": "2026",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Nishanth Shetty",
+        "href": "/people/current/phd-students/nishanth_shetty/"
+      },
+      {
+        "name": "Gouri Shanker",
+        "href": "/people/current/phd-students/gouri_shanker/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/qualcomm/qualcomm-2026.jpeg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2026",
+    "title": "Outstanding Teaching Assistant Award",
+    "people": [
+      {
+        "name": "Nishanth Shetty",
+        "href": "/people/current/phd-students/nishanth_shetty/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/nishanth/teaching-award-ceremony.jpg",
+      "/assets/img/recognition/nishanth/teaching-award-certificate.png"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2026",
+    "title": "Outstanding Teaching Assistant Award",
+    "people": [
+      {
+        "name": "Sai Suchith Mahajan",
+        "href": "/people/alumni/mtech-graduates/2026/saisuchith_mahajan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/suchith/teaching-award-certificate.png"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2025",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Abhishek Shreekant Bhandiwad",
+        "href": "/people/current/phd-students/abhishek_sb/"
+      },
+      {
+        "name": "Abijith Jagannath Kamath",
+        "href": "/people/alumni/phd-graduates/2025/abijith_kamath/"
+      },
+      {
+        "name": "Nygel George Thomas",
+        "href": "/people/current/phd-students/nygel-thomas/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/qualcomm/qualcomm-2025.JPG"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2025",
+    "title": "Zeiss Fellowship",
+    "people": [
+      {
+        "name": "Gouri Shanker",
+        "href": "/people/current/phd-students/gouri_shanker/"
+      }
+    ],
+    "images": []
+  },
+  {
+    "type": "other",
+    "year": "2024",
+    "title": "Outstanding Teaching Assistant Award",
+    "people": [
+      {
+        "name": "Abijith Jagannath Kamath",
+        "href": "/people/alumni/phd-graduates/2025/abijith_kamath/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/abijith/teaching-award.jpeg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2024",
+    "title": "IEI (India) Young Engineer Award",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/sid-iei.jpeg",
+      "/assets/img/recognition/siddarth/IEI_Young_Engineers_Award.jpg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2024",
+    "title": "Prof. Satish Dhawan Research Award",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/sid-rajesh.jpeg"
+    ]
+  },
+  {
+    "type": "medal",
+    "year": "2023",
+    "title": "Best Presentation Award, EECS Symposium",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/sid-eecs_best_presentation_award.jpeg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2024",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Nishanth Shetty",
+        "href": "/people/current/phd-students/nishanth_shetty/"
+      },
+      {
+        "name": "Nygel George Thomas",
+        "href": "/people/current/phd-students/nygel-thomas/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/qualcomm/qualcomm-2024.jpeg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2023",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      },
+      {
+        "name": "Nishanth Shetty",
+        "href": "/people/current/phd-students/nishanth_shetty/"
+      },
+      {
+        "name": "Kartheek Nareddy",
+        "href": "/people/alumni/phd-graduates/2024/kartheek-nareddy/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/qualcomm/qualcomm-2023.jpeg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2022",
+    "title": "Prime Minister's Research Fellowship",
+    "people": [
+      {
+        "name": "Nishanth Shetty",
+        "href": "/people/current/phd-students/nishanth_shetty/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/nishanth/NishanthShetty.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2020",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Kartheek Nareddy",
+        "href": "/people/alumni/phd-graduates/2024/kartheek-nareddy/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/kartheek/kartheek-reddy.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2021",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/QIF21.JPG"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2022",
+    "title": "Qualcomm Innovation Fellowship",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/QIF22.JPG"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2019",
+    "title": "Prime Minister's Research Fellowship",
+    "people": [
+      {
+        "name": "Kartheek Nareddy",
+        "href": "/people/alumni/phd-graduates/2024/kartheek-nareddy/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/kartheek/kartheek-reddy.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2020",
+    "title": "Prime Minister's Research Fellowship",
+    "people": [
+      {
+        "name": "Abijith Jagannath Kamath",
+        "href": "/people/alumni/phd-graduates/2025/abijith_kamath/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/abijith/Abijith.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2020, 2021",
+    "title": "Robert Bosch Centre for Cyberphysical Systems PhD Fellowship",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/sid.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "year": "2018",
+    "title": "Microsoft Research India PhD Fellowship",
+    "people": [
+      {
+        "name": "Siddarth Asokan",
+        "href": "/people/alumni/phd-graduates/2023/siddarth_asokan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/siddarth/sid.jpg"
+    ]
+  },
+  {
+    "type": "medal",
+    "title": "D. J. Badkas Medal for the Best Doctoral Dissertation",
+    "people": [
+      {
+        "name": "Satish Mulleti",
+        "href": "/people/alumni/phd-graduates/2017/satish_mulleti/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/satish/satish-mulleti.jpg"
+    ]
+  },
+  {
+    "type": "medal",
+    "year": "2020",
+    "title": "SPCOM 2020 Best Doctoral Dissertation (Second place)",
+    "people": [
+      {
+        "name": "Subhadip Mukherjee",
+        "href": "/people/alumni/phd-graduates/2018/subhadip_mukherjee/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/subhadip/subhadip-mukherjee.jpg"
+    ]
+  },
+  {
+    "type": "medal",
+    "title": "The Hay Medal for the Best MSc (Eng.) thesis",
+    "people": [
+      {
+        "name": "Sunder Ram Krishnan",
+        "href": "/people/alumni/mtech-research-graduates/2013/sunder-ram-krishnan/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/sunder/sunder-ram.jpg"
+    ]
+  },
+  {
+    "type": "medal",
+    "title": "The Hay Medal for the Best MSc (Eng.) thesis",
+    "people": [
+      {
+        "name": "Sudarshan Nagesh",
+        "href": "/people/alumni/mtech-research-graduates/2014/sudarshan-nagesh/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/sudarshan/sudarshan-nagesh.jpg"
+    ]
+  },
+  {
+    "type": "fellowship",
+    "title": "Tata Consultancy Services PhD Fellowship",
+    "people": [
+      {
+        "name": "Subhadip Mukherjee",
+        "href": "/people/alumni/phd-graduates/2018/subhadip_mukherjee/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/subhadip/subhadip-mukherjee.jpg"
+    ]
+  },
+  {
+    "type": "medal",
+    "title": "Prof. I.S.N. Murthy Medal for the outstanding MTech (SP) student",
+    "people": [
+      {
+        "name": "Subhadip Mukherjee",
+        "href": "/people/alumni/phd-graduates/2018/subhadip_mukherjee/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/subhadip/subhadip-mukherjee.jpg"
+    ]
+  },
+  {
+    "type": "other",
+    "title": "N. R. Khambati Memorial Award for the outstanding MTech (SSA) student",
+    "people": [
+      {
+        "name": "Debabrata Mahapatra",
+        "href": "/people/alumni/mtech-graduates/2016/debabrata_mahapatra/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/debabrata/debabrata-mahapatra.jpg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2011",
+    "title": "N. R. Khambati Memorial Award for the outstanding MTech (SSA) student",
+    "people": [
+      {
+        "name": "Aditya Kumar Pediredla",
+        "href": "/people/alumni/mtech-graduates/2011/aditya_kumar_pediredla/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/aditya/adithya-k-pediredla.jpg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2011",
+    "title": "Indian National Academy of Engineering, Innovative Masters project award",
+    "people": [
+      {
+        "name": "Aditya Kumar Pediredla",
+        "href": "/people/alumni/mtech-graduates/2011/aditya_kumar_pediredla/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/aditya/adithya-k-pediredla.jpg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2014",
+    "title": "Top 10% Paper Award at IEEE International Conference on Image Processing",
+    "people": [
+      {
+        "name": "Satish Mulleti",
+        "href": "/people/alumni/phd-graduates/2017/satish_mulleti/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/satish/satish-mulleti.jpg"
+    ]
+  },
+  {
+    "type": "invention",
+    "year": "2011",
+    "title": "Intellectual Ventures Invention Award for the invention, \"Level-crossing computation technique for analog signals\"",
+    "people": [
+      {
+        "name": "Chandra Sekhar Seelamantula",
+        "href": "/people/current/lab-director/css/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/css/CSSPic.jpeg"
+    ]
+  },
+  {
+    "type": "invention",
+    "year": "2011",
+    "title": "Intellectual Ventures Invention Award for the invention, \"Multiband AM-FM-based speech/audio coder\"",
+    "people": [
+      {
+        "name": "Chandra Sekhar Seelamantula",
+        "href": "/people/current/lab-director/css/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/css/CSSPic.jpeg"
+    ]
+  },
+  {
+    "type": "invention",
+    "year": "2010",
+    "title": "Intellectual Ventures Invention Award for the invention, \"Multimodal density estimation approach to formant tracking\"",
+    "people": [
+      {
+        "name": "Chandra Sekhar Seelamantula",
+        "href": "/people/current/lab-director/css/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/css/CSSPic.jpeg"
+    ]
+  },
+  {
+    "type": "other",
+    "year": "2010",
+    "title": "First prize in the 2010 IEEE India M.V. Chauhan student paper contest",
+    "people": [
+      {
+        "name": "Haricharan Aragonda",
+        "href": "/people/alumni/mtech-research-graduates/2014/haricharan-aragonda/"
+      }
+    ],
+    "images": [
+      "/assets/img/recognition/haricharan/haricharan-aragonda.png"
+    ]
+  }
+]

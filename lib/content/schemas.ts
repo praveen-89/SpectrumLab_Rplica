@@ -125,6 +125,99 @@ export const funderSchema = z.object({
 });
 export type Funder = z.infer<typeof funderSchema>;
 
+export const grantSchema = z.object({
+  title: z.string(),
+  institution: z.string(),
+  role: z.string(),
+  startYear: z.number(),
+  endYear: z.number().optional(),
+  coInvestigators: z.string().optional(),
+});
+export type Grant = z.infer<typeof grantSchema>;
+
+export const recognitionPersonSchema = z.object({
+  name: z.string(),
+  href: z.string().optional(),
+});
+export const recognitionTypeSchema = z.enum(["fellowship", "medal", "invention", "other"]);
+export const recognitionItemSchema = z.object({
+  type: recognitionTypeSchema,
+  // A free-text label: usually a single year, but sometimes a range or a
+  // combined "2020, 2021" — and sometimes blank in the original.
+  year: z.string().optional(),
+  title: z.string(),
+  people: z.array(recognitionPersonSchema),
+  images: z.array(z.string()).default([]),
+});
+export type RecognitionItem = z.infer<typeof recognitionItemSchema>;
+
+export const teachingMaterialSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  url: z.string().optional(),
+});
+export const teachingSectionSchema = z.object({
+  label: z.string(),
+  // One of lecture/assignment/resource — picks the action-link style and
+  // icon (matches the original's material-card--<type> variants).
+  type: z.enum(["lecture", "assignment", "resource"]),
+  items: z.array(teachingMaterialSchema),
+});
+export const teachingScheduleItemSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  url: z.string().optional(),
+});
+export const courseSchema = z.object({
+  title: z.string(),
+  // "regular" / "short" group the list page's two sections; a module of a
+  // short-course series (e.g. "Module I: Dimension Reduction") also uses
+  // "short" so it's reachable, but is only linked from its series page,
+  // not listed a second time on /teaching/.
+  section: z.enum(["regular", "short", "module"]),
+  term: z.string().optional(),
+  description: z.string().optional(),
+  instructor: talkPersonSchema.optional(),
+  tas: z.string().optional(),
+  host: z.string().optional(),
+  schedule: z.array(teachingScheduleItemSchema).default([]),
+  sections: z.array(teachingSectionSchema).default([]),
+  // Markdown; used for the one module with an "Announcements" table,
+  // folded into the body instead of modelling that table structurally.
+  body: z.string().default(""),
+});
+export type Course = z.infer<typeof courseSchema>;
+
+export const opportunityPositionSchema = z.object({
+  icon: z.string(),
+  title: z.string(),
+  // Markdown (a short sequence of "**Label:** text" paragraphs).
+  body: z.string(),
+});
+export const opportunitiesPageSchema = z.object({
+  requiredSkills: z.array(z.string()).default([]),
+  // Markdown.
+  applicationProcess: z.string(),
+  positions: z.array(opportunityPositionSchema).default([]),
+  // Markdown; the "Join Our Research Team" lead paragraph.
+  body: z.string(),
+});
+export type OpportunitiesPage = z.infer<typeof opportunitiesPageSchema>;
+
+export const contactPageSchema = z.object({
+  mapEmbedUrl: z.string(),
+  administrator: z.object({
+    name: z.string(),
+    email: z.string(),
+    phone: z.string().optional(),
+  }),
+  address: z.array(z.string()),
+  // Markdown; everything else (Campus Location intro, Potential
+  // Collaborators note).
+  body: z.string(),
+});
+export type ContactPage = z.infer<typeof contactPageSchema>;
+
 export const homePageSchema = z.object({
   iiscLogoLight: z.string(),
   iiscLogoDark: z.string(),

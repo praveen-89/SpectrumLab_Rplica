@@ -6,7 +6,17 @@ import { readCollection } from "../lib/content/collection";
 import { readData } from "../lib/content/data";
 import { readPublications } from "../lib/content/publications";
 import { readTalks } from "../lib/content/talks";
-import { newsItemSchema, personSchema, funderSchema } from "../lib/content/schemas";
+import { readCourses } from "../lib/content/teaching";
+import { readPage } from "../lib/content/page";
+import {
+  newsItemSchema,
+  personSchema,
+  funderSchema,
+  grantSchema,
+  recognitionItemSchema,
+  opportunitiesPageSchema,
+  contactPageSchema,
+} from "../lib/content/schemas";
 
 async function run() {
   const news = await readCollection("news", newsItemSchema);
@@ -26,6 +36,21 @@ async function run() {
 
   const talksDelivered = await readTalks("delivered");
   console.log(`talks/delivered: ${talksDelivered.length} items`);
+
+  const grants = await readData("grants.json", grantSchema);
+  console.log(`grants: ${grants.length} items`);
+
+  const recognition = await readData("recognition.json", recognitionItemSchema);
+  console.log(`recognition: ${recognition.length} items`);
+
+  const courses = await readCourses();
+  console.log(`teaching: ${courses.length} items`);
+
+  const opportunities = await readPage("opportunities", opportunitiesPageSchema);
+  console.log(`opportunities: ${opportunities.positions.length} positions`);
+
+  const contact = await readPage("contact", contactPageSchema);
+  console.log(`contact: ${contact.address.length} address lines`);
 }
 
 run().catch((error) => {
