@@ -4,12 +4,12 @@ import type { Metadata } from "next";
 import { readPage } from "@/lib/content/page";
 import { readCollection } from "@/lib/content/collection";
 import { readData } from "@/lib/content/data";
-import { readPublications } from "@/lib/content/publications";
+import { readPublications, buildPublicationViews } from "@/lib/content/publications";
 import { readCoauthors } from "@/lib/content/coauthors";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { homePageSchema, newsItemSchema, personSchema, funderSchema } from "@/lib/content/schemas";
 import NewsList from "@/components/NewsList";
-import PublicationEntry, { type PublicationAuthor } from "@/components/PublicationEntry";
+import PublicationEntry from "@/components/PublicationEntry";
 import FundingCarousel from "@/components/FundingCarousel";
 import { GoogleScholarIcon, GitHubIcon, TwitterIcon, EmailIcon } from "@/components/icons";
 import { site } from "@/lib/site";
@@ -35,16 +35,7 @@ export default async function Home() {
   const latestNews = [...news].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
   const recentPublications = publications.slice(0, 5);
 
-  const publicationsWithAuthors = await Promise.all(
-    recentPublications.map(async (publication) => {
-      const authors: PublicationAuthor[] = publication.authors.map((name) => {
-        const href = coauthors[name];
-        return { name, href, italic: href === directorHref };
-      });
-      const abstractHtml = publication.abstract ? await renderMarkdown(publication.abstract) : undefined;
-      return { publication, authors, abstractHtml };
-    }),
-  );
+  const publicationsWithAuthors = await buildPublicationViews(recentPublications, coauthors, directorHref);
 
   return (
     <>

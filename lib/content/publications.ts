@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { parse, type Entry } from "@retorquere/bibtex-parser/js";
 import { publicationSchema, type Publication } from "./schemas";
+import { renderMarkdown } from "./markdown";
+import type { PublicationView } from "../publications-view";
 
 const BIB_PATH = join(process.cwd(), "content", "papers.bib");
 
@@ -110,4 +112,27 @@ export async function readPublications(): Promise<Publication[]> {
 
   cached = publications;
   return publications;
+}
+
+/**
+ * Resolves each publication's authors against the coauthor name-variant
+ * map (linking lab members, italicizing the director) and renders its
+ * abstract to HTML — the per-entry prep shared by the home page's Recent
+ * Publications and the full Publications page.
+ */
+export async function buildPublicationViews(
+  publications: Publication[],
+  coauthors: Record<string, string>,
+  directorHref: string | undefined,
+): Promise<PublicationView[]> {
+  return Promise.all(
+    publications.map(async (publication) => {
+      const authors = publication.authors.map((name) => {
+        const href = coauthors[name];
+        return { name, href, italic: href === directorHref };
+      });
+      const abstractHtml = publication.abstract ? await renderMarkdown(publication.abstract) : undefined;
+      return { publication, authors, abstractHtml };
+    }),
+  );
 }

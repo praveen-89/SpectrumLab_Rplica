@@ -33,12 +33,18 @@ export default function SearchDialog({
     function onKeyDown(event: KeyboardEvent) {
       if ((event.key === "k" || event.key === "K") && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
+        if (!open) {
+          // Whatever had focus when the shortcut was pressed — captured
+          // here, synchronously, before cmdk's own input autofocuses and
+          // this would otherwise be too late to find out.
+          restoreFocusRef.current = document.activeElement as HTMLElement | null;
+        }
         onOpenChange(!open);
       }
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [open, onOpenChange]);
+  }, [open, onOpenChange, restoreFocusRef]);
 
   useEffect(() => {
     if (!open || items) return;

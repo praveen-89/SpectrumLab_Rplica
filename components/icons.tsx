@@ -118,6 +118,31 @@ export function MoonIcon(props: IconProps) {
   );
 }
 
+// Real Font Awesome 6 solid chevron glyphs (fa-chevron-left U+F053,
+// fa-chevron-right U+F054), extracted from fa-solid-900.ttf the same way
+// as EmailIcon — used for the publications year-navigation buttons.
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <Svg {...props} viewBox="0 0 320 512">
+      <path
+        transform="matrix(1,0,0,-1,0,512)"
+        d="M9 215Q0 205 0 192Q0 179 9 169L201 -23Q211 -32 224 -32Q237 -32 247 -23Q256 -13 256 0Q256 13 247 23L77 192L247 361Q256 371 256 384Q256 397 247 407Q237 416 224 416Q211 416 201 407L9 215Z"
+      />
+    </Svg>
+  );
+}
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <Svg {...props} viewBox="0 0 320 512">
+      <path
+        transform="matrix(1,0,0,-1,0,512)"
+        d="M311 215Q320 205 320 192Q320 179 311 169L119 -23Q109 -32 96 -32Q83 -32 73 -23Q64 -13 64 0Q64 13 73 23L243 192L73 361Q64 371 64 384Q64 397 73 407Q83 416 96 416Q109 416 119 407L311 215Z"
+      />
+    </Svg>
+  );
+}
+
 export function SystemIcon(props: IconProps) {
   return (
     <Svg {...props} viewBox="0 0 1000 1000">

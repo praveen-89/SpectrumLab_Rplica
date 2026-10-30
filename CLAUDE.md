@@ -29,6 +29,9 @@ npm run build
 ```
 Before finishing any step that changes UI, run `npm run compare` for the affected paths (dev server running), open the PNGs, compare original vs ours side by side, and fix the visible differences. In the Step Report, list the differences you found, which you fixed, and any you intentionally left.
 
+## Fidelity vs bugs
+Reproduce the original's look and behaviour, not its bugs. When the original is broken (dead links, overflow, wrong data), implement the working version and list each deviation in the Step Report under "Deviations from original".
+
 ## Markdown content and styling
 Content rendered from Markdown carries no classes. Style it through a wrapper class with descendant selectors (e.g. `.hero-description p`). When a component needs a specific element (a title link, a badge), put that data in front matter and render the element in JSX.
 
