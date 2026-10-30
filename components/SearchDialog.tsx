@@ -17,6 +17,8 @@ const SECTION_ORDER: SearchSection[] = [
   "News",
   "People",
   "Articles",
+  "Talks",
+  "Recognition",
   "Socials",
   "Theme",
 ];
@@ -113,8 +115,11 @@ export default function SearchDialog({
                 value={`${item.title} ${item.description ?? ""}`}
                 onSelect={() => handleSelect(item)}
               >
-                <span className="search-item-title">{item.title}</span>
-                {item.description && <span className="search-item-description">{item.description}</span>}
+                <span className="search-item-main">
+                  <span className="search-item-title">{item.title}</span>
+                  {item.description && <span className="search-item-description">{item.description}</span>}
+                </span>
+                <span className="search-item-section">{item.section}</span>
               </Command.Item>
             ))}
           </Command.Group>

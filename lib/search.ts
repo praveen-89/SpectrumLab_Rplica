@@ -5,6 +5,9 @@ import { readCollection } from "./content/collection";
 import { newsItemSchema } from "./content/schemas";
 import { readPeople } from "./content/people";
 import { readArticles } from "./content/articles";
+import { readTalks } from "./content/talks";
+import { readData } from "./content/data";
+import { recognitionItemSchema } from "./content/schemas";
 import { site } from "./site";
 
 export type SearchSection =
@@ -14,6 +17,8 @@ export type SearchSection =
   | "News"
   | "People"
   | "Articles"
+  | "Talks"
+  | "Recognition"
   | "Socials"
   | "Theme";
 export type ThemeAction = "light" | "dark" | "system";
@@ -60,6 +65,11 @@ export async function buildSearchIndex(): Promise<SearchItem[]> {
         items.push({
           id: `dropdown-${slugify(item.label)}`,
           title: item.label,
+          // The parent menu's name (e.g. "Gallery" for "Photos"/"Videos")
+          // — shown as a subtitle, and searched along with the title, so
+          // "gallery" finds the Photos/Videos pages even though neither
+          // title contains that word.
+          description: entry.label,
           section: "Dropdown",
           href: item.href,
         });
@@ -116,6 +126,31 @@ export async function buildSearchIndex(): Promise<SearchItem[]> {
       href: `/articles/${article.slug}/`,
     });
   }
+
+  for (const basePath of ["organized", "delivered"] as const) {
+    const talks = await readTalks(basePath);
+    for (const talk of talks) {
+      items.push({
+        id: `talk-${basePath}-${talk.slug}`,
+        title: talk.title,
+        description: talk.venue,
+        section: "Talks",
+        href: `/talks/${basePath}/${talk.slug}/`,
+      });
+    }
+  }
+
+  // No per-entry detail page exists — every result points at the
+  // Recognition page itself, where the matching award can be found.
+  const recognition = await readData("recognition.json", recognitionItemSchema);
+  recognition.forEach((entry, index) => {
+    items.push({
+      id: `recognition-${index}`,
+      title: entry.title,
+      section: "Recognition",
+      href: "/recognition/",
+    });
+  });
 
   items.push(
     { id: "socials-email", title: "Send email", section: "Socials", href: `mailto:${site.social.email}`, external: true },
