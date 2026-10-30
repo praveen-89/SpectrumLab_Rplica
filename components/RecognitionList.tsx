@@ -59,7 +59,7 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
               <div className="recognition-card__meta">
                 <span className={`category-tag tag-${item.type}`}>{TYPE_LABELS[item.type]}</span>
               </div>
-              <h3 className="recognition-card__title">{item.title}</h3>
+              <h2 className="recognition-card__title">{item.title}</h2>
               <div className="recognition-card__people">
                 <UserGraduateIcon size={14} />
                 <span>

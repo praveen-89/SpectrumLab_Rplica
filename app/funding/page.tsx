@@ -36,11 +36,11 @@ export default async function FundingPage() {
           <div className="funding-grid">
             {grants.map((grant) => (
               <div className="funding-card mb-4 p-3 hoverable" key={grant.title}>
-                <h5 className="card-title mb-1 funding-card__title">{grant.title}</h5>
-                <h6 className="card-subtitle mb-3 text-muted">
+                <h3 className="card-title mb-1 funding-card__title">{grant.title}</h3>
+                <h4 className="card-subtitle mb-3 text-muted">
                   <BuildingColumnsIcon size={14} className="iconinstitution" />
                   {grant.institution}
-                </h6>
+                </h4>
                 <div className="card-text">
                   <div className="row">
                     <div className="col-md-6">

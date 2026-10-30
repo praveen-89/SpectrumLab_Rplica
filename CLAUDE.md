@@ -1,5 +1,47 @@
 # Spectrum Lab Replica
 
+<!--
+Intentional deviations
+
+Compiled list of places where this replica deliberately differs from
+https://spectrum.ee.iisc.ac.in/, per the "Fidelity vs bugs" rule below.
+Fixed originals bugs (implemented the working version instead of reproducing
+the bug):
+- Biography text can overflow narrow viewports in the original (relies on
+  `hyphens: auto` alone); added `overflow-wrap: break-word` as a safety net.
+- Publications "Cite" bibtex block and the year-pagination pill both overflow
+  the viewport at 375px in the original (no overflow/responsive handling at
+  all); scoped the bibtex block to its own horizontal scroll and shrank the
+  pagination pill on narrow screens instead.
+- Several headings used non-semantic levels copied from the original's own
+  markup (e.g. `<h5>`/`<h6>` card titles skipping levels); retagged to a
+  correct h1→h2→h3→h4 hierarchy site-wide, with explicit font-size overrides
+  anywhere the retagged element had no class-driven size, to keep the
+  original's visual sizing unchanged.
+Reproduced originals bugs (kept the broken behaviour, since it's harmless and
+faithfully matches the original):
+- Talk cards: the title link's full-card overlay sits above the venue link
+  and swallows clicks meant for it, matching the original (whose
+  `event.stopPropagation()` doesn't actually fix the underlying
+  z-index/hit-testing issue).
+Approximated / not derivable from the original:
+- People list sort order: current members by name, then alumni by year
+  (newest first) and name within a year — the original's own tie-break order
+  within a year isn't derivable from the rendered page.
+Scope reductions for this rebuild:
+- Publications page's live bibtex text-search box (`bibsearch.js` in the
+  original) was not built; out of scope.
+- Gallery photos are a plain CSS grid + native `<dialog>` lightbox, not the
+  original's per-event Swiper carousels.
+- Articles list/detail pages are new pages not present in the original,
+  added for symmetry with the rest of the site and kept visually consistent
+  with it.
+Platform substitutions:
+- SF Pro (Typekit-only in the original) is not available to this rebuild;
+  falls back to the system font stack (-apple-system/BlinkMacSystemFont
+  first) instead.
+-->
+
 ## Goal
 Pixel- and URL-faithful replica of https://spectrum.ee.iisc.ac.in/ (originally Jekyll/al-folio), rebuilt with Next.js.
 

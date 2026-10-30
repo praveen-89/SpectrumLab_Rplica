@@ -82,9 +82,9 @@ export default async function OpportunitiesPage() {
                   <div className="col-md-6 mb-4" key={position.title}>
                     <div className="card h-100">
                       <div className="card-header alert-info text-white">
-                        <h4 className="card-title mb-0">
+                        <h3 className="card-title mb-0">
                           {Icon && <Icon size={14} />} {position.title}
-                        </h4>
+                        </h3>
                       </div>
                       <div className="card-body" dangerouslySetInnerHTML={{ __html: positionBodies[i] }} />
                     </div>

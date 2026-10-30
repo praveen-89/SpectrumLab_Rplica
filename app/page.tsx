@@ -39,6 +39,8 @@ export default async function Home() {
 
   return (
     <>
+      <h1 className="visually-hidden">{site.name}</h1>
+
       {/* Intro card — hero-section */}
       <div className="hero-section">
         <div className="container-fluid px-4 py-3">

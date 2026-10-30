@@ -105,7 +105,7 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
                 {section.items.map((item) => (
                   <article className="material-card" key={item.title}>
                     <div className="material-card__content">
-                      <h4 className="material-card__title">{item.title}</h4>
+                      <h2 className="material-card__title">{item.title}</h2>
                       {item.description && <p className="material-card__desc">{item.description}</p>}
                     </div>
                     {item.url &&

@@ -563,6 +563,9 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   color: var(--global-text-color);
   outline: none;
 }
+[cmdk-input]:focus-visible {
+  border-bottom-color: var(--global-theme-color);
+}
 [cmdk-list] {
   max-height: 400px;
   overflow-y: auto;
@@ -1143,6 +1146,17 @@ html[data-theme="dark"] .z-depth-1 {
     gap: 1rem;
     margin: 1rem 0 1.5rem;
   }
+  /* The original has no narrow-screen rule for this at all, so the
+     "< PREVIOUS … NEXT >" pill overflows the viewport by several pixels
+     at 375px — fixed here per CLAUDE.md's fidelity-vs-bugs rule rather
+     than reproduced. */
+  .year-pagination {
+    gap: 0.75rem;
+    padding: 0.4rem 0.5rem;
+  }
+  .year-btn {
+    padding: 0.4rem 0.85rem;
+  }
 }
 
 /* Publications list — assets/css/main.css: .bibliography, .pub-item,
@@ -1250,6 +1264,19 @@ h2.bibliography {
 .bibliography li .hidden p {
   line-height: 1.4em;
   margin: 10px;
+}
+.bibliography li .hidden pre {
+  font-size: 1em;
+  line-height: 1.4em;
+  padding: 10px;
+  margin: 0;
+  /* The original has no overflow handling on this <pre> at all, so a long
+     BibTeX line (the full "abstract" field, in particular) pushes the
+     whole page wider than the viewport on narrow screens — scoping the
+     scroll to the code block instead, per CLAUDE.md's fidelity-vs-bugs
+     rule, rather than reproducing that page-wide overflow. */
+  overflow-x: auto;
+  max-width: 100%;
 }
 .bibliography li .hidden.open {
   max-height: 100em;
@@ -2056,6 +2083,15 @@ html[data-theme="dark"] .card {
 }
 .funding-card__title {
   color: var(--global-theme-color);
+  /* Moved from <h5> to <h3> for a correct heading hierarchy (h2 "Funding" page
+     description -> h3, no skip); keep the original's h5 visual size. */
+  font-size: var(--font-size-h5);
+}
+
+.funding-card .card-subtitle {
+  /* Moved from <h6> to <h4> to nest under .funding-card__title's new <h3>;
+     keep the original's h6 visual size. */
+  font-size: var(--font-size-h6);
 }
 
 /* Recognition page — assets/css/main.css: .recognition-filters,
@@ -2443,6 +2479,11 @@ html[data-theme="dark"] .card {
 .opportunities .card-header svg {
   margin-right: 0.4rem;
 }
+/* Position titles moved from <h4> to <h3> for a correct heading hierarchy
+   (h2 "Available Positions" -> h3, no skip); keep the original's h4 visual size. */
+.opportunities .card-header .card-title {
+  font-size: var(--font-size-h4);
+}
 .application-process p {
   display: inline;
   margin: 0;
@@ -2455,6 +2496,12 @@ html[data-theme="dark"] .card {
   border: none;
   border-radius: 0.75rem;
   margin: 1.5rem 0;
+}
+
+/* These subheadings moved from <h4> to <h3> for a correct heading hierarchy
+   (h1 -> h2 -> h3, no skip); keep the original's h4 visual size. */
+.contact-subheading {
+  font-size: var(--font-size-h4);
 }
 
 /* Gallery videos — page-inline <style> in the original (not main.css):

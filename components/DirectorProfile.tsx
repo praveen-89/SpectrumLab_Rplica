@@ -13,7 +13,7 @@ export default async function DirectorProfile({ person }: { person: PersonWithSl
               <BiographyContent person={person} />
               {person.awards.length > 0 && (
                 <>
-                  <h6 className="mt-4">Awards</h6>
+                  <h3 className="mt-4">Awards</h3>
                   <ul>
                     {person.awards.map((award) => (
                       <li key={award}>{award}</li>
@@ -27,7 +27,7 @@ export default async function DirectorProfile({ person }: { person: PersonWithSl
           {person.accordion.length > 0 && (
             <div className="card shadow-sm border-0 mt-4">
               <div className="card-body">
-                <h5 className="card-title mb-4">Professional Activities</h5>
+                <h2 className="card-title mb-4">Professional Activities</h2>
                 <ActivityAccordion sections={person.accordion} />
               </div>
             </div>

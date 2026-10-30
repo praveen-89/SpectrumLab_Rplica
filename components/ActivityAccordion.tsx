@@ -23,7 +23,8 @@ export default function ActivityAccordion({ sections }: { sections: AccordionSec
     <Accordion>
       {sections.map((section, index) => (
         <Accordion.Item eventKey={String(index)} key={section.title}>
-          <Accordion.Header>
+          {/* Nested under the "Professional Activities" <h2> — react-bootstrap defaults this to h2 itself, which would duplicate that level instead of nesting under it. */}
+          <Accordion.Header as="h3">
             <SectionIcon name={section.icon} />
             {section.title}
           </Accordion.Header>
@@ -31,11 +32,11 @@ export default function ActivityAccordion({ sections }: { sections: AccordionSec
             {section.groups.map((group, groupIndex) => (
               <div className="activity-group" key={group.label ?? groupIndex}>
                 {group.label && (
-                  <h6 className="activity-group-label">
+                  <h4 className="activity-group-label">
                     <SectionIcon name={group.icon} />
                     {group.label}
                     <span className="badge bg-light text-dark ms-1">{group.items.length}</span>
-                  </h6>
+                  </h4>
                 )}
                 <ul className="list-unstyled activity-list">
                   {group.items.map((item) => (

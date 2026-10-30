@@ -84,7 +84,7 @@ export async function BiographyContent({ person }: { person: PersonWithSlug }) {
   const html = await renderMarkdown(person.body);
   return (
     <>
-      <h5 className="card-title">Biography</h5>
+      <h2 className="card-title">Biography</h2>
       <div className="biography-body" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );

@@ -31,7 +31,7 @@ export default async function ContactPage() {
           loading="lazy"
         />
 
-        <h4>Administrative Assistant</h4>
+        <h3 className="contact-subheading">Administrative Assistant</h3>
         <p>
           <strong>{page.administrator.name}</strong>
           <br />
@@ -44,7 +44,7 @@ export default async function ContactPage() {
           )}
         </p>
 
-        <h4>Mailing Address</h4>
+        <h3 className="contact-subheading">Mailing Address</h3>
         <p>
           {page.address.map((line, i) => (
             <span key={line}>
