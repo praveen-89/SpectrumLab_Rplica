@@ -24,6 +24,19 @@ function Svg({
   );
 }
 
+// Real tabler-icons "search" glyph (ti-search, U+EB1C), extracted the same
+// way as the theme-toggle icons.
+export function SearchIcon(props: IconProps) {
+  return (
+    <Svg {...props} viewBox="0 0 1000 1000">
+      <path
+        transform="matrix(1,0,0,-1,0,1000)"
+        d="M147 659Q198 736 279 775Q357 812 443.5 806.5Q530 801 602 755Q679 705 720 620Q759 539 751.0 449.0Q743 359 690 285L684 275L880 79Q904 55 911 46Q915 40 916 33L917 31Q920 9 905.0 -5.5Q890 -20 869 -17L867 -16Q860 -15 854 -11Q845 -4 821 20L625 216L616 210Q570 179 529 165Q440 136 351 156Q269 175 204 231Q141 286 114 359Q86 435 94.5 514.0Q103 593 147 659ZM401 724Q365 719 342 711Q282 690 239.5 644.0Q197 598 182 539Q178 524 177 510Q176 501 176 478Q176 406 211 348Q243 295 297.0 264.5Q351 234 413.5 231.0Q476 228 532 256Q592 285 630 344Q665 398 669 462Q673 522 647.5 578.5Q622 635 574 673Q524 713 459 723Q453 724 430.5 724.5Q408 725 401 724Z"
+      />
+    </Svg>
+  );
+}
+
 // Real academicons "google-scholar" glyph (U+E9D4), extracted from
 // public/assets/fonts/academicons.ttf with fontTools, Y-flipped from font
 // units (em square 512, baseline-up) into SVG space via the matrix below —

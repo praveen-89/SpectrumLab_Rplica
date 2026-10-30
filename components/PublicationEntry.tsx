@@ -77,7 +77,7 @@ export default function PublicationEntry({
             <abbr className="badge rounded w-100">{abbr}</abbr>
           </div>
         )}
-        <div className="col-sm-8">
+        <div id={entryKey} className="col-sm-8">
           <div className="title">
             {articlePage ? (
               <a href={articlePage} className="publication-title-link">

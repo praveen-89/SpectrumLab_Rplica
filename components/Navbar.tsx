@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Nav, NavDropdown, Offcanvas } from "react-bootstrap";
 import ThemeToggle from "./ThemeToggle";
+import SearchTrigger from "./SearchTrigger";
+import SearchDialog from "./SearchDialog";
 import { isNavDivider, isNavDropdown, navEntries, type NavEntry } from "@/lib/nav";
 
 const withTrailingSlash = (path: string) => (path.endsWith("/") ? path : `${path}/`);
@@ -13,7 +15,14 @@ const withTrailingSlash = (path: string) => (path.endsWith("/") ? path : `${path
 export default function Navbar() {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchTriggerRef = useRef<HTMLElement | null>(null);
   const isActive = (href: string) => withTrailingSlash(pathname) === withTrailingSlash(href);
+
+  function openSearch(event: React.MouseEvent<HTMLElement>) {
+    searchTriggerRef.current = event.currentTarget;
+    setSearchOpen(true);
+  }
 
   const closeDrawer = () => setDrawerOpen(false);
 
@@ -152,6 +161,9 @@ export default function Navbar() {
             {navEntries.map((entry) => (
               <NavEntryItem key={entry.label} entry={entry} isActive={isActive} />
             ))}
+            <Nav.Item as="li" className="d-none d-lg-block">
+              <SearchTrigger onClick={openSearch} />
+            </Nav.Item>
             <Nav.Item as="li" className="toggle-container">
               <ThemeToggle />
             </Nav.Item>
@@ -176,9 +188,20 @@ export default function Navbar() {
                 onNavigate={closeDrawer}
               />
             ))}
+            <Nav.Item as="li">
+              <SearchTrigger
+                mobile
+                onClick={(event) => {
+                  closeDrawer();
+                  openSearch(event);
+                }}
+              />
+            </Nav.Item>
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>
+
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} restoreFocusRef={searchTriggerRef} />
     </header>
   );
 }
