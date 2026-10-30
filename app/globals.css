@@ -113,16 +113,18 @@ body {
   font-weight: var(--font-weight-regular);
 }
 
-/* assets/css/main.css: body.fixed-top-nav{padding-top:56px} — offsets
-   content below the fixed navbar. The original <main class="container
-   mt-5"> adds its own 3rem margin-top on top of this; both are needed. */
+/* Offsets content below the fixed navbar. The original sets this to the
+   navbar's own measured height dynamically (confirmed on the live site:
+   computed body padding-top exactly equals the navbar's rendered height,
+   both there and here via Navbar.tsx's ResizeObserver) rather than a
+   fixed value — its two-row desktop layout and one-row mobile layout are
+   different heights, so a single hardcoded number can't fit both without
+   either a gap on mobile or content hiding under the navbar on desktop.
+   56px is the fallback for the brief window before that JS runs. The
+   original <main class="container mt-5"> adds its own 3rem margin-top on
+   top of this; both are needed. */
 body.fixed-top-nav {
-  padding-top: 56px;
-}
-@media (max-width: 576px) {
-  body.fixed-top-nav {
-    padding-top: 50px;
-  }
+  padding-top: var(--navbar-height, 56px);
 }
 
 h1,
@@ -553,6 +555,18 @@ html[data-theme="dark"] .site-footer .footer-text a {
    .hero-description, .hero-logos, .logo-item, .logo-img, .ee-logo. The
    margin here is what creates the gap below the navbar the original has
    and this build was missing. */
+.iisc-logo-light {
+  display: block;
+}
+.iisc-logo-dark {
+  display: none;
+}
+html[data-theme="dark"] .iisc-logo-light {
+  display: none;
+}
+html[data-theme="dark"] .iisc-logo-dark {
+  display: block;
+}
 .hero-section {
   background: linear-gradient(135deg, rgba(0, 51, 102, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
   border: 1px solid rgba(0, 51, 102, 0.08);
@@ -568,11 +582,15 @@ html[data-theme="dark"] .hero-section {
 .hero-content {
   padding: 0;
 }
-.hero-description {
+/* Markdown output carries no classes (see CLAUDE.md) — the rendered <p>
+   inside .hero-content has none, so this targets it as a descendant
+   instead of expecting a .hero-description class directly on it. */
+.hero-content p {
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--global-text-color);
   text-align: left;
+  margin: 0;
 }
 .hero-logos {
   display: flex;
@@ -599,7 +617,7 @@ html[data-theme="dark"] .hero-section {
     margin: 1rem 0;
     border-radius: 12px;
   }
-  .hero-description {
+  .hero-content p {
     font-size: 1rem;
     margin-bottom: 1.5rem;
   }
@@ -609,7 +627,7 @@ html[data-theme="dark"] .hero-section {
     margin: 0.5rem 0 1rem;
     border-radius: 8px;
   }
-  .hero-description {
+  .hero-content p {
     font-size: 0.95rem;
     line-height: 1.5;
   }
@@ -796,14 +814,9 @@ html[data-theme="dark"] .hero-section {
 /* .news-title has two rules in the original with equal specificity; the
    later one (plain text colour, not theme colour) wins, which is why a
    linked item like the "Talk by Prof. ..." entry reads as plain text.
-   That class never actually reaches our markup, though: NewsList renders
-   the body through the Markdown pipeline, which drops arbitrary HTML
-   classes from source links. A news item whose entire blurb is just the
-   title link (no surrounding prose) renders as <p><a>...</a></p> with the
-   <a> as the paragraph's only child — unlike a coauthor-link embedded
-   mid-sentence, which has text siblings — so that structural pattern
-   stands in for the missing class. */
-.news-content p > a:only-child,
+   A titled-link news item now actually carries this class (title/link
+   live in front matter, rendered as JSX in NewsList — see CLAUDE.md's
+   Markdown-styling rule), so no structural workaround is needed here. */
 .news-title {
   color: var(--global-text-color);
   font-weight: 500;

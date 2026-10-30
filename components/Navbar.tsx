@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Nav, NavDropdown, Offcanvas } from "react-bootstrap";
 import ThemeToggle from "./ThemeToggle";
 import { isNavDivider, isNavDropdown, navEntries, type NavEntry } from "@/lib/nav";
@@ -16,6 +16,27 @@ export default function Navbar() {
   const isActive = (href: string) => withTrailingSlash(pathname) === withTrailingSlash(href);
 
   const closeDrawer = () => setDrawerOpen(false);
+
+  // The original sets body's top padding to the navbar's own measured
+  // height (confirmed by inspecting both live): its two-row desktop
+  // layout is taller than the one-row mobile layout, so a single fixed
+  // padding-top can't fit both without either a gap on mobile or the
+  // content hiding under the navbar on desktop (the bug this fixes).
+  // --navbar-height is read by body.fixed-top-nav in globals.css.
+  useLayoutEffect(() => {
+    const navbarElement = document.getElementById("navbar");
+    if (!navbarElement) return;
+    const navbar = navbarElement;
+
+    function setHeight() {
+      document.documentElement.style.setProperty("--navbar-height", `${navbar.offsetHeight}px`);
+    }
+
+    setHeight();
+    const observer = new ResizeObserver(setHeight);
+    observer.observe(navbar);
+    return () => observer.disconnect();
+  }, []);
 
   // Mirrors the original's scroll script exactly: shadow after 20px,
   // hidden (translateY(-100%)) while scrolling down past a 50px/5px

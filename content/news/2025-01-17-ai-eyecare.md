@@ -2,7 +2,7 @@
 date: "2025-01-17"
 category: "Symposium"
 title: "Artificial Intelligence for Eyecare"
-slug: "2025/2025-01-17-ai-eyecare"
+detailSlug: "2025/2025-01-17-ai-eyecare"
 ---
 Symposium
 

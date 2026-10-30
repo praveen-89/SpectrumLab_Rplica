@@ -67,22 +67,23 @@ async function run() {
     const content = item.find(".news-content").first();
     stripIcons($, item);
 
-    // Most "news-title" links point elsewhere on the site (a talk or
-    // teaching page the item is announcing), not a /news/ detail page —
-    // only the latter gets a `slug` and its body replaced with the full
-    // detail page, per the task's "links to a /news/... detail page".
-    const titleLink = content.find('a.news-title[href^="/news/"]').first();
+    // A "news-title" link means the item's entire blurb is just a titled
+    // link — to a /news/ detail page (fetch its full body) or elsewhere
+    // on the site (a talk, a teaching page: store title+link in front
+    // matter, no body). Anything else is ordinary prose, kept as Markdown.
+    const titleLink = content.find("a.news-title").first();
     let title;
-    let slug;
-    let body;
+    let detailSlug;
+    let link;
+    let body = "";
 
-    if (titleLink.length > 0) {
-      slug = titleLink.attr("href").replace(/^\/news\//, "").replace(/\/$/, "");
+    if (titleLink.length > 0 && titleLink.attr("href").startsWith("/news/")) {
+      detailSlug = titleLink.attr("href").replace(/^\/news\//, "").replace(/\/$/, "");
       title = titleLink.text().trim();
 
-      const detailPath = join(REFERENCE_PAGES_DIR, "news", slug, "index.html");
+      const detailPath = join(REFERENCE_PAGES_DIR, "news", detailSlug, "index.html");
       if (await fileExists(detailPath)) {
-        const detail$ = await loadPage(join("news", slug));
+        const detail$ = await loadPage(join("news", detailSlug));
         const page = detail$(".event-page, .post").first();
         stripIcons(detail$, page);
         title = page.find("h1").first().text().trim() || title;
@@ -91,6 +92,9 @@ async function run() {
       } else {
         body = htmlToMarkdown(content.html() ?? "");
       }
+    } else if (titleLink.length > 0) {
+      title = titleLink.text().trim();
+      link = titleLink.attr("href");
     } else {
       body = htmlToMarkdown(content.html() ?? "");
     }
@@ -98,11 +102,11 @@ async function run() {
     // The original's own slugs are already date-prefixed (e.g.
     // "2024/2024-06-24-phd-colloquium-kartheek"); strip that prefix so it
     // isn't duplicated against the date this file name adds.
-    const shortSlug = slug
-      ? slug.split("/").pop().replace(new RegExp(`^${date}-`), "")
+    const shortSlug = detailSlug
+      ? detailSlug.split("/").pop().replace(new RegExp(`^${date}-`), "")
       : slugify(title ?? body);
     const filePath = join(CONTENT_DIR, "news", `${date}-${shortSlug}.md`);
-    await writeMarkdownFile(filePath, { date, category, title, slug }, body);
+    await writeMarkdownFile(filePath, { date, category, title, detailSlug, link }, body);
   }
 
   console.log(`Wrote ${items.length} news items (${withDetailPage} with a full detail-page body).`);

@@ -16,26 +16,43 @@ function badgeClass(category: string): string {
 
 export default async function NewsList({ items }: { items: NewsItem[] }) {
   const rendered = await Promise.all(
-    items.map(async (item) => ({ item, html: await renderMarkdown(item.body) })),
+    items.map(async (item) => ({ item, html: item.body ? await renderMarkdown(item.body) : "" })),
   );
 
   return (
     <div className="news">
       <div className="news-list">
         <ul className="news-items">
-          {rendered.map(({ item, html }) => (
-            <li className="news-item" key={`${item.date}-${item.slug ?? item.title ?? item.body}`}>
-              <div className="news-meta">
-                <span className="news-date">{formatDate(item.date)}</span>
-                {item.category && (
-                  <span className={`news-badge ${badgeClass(item.category)}`}>{item.category}</span>
-                )}
-              </div>
-              <div className="news-body">
-                <div className="news-content" dangerouslySetInnerHTML={{ __html: html }} />
-              </div>
-            </li>
-          ))}
+          {rendered.map(({ item, html }) => {
+            // A titled link — either to a /news/ detail page (detailSlug)
+            // or elsewhere on the site (link) — renders as the original's
+            // <a class="news-title">; anything else is prose from Markdown.
+            const href = item.detailSlug ? `/news/${item.detailSlug}/` : item.link;
+            return (
+              <li
+                className="news-item"
+                key={`${item.date}-${item.detailSlug ?? item.link ?? item.title ?? item.body}`}
+              >
+                <div className="news-meta">
+                  <span className="news-date">{formatDate(item.date)}</span>
+                  {item.category && (
+                    <span className={`news-badge ${badgeClass(item.category)}`}>{item.category}</span>
+                  )}
+                </div>
+                <div className="news-body">
+                  <div className="news-content">
+                    {href && item.title ? (
+                      <a className="news-title" href={href}>
+                        {item.title}
+                      </a>
+                    ) : (
+                      <div dangerouslySetInnerHTML={{ __html: html }} />
+                    )}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

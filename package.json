@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "snapshot": "node scripts/snapshot-site.mjs",
     "import:content": "node scripts/import/publications.mjs && node scripts/import/news.mjs && node scripts/import/director.mjs && node scripts/import/funders.mjs",
-    "content:check": "tsx --conditions=react-server scripts/check-content.mts"
+    "content:check": "tsx --conditions=react-server scripts/check-content.mts",
+    "compare": "node scripts/compare.mjs"
   },
   "dependencies": {
     "@retorquere/bibtex-parser": "^13.0.2",
@@ -40,6 +41,7 @@
     "cheerio": "^1.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "playwright": "^1.64.1",
     "tsx": "^4.23.15",
     "turndown": "^7.2.4",
     "typescript": "^5"

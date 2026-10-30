@@ -27,6 +27,10 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+Before finishing any step that changes UI, run `npm run compare` for the affected paths (dev server running), open the PNGs, compare original vs ours side by side, and fix the visible differences. In the Step Report, list the differences you found, which you fixed, and any you intentionally left.
+
+## Markdown content and styling
+Content rendered from Markdown carries no classes. Style it through a wrapper class with descendant selectors (e.g. `.hero-description p`). When a component needs a specific element (a title link, a badge), put that data in front matter and render the element in JSX.
 
 ## Step Report
 Every step must end with a report in this exact format:

@@ -7,8 +7,17 @@ export const newsItemSchema = z.object({
   // the original, so this isn't always present.
   category: z.string().optional(),
   title: z.string().optional(),
-  slug: z.string().optional(),
-  body: z.string(),
+  // The original's /news/YYYY/.../ path for this item's own detail page.
+  // Named distinctly from readCollection's auto-derived `slug` (our
+  // content file's own identifier) — they're different things and the
+  // generic `slug` would otherwise silently overwrite this one.
+  detailSlug: z.string().optional(),
+  // Set when the item's entire content is a single link elsewhere on the
+  // site (a talk, a teaching page) rather than a /news/ detail page —
+  // NewsList renders it as <a class="news-title">, matching the
+  // original's markup, instead of relying on Markdown body content.
+  link: z.string().optional(),
+  body: z.string().default(""),
 });
 export type NewsItem = z.infer<typeof newsItemSchema>;
 
