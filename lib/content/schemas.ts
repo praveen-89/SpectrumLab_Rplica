@@ -1,6 +1,16 @@
 import "server-only";
 import { z } from "zod";
 
+export const talkPersonSchema = z.object({
+  name: z.string(),
+  // Set when the name matches a lab member in data/coauthors.json.
+  href: z.string().optional(),
+  affiliation: z.string().optional(),
+  // An honorific ("Prof.", "Dr.") kept separate from name: the original
+  // never includes it in the link text, only the bare name.
+  prefix: z.string().optional(),
+});
+
 export const newsItemSchema = z.object({
   date: z.string(),
   // A few early items (e.g. a bare "lab init" milestone) have no badge in
@@ -17,6 +27,18 @@ export const newsItemSchema = z.object({
   // NewsList renders it as <a class="news-title">, matching the
   // original's markup, instead of relying on Markdown body content.
   link: z.string().optional(),
+  // Shown under a linked item's title (italic, fa-user-tie icon) when the
+  // linked talk has exactly one speaker — the original's template omits
+  // it for talks with a host/multiple speakers instead (e.g. the SPARC
+  // course, the eyecare symposium).
+  speaker: talkPersonSchema.optional(),
+  // The following only apply to the one item with a detailSlug: the
+  // original's "event page" template shows structured date/time/venue and
+  // Speakers/Host sections above the free-form body, same shape as a talk.
+  time: z.string().optional(),
+  venue: z.string().optional(),
+  speakers: z.array(talkPersonSchema).default([]),
+  host: talkPersonSchema.optional(),
   body: z.string().default(""),
 });
 export type NewsItem = z.infer<typeof newsItemSchema>;
@@ -79,6 +101,42 @@ export const homePageSchema = z.object({
   body: z.string(),
 });
 export type HomePage = z.infer<typeof homePageSchema>;
+
+export const talkLinksSchema = z.object({
+  slides: z.string().optional(),
+  video: z.string().optional(),
+  // Also doubles as the "Register" button's href on the one entry that has
+  // one — the original's template always labels it "Register", so there's
+  // no separate field for the button text.
+  url: z.string().optional(),
+});
+
+export const talkItemSchema = z.object({
+  title: z.string(),
+  date: z.string(),
+  time: z.string().optional(),
+  // The badge label (e.g. "Talk", "SPARC Course", "PhD Thesis Defense").
+  // A few early entries have none, and the original renders no badge at
+  // all for those rather than falling back to a default label.
+  type: z.string().optional(),
+  venue: z.string().optional(),
+  venueUrl: z.string().optional(),
+  // Plural ("Speakers") vs singular ("Speaker") is derived from the list's
+  // length; this only overrides the label text itself (e.g. "Instructors"
+  // for the one SPARC course entry).
+  speakersLabel: z.string().optional(),
+  speakers: z.array(talkPersonSchema).default([]),
+  host: talkPersonSchema.optional(),
+  keywords: z.array(z.string()).default([]),
+  abstractLabel: z.string().optional(),
+  links: talkLinksSchema.default({}),
+  // Markdown; the original's "Abstract" (or, for the one SPARC entry,
+  // "Course Description"/"Course Goals"/trailing freeform paragraph,
+  // folded together here — see CLAUDE.md's fidelity-vs-bugs rule and the
+  // Step Report's "Deviations from original").
+  body: z.string().default(""),
+});
+export type TalkItem = z.infer<typeof talkItemSchema>;
 
 export const publicationSchema = z.object({
   key: z.string(),

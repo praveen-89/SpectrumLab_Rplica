@@ -952,6 +952,15 @@ html[data-theme="dark"] .z-depth-1 {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+.news-speaker {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  font-style: italic;
+}
+.news-speaker svg {
+  margin-right: 0.25rem;
+  color: var(--global-theme-color);
+}
 /* .news-title has two rules in the original with equal specificity; the
    later one (plain text colour, not theme colour) wins, which is why a
    linked item like the "Talk by Prof. ..." entry reads as plain text.
@@ -962,9 +971,35 @@ html[data-theme="dark"] .z-depth-1 {
   color: var(--global-text-color);
   font-weight: 500;
   transition: color 150ms ease;
+  position: relative;
+}
+.news-title:hover {
+  color: var(--global-theme-color);
+}
+/* Stretches the click target to the whole row — only titled-link items
+   (the ones with .news-title) get this; plain-text items aren't links. */
+.news-title::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 .news-arrow-icon {
-  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 0.9em;
+  color: var(--global-theme-color);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 300ms ease;
+}
+.news-item:hover .news-arrow-icon {
+  opacity: 1;
+  transform: translateX(0);
 }
 .coauthor-link {
   position: relative;
@@ -1275,4 +1310,461 @@ h2.bibliography {
 .contact-icons a:hover {
   color: var(--global-theme-color);
   transform: translateY(-2px);
+}
+
+/* Shared "post" header (News list, Talks list, Publications) — clears the
+   fixed navbar when a page is opened directly rather than navigated to. */
+.post-header {
+  scroll-margin-top: calc(var(--navbar-height, 56px) + 1rem);
+}
+
+/* News detail page ("event page") — only the one item with a detailSlug
+   uses this; everything else is the News list's row layout above. Styled
+   inline per-page in the original rather than from main.css, but the
+   selectors are page-unique either way. */
+.event-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.event-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  scroll-margin-top: calc(var(--navbar-height, 56px) + 1rem);
+}
+.event-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: var(--global-theme-color);
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+.event-badge--talk {
+  background: #6366f1;
+}
+.event-badge--seminar {
+  background: #8b5cf6;
+}
+.event-badge--lecture {
+  background: #0ea5e9;
+}
+.event-badge--symposium {
+  background: #f59e0b;
+}
+.event-badge--sparc-course {
+  background: #10b981;
+}
+.event-badge--phd-defense,
+.event-badge--phd-colloquium {
+  background: #ec4899;
+}
+.event-badge--short-course {
+  background: #14b8a6;
+}
+.event-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--global-text-color);
+}
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.event-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--global-text-color-light);
+  font-size: 0.95rem;
+}
+.event-meta-item svg {
+  color: var(--global-theme-color);
+}
+.event-section {
+  margin-bottom: 2rem;
+}
+.event-section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--global-text-color);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.event-section h2 svg {
+  color: var(--global-theme-color);
+  font-size: 0.9rem;
+}
+.event-speakers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.event-speakers-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+.event-speakers-list li:last-child {
+  border-bottom: none;
+}
+.event-content {
+  line-height: 1.7;
+}
+@media (max-width: 576px) {
+  .event-meta {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .event-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Talks list pages — assets/css/main.css: .talks-list-page,
+   .talks-year-section, .year-header, .talks-grid, .talk-card,
+   .talk-type-badge, .keyword-tag, .talk-venue, .talk-arrow-icon. */
+.talks-list-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.talks-year-section {
+  margin-bottom: 3rem;
+}
+.year-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--global-theme-color);
+  border-bottom: 2px solid var(--global-theme-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  scroll-margin-top: calc(var(--navbar-height, 56px) + 1rem);
+}
+.talks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+.talk-card {
+  background: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 200ms ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.talk-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+.talk-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.talk-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+.talk-card-title a {
+  color: var(--global-text-color);
+  text-decoration: none;
+}
+.talk-card-title a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.talk-card-title a:hover {
+  color: var(--global-theme-color);
+}
+.talk-card-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--global-divider-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.talk-arrow-icon {
+  font-size: 0.9em;
+  color: var(--global-theme-color);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 300ms ease;
+}
+.talk-card:hover .talk-arrow-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+.talk-type-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--global-theme-color);
+}
+.talk-type-badge--talk,
+.talk-badge--talk {
+  background: #6366f1;
+}
+.talk-type-badge--seminar,
+.talk-badge--seminar {
+  background: #8b5cf6;
+}
+.talk-type-badge--lecture,
+.talk-badge--lecture {
+  background: #0ea5e9;
+}
+.talk-type-badge--symposium,
+.talk-badge--symposium {
+  background: #f59e0b;
+}
+.talk-type-badge--sparc-course,
+.talk-badge--sparc-course,
+.talk-badge--course {
+  background: #10b981;
+}
+.talk-type-badge--phd-thesis-defense,
+.talk-badge--phd-defense,
+.talk-badge--phd-thesis-defense {
+  background: #ec4899;
+}
+.talk-type-badge--phd-thesis-colloquium,
+.talk-badge--phd-colloquium,
+.talk-badge--phd-thesis-colloquium {
+  background: #f472b6;
+}
+.talk-type-badge--workshop,
+.talk-badge--workshop {
+  background: #14b8a6;
+}
+.talk-type-badge--tutorial,
+.talk-badge--tutorial {
+  background: #06b6d4;
+}
+.talk-type-badge--keynote,
+.talk-badge--keynote {
+  background: #ef4444;
+}
+.talk-type-badge--conference {
+  background: #8b5cf6;
+}
+.talk-type-badge--winter-school {
+  background: #10b981;
+}
+.talk-type-badge--special-session {
+  background: #f472b6;
+}
+.talk-type-badge--invited-talk {
+  background: #6366f1;
+}
+.talk-date {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+}
+.talk-speaker,
+.talk-host {
+  font-size: 0.9rem;
+  color: var(--global-text-color);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.talk-speaker svg,
+.talk-host svg {
+  color: var(--global-theme-color);
+  margin-top: 0.15rem;
+}
+.talk-host {
+  color: var(--global-text-color-light);
+}
+.speaker-affiliation {
+  color: var(--global-text-color-light);
+  font-size: 0.85rem;
+}
+.speaker-affiliation::before {
+  content: "—";
+  margin: 0 0.3rem;
+}
+.talk-speaker-card .speaker-affiliation::before {
+  content: none;
+}
+.talk-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  flex-grow: 1;
+}
+.keyword-tag {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--global-bg-color-secondary, rgba(0, 0, 0, 0.05));
+  border-radius: 4px;
+  color: var(--global-text-color-light);
+}
+.talk-venue {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+}
+.talk-venue svg {
+  color: var(--global-theme-color);
+  margin-right: 0.3rem;
+}
+/* The title link's ::after overlay (below) stretches over the whole card
+   so the card is clickable anywhere; without this, it also sits on top of
+   the venue link and swallows clicks meant for it — a real bug in the
+   original (its event.stopPropagation() doesn't fix a z-index/hit-testing
+   problem), reproduced as the working version per CLAUDE.md's
+   fidelity-vs-bugs rule. */
+.talk-venue a {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 576px) {
+  .talks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Talk detail page — assets/css/main.css: .talk-page, .talk-header,
+   .talk-badge, .talk-title, .talk-meta, .talk-section, .talk-speaker-card,
+   .talk-speakers-list, .talk-abstract, .talk-footer. */
+.talk-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.talk-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  scroll-margin-top: calc(var(--navbar-height, 56px) + 1rem);
+}
+.talk-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: var(--global-theme-color);
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+.talk-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--global-text-color);
+}
+.talk-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+.talk-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--global-text-color-light);
+  font-size: 0.95rem;
+}
+.talk-meta-item svg {
+  color: var(--global-theme-color);
+}
+.talk-page .talk-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  flex-grow: 0;
+}
+.talk-keyword {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--global-bg-color-secondary, rgba(0, 0, 0, 0.05));
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+}
+.talk-section {
+  margin-bottom: 2rem;
+}
+.talk-section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--global-text-color);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.talk-section h2 svg {
+  color: var(--global-theme-color);
+  font-size: 0.9rem;
+}
+.talk-speaker-card {
+  padding: 1rem;
+  background: var(--global-bg-color-secondary, rgba(0, 0, 0, 0.02));
+  border-radius: 8px;
+  border-left: 3px solid var(--global-theme-color);
+}
+.talk-speakers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.talk-speakers-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+.talk-speakers-list li:last-child {
+  border-bottom: none;
+}
+.talk-abstract {
+  padding: 1.5rem;
+  background: var(--global-bg-color-secondary, rgba(0, 0, 0, 0.02));
+  border-radius: 8px;
+  line-height: 1.7;
+}
+.talk-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--global-divider-color);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 576px) {
+  .talk-meta {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .talk-title {
+    font-size: 1.5rem;
+  }
 }

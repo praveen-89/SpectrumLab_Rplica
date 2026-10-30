@@ -5,6 +5,7 @@
 import { readCollection } from "../lib/content/collection";
 import { readData } from "../lib/content/data";
 import { readPublications } from "../lib/content/publications";
+import { readTalks } from "../lib/content/talks";
 import { newsItemSchema, personSchema, funderSchema } from "../lib/content/schemas";
 
 async function run() {
@@ -19,6 +20,12 @@ async function run() {
 
   const publications = await readPublications();
   console.log(`publications: ${publications.length} items`);
+
+  const talksOrganized = await readTalks("organized");
+  console.log(`talks/organized: ${talksOrganized.length} items`);
+
+  const talksDelivered = await readTalks("delivered");
+  console.log(`talks/delivered: ${talksDelivered.length} items`);
 }
 
 run().catch((error) => {

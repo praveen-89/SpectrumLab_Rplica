@@ -1,5 +1,6 @@
 import type { NewsItem } from "@/lib/content/schemas";
 import { renderMarkdown } from "@/lib/content/markdown";
+import { ArrowRightIcon, UserTieIcon } from "./icons";
 
 function formatDate(isoDate: string): string {
   const [year, month, day] = isoDate.split("-").map(Number);
@@ -49,6 +50,20 @@ export default async function NewsList({ items }: { items: NewsItem[] }) {
                       <div dangerouslySetInnerHTML={{ __html: html }} />
                     )}
                   </div>
+                  {item.speaker && (
+                    <div className="news-speaker">
+                      <UserTieIcon size={12} />
+                      {item.speaker.prefix && `${item.speaker.prefix} `}
+                      {item.speaker.href ? (
+                        <a href={item.speaker.href} className="coauthor-link">
+                          {item.speaker.name}
+                        </a>
+                      ) : (
+                        item.speaker.name
+                      )}
+                    </div>
+                  )}
+                  <ArrowRightIcon className="news-arrow-icon" />
                 </div>
               </li>
             );

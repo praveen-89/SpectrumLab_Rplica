@@ -1,0 +1,34 @@
+---
+title: "Neuromorphic Sampling — Reconstruction Techniques and Imaging Applications"
+date: "2025-12-24"
+time: "2:00 PM"
+type: "PhD Thesis Colloquium"
+venue: "Multimedia Classroom (MMCR), EE Department, IISc"
+speakersLabel: "Candidate"
+speakers: [{"name":"Abijith Jagannath Kamath","href":"/people/alumni/phd-graduates/2025/abijith_kamath/","affiliation":"Supervisor: Prof. Chandra Sekhar Seelamantula","prefix":"Mr."}]
+keywords: ["neuromorphic sampling","event-based sensing","time encoding","finite rate of innovation","computational imaging","high dynamic range","signal reconstruction","deep learning","ultrasound imaging","radar imaging","event cameras"]
+abstractLabel: "Abstract"
+---
+Modern imaging systems are built around the Shannon–Nyquist sampling theorem. While this framework is mature and has seen decades of hardware development, it is agnostic to the structure of several computational imaging problems. Many real-world signals are not bandlimited, and uniform sampling imposes high sampling rates and in turn, increased processing overhead. Moreover, classical uniform-sampling pipelines face inherent limitations in achievable resolution, dynamic range, and acquisition speed, which increasingly constrain modern high-resolution and high-throughput imaging systems.
+
+This thesis introduces the neuromorphic sampling framework as a hardware–algorithm co-design approach. At the core of this framework is the neuromorphic encoder, which is a deviation from Shannon’s uniform sampling scheme and instead acquires information in the form of asynchronous events, primarily encoding temporal measurements. This event-based acquisition fundamentally alters the sensing pipeline and enables substantial reductions in data rates and power requirements. To fully exploit this modality, the thesis develops theoretical foundations and reconstruction algorithms for signal recovery from events, enabling imaging performance that surpasses conventional limits in resolution, sampling efficiency, and dynamic range.
+
+The contributions are organised into three parts.
+
+**Part I: Time-Based Sampling**
+
+We first establish connections between neuromorphic sampling and time-based sampling schemes inspired by neural encoding. Focusing on signals with a finite rate of innovation (FRI), we derive sufficient conditions for perfect reconstruction from time-encoded measurements and develop efficient Fourier-domain reconstruction algorithms. We then introduce the neuromorphic encoder for event-based signal representation and study reconstruction of FRI signals from events. These ideas are validated on super-resolution ultrasound imaging for nondestructive evaluation, where we demonstrate imaging at 2.5× below the conventional resolution limit while achieving nearly a ten-fold reduction in sampling requirement. Unifying these ideas, we propose DeepFRI, a plug-and-play deep-learning framework that enables robust reconstruction of FRI signals from generalized measurements, including events, achieving state-of-the-art performance in noisy settings while retaining perfect reconstruction guarantees in the noiseless case.
+
+**Part II: Event-Driven Imaging**
+
+The framework is then extended to non-sparse and compressible signals. We analyse neuromorphic sampling of signals in bounded orthogonal systems, such as periodic bandlimited signals, and provide conditions for perfect and stable reconstruction using sparsity-driven methods in suitable analysis domains. These theoretical insights are leveraged to develop an event-driven near-field radar imaging system, which achieves high-quality imaging using only about ten percent of the measurements required by conventional uniform sampling approaches. Next, we formulate reconstruction from events as a continuous-domain approximation problem solved in spline spaces using analysis-sparse regularization with theoretical stability guarantees. In combination with event cameras, this leads to PixSR, a model-based method for high-speed video intensity reconstruction from event data that achieves state-of-the-art performance.
+
+**Part III: High-Dynamic-Range Imaging**
+
+Finally, we introduce the neuromorphic unlimited sampling framework for high-dynamic-range (HDR) acquisition. The neuromorphic encoder simultaneously folds signals into a limited dynamic range and encodes overflow information via events, enabling perfect reconstruction of signals in shift-invariant spaces without the need for oversampling by the ADC. This effectively trades dynamic range for opportunistic sampling and establishes a new paradigm for HDR acquisition. Building on this principle, we propose InDAVIS, an event-driven pixel architecture for single-exposure HDR video, and demonstrate perfect reconstruction of HDR videos from combined frame-based and event-based measurements. In noisy settings, HDR reconstruction is posed as a linear inverse problem and solved using regularisation-by-denoising, yielding robust performance under practical conditions.
+
+In summary, this thesis develops a unified computational sensing framework centered on neuromorphic acquisition. Across different signal classes and imaging modalities, it demonstrates new sensing paradigms paired with reconstruction algorithms to overcome fundamental limits of conventional imaging systems.
+
+**About the Candidate**
+
+[Abijith Jagannath Kamath](/people/alumni/phd-graduates/2025/abijith_kamath/) received the B.Tech. degree from the Department of Electrical and Electronics Engineering, National Institute of Technology Karnataka, Surathkal, India, in 2019. He is currently working towards the Ph.D. degree at the Department of Electrical Engineering (EE), Indian Institute of Science (IISc). In 2019, he worked as Project Associate at the Spectrum Lab, EE, IISc. His research interests include sampling theories, optimisation, and machine learning for computational sensing and imaging. He is a recipient of the Prime Minister’s Research Fellowship from 2020 to 2024, the Outstanding Teaching Assistant Award from EE, IISc, in 2024, and the Qualcomm Innovation Fellowship India, in 2025.
