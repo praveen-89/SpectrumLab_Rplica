@@ -2,7 +2,7 @@
 title: "Mathematics of Bigdata Analytics"
 section: "short"
 term: "Dec. 2025 - Feb. 2026"
-description: "A comprehensive short course series on the mathematical foundations of big data analytics"
+description: "A comprehensive short course series on the mathematical foundations of big data analytics, covering dimension reduction, concentration inequalities, randomized linear algebra, and inverse problems."
 instructor: {"name":"Prof. S. Lakshmivarahan"}
 host: "Prof. C. S. Seelamantula, Prof. P. S. Sastry"
 schedule: [{"label":"Date & Time","value":"Tuesdays and Thursdays; 3:30 PM to 5:00 PM"},{"label":"Classroom","value":"Room B303, EE Department, IISc"},{"label":"Duration","value":"December 2025 - February 2026"}]

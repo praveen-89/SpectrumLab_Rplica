@@ -18,6 +18,16 @@ the bug):
   correct h1→h2→h3→h4 hierarchy site-wide, with explicit font-size overrides
   anywhere the retagged element had no class-driven size, to keep the
   original's visual sizing unchanged.
+- The original creates a dedicated "✕" close button inside its mobile nav
+  drawer, then hides it with `display:none!important` — dead code; the
+  original's actual working close control is its hamburger toggler, which
+  stays visible and re-clickable (its own JS toggles the drawer on repeat
+  clicks). Ours reproduces that working behaviour: the toggler opens and
+  closes the drawer, kept above it by raising `#navbar`'s z-index past the
+  offcanvas panel's, rather than copying the dead close button.
+- Gallery videos: several of the original's YouTube thumbnails are dead/
+  expired, showing a generic grey play-button placeholder; ours shows the
+  real captured thumbnail for the same videos.
 Reproduced originals bugs (kept the broken behaviour, since it's harmless and
 faithfully matches the original):
 - Talk cards: the title link's full-card overlay sits above the venue link
@@ -30,12 +40,14 @@ Approximated / not derivable from the original:
   within a year isn't derivable from the rendered page.
 Scope reductions for this rebuild:
 - Publications page's live bibtex text-search box (`bibsearch.js` in the
-  original) was not built; out of scope.
+  original) was not built; out of scope. The type dropdown and year
+  pagination filters are implemented.
 - Gallery photos are a plain CSS grid + native `<dialog>` lightbox, not the
   original's per-event Swiper carousels.
-- Articles list/detail pages are new pages not present in the original,
-  added for symmetry with the rest of the site and kept visually consistent
-  with it.
+- Articles list/detail pages are new pages not present in the original (the
+  original 404s and redirects home for both `/articles/` and any article
+  slug), added for symmetry with the rest of the site and kept visually
+  consistent with it.
 Platform substitutions:
 - SF Pro (Typekit-only in the original) is not available to this rebuild;
   falls back to the system font stack (-apple-system/BlinkMacSystemFont
