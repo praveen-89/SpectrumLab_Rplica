@@ -3,8 +3,10 @@
 import { useEffect, type RefObject, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Command } from "cmdk";
+import { Command, useCommandState } from "cmdk";
 import type { SearchItem, SearchSection } from "@/lib/search";
+import { fuzzyMatch } from "@/lib/fuzzy-match";
+import { ReturnKeyIcon, ArrowDownIcon, ArrowUpIcon, BackspaceIcon } from "./icons";
 
 // Matches the order sections appear in the original's ninja-keys data
 // array: Navigation and Dropdown items are interleaved there by nav
@@ -100,6 +102,7 @@ export default function SearchDialog({
       label="Search"
       className="search-dialog"
       shouldFilter
+      filter={(value, search) => (fuzzyMatch(value, search) ? 1 : 0)}
     >
       <div className="search-dialog-input-wrapper">
         <Command.Input placeholder="Type to start searching" autoFocus />
@@ -110,21 +113,61 @@ export default function SearchDialog({
         {groups.map(({ section, items: sectionItems }) => (
           <Command.Group key={section} heading={section}>
             {sectionItems.map((item) => (
-              <Command.Item
-                key={item.id}
-                value={`${item.title} ${item.description ?? ""}`}
-                onSelect={() => handleSelect(item)}
-              >
-                <span className="search-item-main">
-                  <span className="search-item-title">{item.title}</span>
-                  {item.description && <span className="search-item-description">{item.description}</span>}
+              <Command.Item key={item.id} value={item.title} onSelect={() => handleSelect(item)}>
+                <span className="search-item-title">
+                  <HighlightedText text={item.title} />
                 </span>
-                <span className="search-item-section">{item.section}</span>
               </Command.Item>
             ))}
           </Command.Group>
         ))}
       </Command.List>
+      <div className="search-footer">
+        <span className="search-footer-hint">
+          <ReturnKeyIcon size={14} />
+          to select
+        </span>
+        <span className="search-footer-hint">
+          <ArrowDownIcon size={14} />
+          <ArrowUpIcon size={14} />
+          to navigate
+        </span>
+        <span className="search-footer-hint">
+          <span className="search-footer-key">esc</span>
+          to close
+        </span>
+        <span className="search-footer-hint">
+          <BackspaceIcon size={14} />
+          move to parent
+        </span>
+      </div>
     </Command.Dialog>
+  );
+}
+
+// The original highlights each fuzzy-matched character of the current
+// query within a result's title (not a plain substring highlight) —
+// reads the live search string from cmdk's own state so it re-renders as
+// the user types, same as every other cmdk-aware descendant.
+function HighlightedText({ text }: { text: string }) {
+  const search = useCommandState((state) => state.search);
+  if (!search) return <>{text}</>;
+
+  const indices = fuzzyMatch(text, search);
+  if (!indices) return <>{text}</>;
+
+  const matched = new Set(indices);
+  return (
+    <>
+      {[...text].map((char, index) =>
+        matched.has(index) ? (
+          <span className="search-highlight" key={index}>
+            {char}
+          </span>
+        ) : (
+          char
+        ),
+      )}
+    </>
   );
 }
