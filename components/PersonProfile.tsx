@@ -1,7 +1,13 @@
 import Image from "next/image";
 import type { PersonWithSlug } from "@/lib/content/people";
+import { readPeople } from "@/lib/content/people";
 import { renderMarkdown } from "@/lib/content/markdown";
+import { readPublications, buildPublicationViews } from "@/lib/content/publications";
+import { readCoauthors } from "@/lib/content/coauthors";
+import { getPublicationsForPerson, groupByYear } from "@/lib/publications-view";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, OrcidIcon, TwitterIcon } from "./icons";
+import CollapsibleSection from "./CollapsibleSection";
+import PublicationEntry from "./PublicationEntry";
 
 export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }) {
   const links = person.links ?? {};
@@ -100,6 +106,48 @@ export async function BiographyCard({ person }: { person: PersonWithSlug }) {
   );
 }
 
+async function PersonPublications({ person }: { person: PersonWithSlug }) {
+  const [people, publications, coauthors] = await Promise.all([readPeople(), readPublications(), readCoauthors()]);
+  const director = people.find((p) => p.group === "lab-director");
+  const directorHref = director ? `/people/${director.slug}/` : undefined;
+
+  const personHref = `/people/${person.slug}/`;
+  const personPublications = getPublicationsForPerson(publications, coauthors, personHref);
+  const views = await buildPublicationViews(personPublications, coauthors, directorHref);
+  const byYear = [...groupByYear(views, (view) => view.publication).entries()].sort((a, b) => b[0] - a[0]);
+
+  return (
+    <CollapsibleSection title="Publications">
+      {byYear.map(([year, yearViews]) => (
+        <div key={year}>
+          <h2 className="bibliography">{year}</h2>
+          <ol className="bibliography">
+            {yearViews.map(({ publication, authors, abstractHtml }) => (
+              <PublicationEntry
+                key={publication.key}
+                entryKey={publication.key}
+                abbr={publication.abbr}
+                title={publication.title}
+                authors={authors}
+                venue={publication.venue}
+                year={publication.year}
+                month={publication.month}
+                doi={publication.doi}
+                url={publication.url}
+                code={publication.code}
+                articlePage={publication.articlePage}
+                pdf={publication.pdf}
+                abstractHtml={abstractHtml}
+                bibtex={publication.bibtex}
+              />
+            ))}
+          </ol>
+        </div>
+      ))}
+    </CollapsibleSection>
+  );
+}
+
 export default async function PersonProfile({ person }: { person: PersonWithSlug }) {
   return (
     <div className="container my-5">
@@ -107,6 +155,7 @@ export default async function PersonProfile({ person }: { person: PersonWithSlug
         <PersonPhotoAndLinks person={person} />
         <div className="col-md-8">
           <BiographyCard person={person} />
+          <PersonPublications person={person} />
         </div>
       </div>
     </div>

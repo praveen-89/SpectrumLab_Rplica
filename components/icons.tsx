@@ -132,6 +132,14 @@ export function ChevronLeftIcon(props: IconProps) {
   );
 }
 
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M12 16.5a1 1 0 01-.7-.3l-6-6a1 1 0 011.4-1.4L12 14.1l5.3-5.3a1 1 0 011.4 1.4l-6 6a1 1 0 01-.7.3z" />
+    </Svg>
+  );
+}
+
 export function ChevronRightIcon(props: IconProps) {
   return (
     <Svg {...props} viewBox="0 0 320 512">

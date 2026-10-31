@@ -31,6 +31,21 @@ export function getAvailableYears(publications: Publication[]): number[] {
   return Array.from(new Set(publications.map((p) => p.year))).sort((a, b) => b - a);
 }
 
+/** Every publication a person (co-)authored, matched via the same coauthors.json name-variant map used to link author names elsewhere — for a person's profile page's own "Publications" section. */
+export function getPublicationsForPerson(
+  publications: Publication[],
+  coauthors: Record<string, string>,
+  personHref: string,
+): Publication[] {
+  const nameVariants = new Set(
+    Object.entries(coauthors)
+      .filter(([, href]) => href === personHref)
+      .map(([name]) => name),
+  );
+  if (nameVariants.size === 0) return [];
+  return publications.filter((publication) => publication.authors.some((author) => nameVariants.has(author)));
+}
+
 /** Groups items by publication year. Takes a key-extractor so it works for both raw Publications and the {publication, ...} wrapper the page uses. */
 export function groupByYear<T>(items: T[], getPublication: (item: T) => Publication): Map<number, T[]> {
   const map = new Map<number, T[]>();
