@@ -18,7 +18,7 @@ export default async function GalleryPhotosPage() {
     <div className="post">
       <header className="post-header">
         <h1 className="post-title">Photos</h1>
-        <h2 className="post-description">{DESCRIPTION}</h2>
+        <p className="post-description">{DESCRIPTION}</p>
       </header>
       <article>
         <PhotoGallery events={events} />
