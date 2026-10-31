@@ -572,7 +572,12 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   position: fixed;
   inset: 0;
   background: rgba(255, 255, 255, 0.5);
-  z-index: 1031;
+  /* Above #navbar's own 1046 (raised past the offcanvas drawer — see
+     .navbar-toggler) so the overlay dims the fixed navbar too, same as
+     the original: its overlay sits above its navbar, fading the whole
+     page (confirmed directly on the live site — its logo/nav links
+     visibly wash out behind the dialog, not just the content below). */
+  z-index: 1050;
 }
 [cmdk-dialog] {
   position: fixed;
@@ -581,7 +586,7 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   transform: translateX(-50%);
   width: calc(100% - 2rem);
   max-width: 640px;
-  z-index: 1032;
+  z-index: 1051;
 }
 [cmdk-root] {
   background: var(--global-card-bg-color);
