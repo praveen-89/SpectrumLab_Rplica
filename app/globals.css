@@ -1091,18 +1091,57 @@ html[data-theme="dark"] .z-depth-1 {
 }
 
 /* Publications page controls — assets/css/main.css: .pub-controls-row,
-   .type-filter select, .year-pagination, .year-btn, #current-year-display.
-   The original's third control (a live text-search box, bibsearch.js) is
-   out of scope for this step — not built. Its flex:1 search-wrapper is what
-   pushes the other two controls apart there; without it, space-between
-   would stretch them to the row's full width instead, so this keeps them
-   grouped at the start with the same gap. */
+   .search-wrapper, .search-icon, .bibsearch-form-input, .type-filter
+   select, .year-pagination, .year-btn, #current-year-display. */
 .pub-controls-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
   margin: 1.5rem 0 2rem;
+}
+.pub-controls-row .search-wrapper {
+  flex: 1;
+  max-width: 450px;
+  margin: 0;
+}
+.pub-controls-row .year-pagination,
+.pub-controls-row .type-filter {
+  margin: 0;
+}
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-wrapper .search-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--global-text-color-light);
+  font-size: 0.95rem;
+  pointer-events: none;
+  z-index: 2;
+}
+.search-wrapper .bibsearch-form-input {
+  width: 100%;
+  max-width: 100% !important;
+  padding: 10px 16px 10px 42px !important;
+  font-size: 0.95rem;
+  border-radius: 30px !important;
+  border: 1px solid var(--global-divider-color) !important;
+  background: var(--global-card-bg-color) !important;
+  color: var(--global-text-color) !important;
+  transition: all 250ms ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+.search-wrapper .bibsearch-form-input:focus {
+  border-color: var(--global-theme-color) !important;
+  box-shadow: 0 4px 15px rgba(var(--global-theme-color-rgb), 0.12) !important;
+  outline: none !important;
+}
+.search-wrapper .bibsearch-form-input::placeholder {
+  color: var(--global-text-color-light);
+  opacity: 0.7;
 }
 .type-filter select {
   appearance: none;
@@ -1178,6 +1217,14 @@ html[data-theme="dark"] .z-depth-1 {
     flex-direction: column;
     gap: 1rem;
     margin: 1rem 0 1.5rem;
+  }
+  .pub-controls-row .search-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .pub-controls-row .year-pagination,
+  .pub-controls-row .type-filter {
+    margin: 0 auto;
   }
   /* The original has no narrow-screen rule for this at all, so the
      "< PREVIOUS … NEXT >" pill overflows the viewport by several pixels

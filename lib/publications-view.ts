@@ -52,3 +52,27 @@ export function filterByType<T>(
   if (!type) return items;
   return items.filter((item) => getPublication(item).type === type);
 }
+
+/**
+ * Case-insensitive substring match across an entry's title, authors,
+ * venue and year — the original's search box (bibsearch.js) isn't in the
+ * crawled assets to copy verbatim, so this reproduces its visible
+ * behaviour (type "Type to filter publications...", matching entries
+ * stay visible across every year) rather than its exact matching rules.
+ */
+export function matchesQuery(view: PublicationView, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  const { publication, authors } = view;
+  const haystack = [
+    publication.title,
+    publication.venue,
+    publication.abbr,
+    String(publication.year),
+    ...authors.map((author) => author.name),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  return haystack.includes(q);
+}

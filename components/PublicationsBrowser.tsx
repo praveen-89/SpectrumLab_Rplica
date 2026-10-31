@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import PublicationEntry from "./PublicationEntry";
-import { ChevronLeftIcon, ChevronRightIcon } from "./icons";
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from "./icons";
 import {
   TYPE_OPTIONS,
   getAvailableYears,
   groupByYear,
   filterByType,
+  matchesQuery,
   type PublicationType,
   type PublicationView,
 } from "@/lib/publications-view";
@@ -21,6 +22,8 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
 
   const [yearIndex, setYearIndex] = useState(0);
   const [type, setType] = useState<PublicationType>("");
+  const [query, setQuery] = useState("");
+  const isSearching = query.trim().length > 0;
 
   // Deep link: /publications/#<citekey> switches to that entry's year,
   // clears the type filter so it's not hidden, and scrolls to it. The
@@ -59,9 +62,34 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
     [byYear, currentYear, type],
   );
 
+  // Searching shows matches across every year at once (no pagination),
+  // same as the original: typing clears the current year's isolation so
+  // bibsearch.js can filter globally.
+  const searchResultsByYear = useMemo(() => {
+    if (!isSearching) return [];
+    const matched = items.filter((item) => matchesQuery(item, query));
+    const typeFiltered = filterByType(matched, type, (item) => item.publication);
+    const grouped = groupByYear(typeFiltered, (item) => item.publication);
+    return years.filter((year) => grouped.has(year)).map((year) => [year, grouped.get(year)!] as const);
+  }, [isSearching, items, query, type, years]);
+
   return (
     <>
       <div className="pub-controls-row">
+        <div className="search-wrapper">
+          <SearchIcon size={14} className="search-icon" />
+          <input
+            type="text"
+            id="bibsearch"
+            spellCheck={false}
+            autoComplete="off"
+            className="search bibsearch-form-input"
+            placeholder="Type to filter publications..."
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </div>
+
         <div className="type-filter">
           <select
             id="pub-type-filter"
@@ -77,53 +105,84 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
           </select>
         </div>
 
-        <div className="year-pagination">
-          <button
-            id="prev-year"
-            type="button"
-            className="year-btn"
-            disabled={yearIndex === years.length - 1}
-            onClick={() => setYearIndex((index) => index + 1)}
-          >
-            <ChevronLeftIcon size={14} /> Previous
-          </button>
-          <span id="current-year-display">{currentYear}</span>
-          <button
-            id="next-year"
-            type="button"
-            className="year-btn"
-            disabled={yearIndex === 0}
-            onClick={() => setYearIndex((index) => index - 1)}
-          >
-            Next <ChevronRightIcon size={14} />
-          </button>
-        </div>
+        {!isSearching && (
+          <div className="year-pagination">
+            <button
+              id="prev-year"
+              type="button"
+              className="year-btn"
+              disabled={yearIndex === years.length - 1}
+              onClick={() => setYearIndex((index) => index + 1)}
+            >
+              <ChevronLeftIcon size={14} /> Previous
+            </button>
+            <span id="current-year-display">{currentYear}</span>
+            <button
+              id="next-year"
+              type="button"
+              className="year-btn"
+              disabled={yearIndex === 0}
+              onClick={() => setYearIndex((index) => index - 1)}
+            >
+              Next <ChevronRightIcon size={14} />
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="publications">
-        <h2 className="bibliography">{currentYear}</h2>
-        <ol className="bibliography">
-          {currentYearItems.map(({ publication, authors, abstractHtml }) => (
-            <PublicationEntry
-              key={publication.key}
-              entryKey={publication.key}
-              abbr={publication.abbr}
-              title={publication.title}
-              authors={authors}
-              venue={publication.venue}
-              year={publication.year}
-              month={publication.month}
-              doi={publication.doi}
-              url={publication.url}
-              code={publication.code}
-              articlePage={publication.articlePage}
-              pdf={publication.pdf}
-              abstractHtml={abstractHtml}
-              bibtex={publication.bibtex}
-            />
-          ))}
-        </ol>
-      </div>
+      {isSearching
+        ? searchResultsByYear.map(([year, yearItems]) => (
+            <div className="publications" key={year}>
+              <h2 className="bibliography">{year}</h2>
+              <ol className="bibliography">
+                {yearItems.map(({ publication, authors, abstractHtml }) => (
+                  <PublicationEntry
+                    key={publication.key}
+                    entryKey={publication.key}
+                    abbr={publication.abbr}
+                    title={publication.title}
+                    authors={authors}
+                    venue={publication.venue}
+                    year={publication.year}
+                    month={publication.month}
+                    doi={publication.doi}
+                    url={publication.url}
+                    code={publication.code}
+                    articlePage={publication.articlePage}
+                    pdf={publication.pdf}
+                    abstractHtml={abstractHtml}
+                    bibtex={publication.bibtex}
+                  />
+                ))}
+              </ol>
+            </div>
+          ))
+        : (
+            <div className="publications">
+              <h2 className="bibliography">{currentYear}</h2>
+              <ol className="bibliography">
+                {currentYearItems.map(({ publication, authors, abstractHtml }) => (
+                  <PublicationEntry
+                    key={publication.key}
+                    entryKey={publication.key}
+                    abbr={publication.abbr}
+                    title={publication.title}
+                    authors={authors}
+                    venue={publication.venue}
+                    year={publication.year}
+                    month={publication.month}
+                    doi={publication.doi}
+                    url={publication.url}
+                    code={publication.code}
+                    articlePage={publication.articlePage}
+                    pdf={publication.pdf}
+                    abstractHtml={abstractHtml}
+                    bibtex={publication.bibtex}
+                  />
+                ))}
+              </ol>
+            </div>
+          )}
     </>
   );
 }

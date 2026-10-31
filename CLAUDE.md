@@ -44,10 +44,12 @@ Approximated / not derivable from the original:
 - People list sort order: current members by name, then alumni by year
   (newest first) and name within a year — the original's own tie-break order
   within a year isn't derivable from the rendered page.
+- Publications search box: the original's filtering logic lives in
+  `bibsearch.js`, which wasn't in the crawled assets to copy verbatim. Ours
+  reproduces the visible behaviour (typing shows matches across every year,
+  hides the pagination) with its own substring match across title, authors,
+  venue and year — not necessarily the original's exact matching rules.
 Scope reductions for this rebuild:
-- Publications page's live bibtex text-search box (`bibsearch.js` in the
-  original) was not built; out of scope. The type dropdown and year
-  pagination filters are implemented.
 - Gallery photo captions: the original embeds `<a>` links to a person's
   profile inside some captions (e.g. "Subhadip Mukherjee receiving...");
   ours renders captions as plain text, so those names aren't clickable.
