@@ -269,6 +269,33 @@ function DesktopHoverDropdown({
   children: React.ReactNode;
 }) {
   const [show, setShow] = useState(false);
+  // The toggle and the menu both sit inside this same <li>, but the menu
+  // is absolutely positioned with a margin-top gap (see #navbar
+  // .dropdown-menu) — moving the mouse in a straight line from one to the
+  // other crosses a sliver of the page that's outside both, briefly
+  // "leaving" the li and closing the menu before the cursor arrives. A
+  // short close delay (cleared if the mouse re-enters in time) bridges
+  // that gap without making the menu stay open noticeably longer.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearCloseTimer() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }
+
+  function openNow() {
+    clearCloseTimer();
+    setShow(true);
+  }
+
+  function closeSoon() {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setShow(false), 200);
+  }
+
+  useEffect(() => clearCloseTimer, []);
 
   if (!desktop) {
     return (
@@ -286,9 +313,9 @@ function DesktopHoverDropdown({
       renderMenuOnMount
       className={active ? "active" : undefined}
       show={show}
-      onToggle={(nextShow) => setShow(nextShow)}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
+      onToggle={(nextShow) => (nextShow ? openNow() : closeSoon())}
+      onMouseEnter={openNow}
+      onMouseLeave={closeSoon}
     >
       {children}
     </NavDropdown>
