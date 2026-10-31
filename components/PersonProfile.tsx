@@ -155,9 +155,9 @@ export default async function PersonProfile({ person }: { person: PersonWithSlug
         <PersonPhotoAndLinks person={person} />
         <div className="col-md-8">
           <BiographyCard person={person} />
-          <PersonPublications person={person} />
         </div>
       </div>
+      <PersonPublications person={person} />
     </div>
   );
 }
