@@ -1,6 +1,7 @@
 ---
 name: "Anshul Shivhare"
 group: "mtech-graduates"
+now: "Senior Data and Applied Scientist"
 links:
   email: "shivhareanshul78@gmail.com"
   scholar: "https://scholar.google.com/citations?user=g8Dd-EIAAAAJ"

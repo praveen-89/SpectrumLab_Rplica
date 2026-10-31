@@ -1,6 +1,7 @@
 ---
 name: "Gayathri Venkat"
 group: "mtech-graduates"
+now: "Software Designer, MathWorks"
 image: "/assets/img/people/alumni/mtech-graduates/2024/gayathri_venkat-800.webp"
 links:
   email: "gayathrivenkat64@gmail.com"

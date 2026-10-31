@@ -1,6 +1,7 @@
 ---
 name: "BanuPrasad Bathala"
 group: "mtech-graduates"
+now: "Lead Engineer at Qualcomm"
 links:
   email: "bathalaban@gmail.com"
 ---

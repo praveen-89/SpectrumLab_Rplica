@@ -1,6 +1,7 @@
 ---
 name: "Abhay Patidar"
 group: "mtech-graduates"
+now: "Applied Scientist, Amazon"
 links:
   email: "patidarabhayn1@gmail.com"
   linkedin: "https://www.linkedin.com/in/patidarabhayn1"

@@ -1,6 +1,7 @@
 ---
 name: "Harshit Dubey"
 group: "mtech-graduates"
+now: "MM Engineer, Qualcomm"
 image: "/assets/img/people/alumni/mtech-graduates/2025/harshit-dubey-800.webp"
 links:
   email: "darshitd2000@gmail.com"

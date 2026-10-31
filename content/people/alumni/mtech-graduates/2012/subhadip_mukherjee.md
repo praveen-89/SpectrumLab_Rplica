@@ -1,6 +1,8 @@
 ---
 name: "Subhadip Mukherjee"
 group: "mtech-graduates"
+now: "Assistant Professor, Department of E&ECE, IIT Kharagpur"
+badge: "🏅"
 image: "/assets/img/people/alumni/mtech-graduates/2012/subhadip-mukherjee-800.webp"
 links:
   email: "smukherjee@ece.iitkgp.ac.in"

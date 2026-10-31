@@ -4,6 +4,7 @@ import { readData } from "@/lib/content/data";
 import { peopleGroupMetaSchema } from "@/lib/content/schemas";
 import { readPeopleByGroup } from "@/lib/content/people";
 import PeopleGrid from "@/components/PeopleGrid";
+import CohortTimeline from "@/components/CohortTimeline";
 
 async function findGroupMeta(group: string) {
   const groups = await readData("people-groups.json", peopleGroupMetaSchema);
@@ -40,7 +41,7 @@ export default async function PeopleGroupPage({ params }: { params: Promise<{ gr
       </header>
       <article>
         <div className="people">
-          <PeopleGrid people={people} groupByYear={meta.group === "mtech-graduates"} />
+          {meta.group === "mtech-graduates" ? <CohortTimeline people={people} /> : <PeopleGrid people={people} />}
         </div>
       </article>
     </div>

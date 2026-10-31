@@ -1,6 +1,7 @@
 ---
 name: "Chirayata Bhattacharyya"
 group: "mtech-graduates"
+now: "Senior Engineer, Qualcomm"
 image: "/assets/img/people/alumni/mtech-graduates/2025/chirayata_bhattacharyya-800.webp"
 links:
   email: "bhattacharyya.chirayata@gmail.com"

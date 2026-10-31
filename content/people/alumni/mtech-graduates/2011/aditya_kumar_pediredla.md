@@ -1,6 +1,7 @@
 ---
 name: "Aditya Kumar Pediredla"
 group: "mtech-graduates"
+now: "Assistant Professor, Dartmouth College"
 image: "/assets/img/people/alumni/mtech-graduates/2011/adithya-k-pediredla-800.webp"
 links:
   email: "adithya.k.pediredla@gmail.com"

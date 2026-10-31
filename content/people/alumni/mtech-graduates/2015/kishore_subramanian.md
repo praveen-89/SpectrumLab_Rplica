@@ -1,6 +1,7 @@
 ---
 name: "Kishore Subramanian"
 group: "mtech-graduates"
+now: "Senior Data Scientist, Tricog Health India Pvt Ltd"
 image: "/assets/img/people/alumni/mtech-graduates/2015/kishore_subramanian-800.webp"
 links:
   email: "subramanian.kishore@gmail.com"

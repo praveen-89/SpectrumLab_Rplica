@@ -1,6 +1,7 @@
 ---
 name: "Harishwar Reddy Kasireddy"
 group: "mtech-graduates"
+now: "University of Florida (PhD Student)"
 image: "/assets/img/people/alumni/mtech-graduates/2022/harishwar_reddy_kasireddy-800.webp"
 links:
   email: "harishwarreddy98@gmail.com"

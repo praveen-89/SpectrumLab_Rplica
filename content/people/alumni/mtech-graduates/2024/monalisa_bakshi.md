@@ -1,6 +1,7 @@
 ---
 name: "Monalisa Bakshi"
 group: "mtech-graduates"
+now: "Data Scientist, Mercedes-Benz"
 image: "/assets/img/people/alumni/mtech-graduates/2024/monalisa_bakshi-800.webp"
 links:
   email: "monalisabakshi21@gmail.com"

@@ -1,6 +1,7 @@
 ---
 name: "Nishit Neema"
 group: "mtech-graduates"
+now: "Applied ML Researcher, Cerebras Systems"
 image: "/assets/img/people/alumni/mtech-graduates/2024/nishit_neema-800.webp"
 links:
   email: "nishitneema@gmail.com"

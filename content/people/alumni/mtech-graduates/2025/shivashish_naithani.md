@@ -1,6 +1,7 @@
 ---
 name: "Shivashish Naithani"
 group: "mtech-graduates"
+now: "MTS (Applied ML), Cerebras"
 links:
   email: "shivam.naithani@gmail.com"
 ---

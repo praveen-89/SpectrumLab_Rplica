@@ -1,6 +1,7 @@
 ---
 name: "Saptarshi Mandal"
 group: "mtech-graduates"
+now: "Engineer, Qualcomm"
 image: "/assets/img/people/alumni/mtech-graduates/2025/saptarshi_mandal-800.webp"
 links:
   email: "m.saptarshi30@gmail.com"

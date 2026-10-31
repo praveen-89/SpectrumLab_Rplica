@@ -1,6 +1,7 @@
 ---
 name: "Ashutosh Gupta"
 group: "mtech-graduates"
+now: "Sr. Scientist, SAC, ISRO"
 image: "/assets/img/people/alumni/mtech-graduates/2016/ashutosh_gupta-800.webp"
 links:
   email: "gupta.ashutosh.88@gmail.com"

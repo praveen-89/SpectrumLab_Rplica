@@ -1,6 +1,7 @@
 ---
 name: "Oindrila Haldar"
 group: "mtech-graduates"
+now: "Engineer, Qualcomm"
 image: "/assets/img/people/alumni/mtech-graduates/2025/oindrila_haldar-800.webp"
 links:
   email: "oindrilahaldar2000@gmail.com"

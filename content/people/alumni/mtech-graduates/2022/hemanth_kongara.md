@@ -1,6 +1,7 @@
 ---
 name: "Hemanth Kongara"
 group: "mtech-graduates"
+now: "Senior Data Scientist at Apna"
 image: "/assets/img/people/alumni/mtech-graduates/2022/hemanth_kongara-800.webp"
 links:
   email: "hemanthkongara35@gmail.com"

@@ -104,6 +104,11 @@ export const personSchema = z.object({
   order: z.number().optional(),
   // Short bio shown on the home page, distinct from the full profile body.
   summary: z.string().optional(),
+  // mtech-graduates cohort timeline only: current role/affiliation line,
+  // and a small emoji badge next to the name (e.g. an award) — both shown
+  // on /people/mtech-graduates/, nowhere else.
+  now: z.string().optional(),
+  badge: z.string().optional(),
   // Lab director only.
   awards: z.array(z.string()).default([]),
   accordion: z.array(accordionSectionSchema).default([]),

@@ -1,6 +1,7 @@
 ---
 name: "Nikhil Bisen"
 group: "mtech-graduates"
+now: "Research Scientist, Zeotap"
 image: "/assets/img/people/alumni/mtech-graduates/2024/nikhil-bisen-800.webp"
 links:
   email: "nikhilbisen1503@gmail.com"

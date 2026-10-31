@@ -1,6 +1,7 @@
 ---
 name: "Abhilash Sainathan"
 group: "mtech-graduates"
+now: "Principal Engineer, Technology Development Engineering, SanDisk"
 image: "/assets/img/people/alumni/mtech-graduates/2018/abhilash_sainathan-800.webp"
 links:
   email: "abhilash.sainathan@gmail.com"

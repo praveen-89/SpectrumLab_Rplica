@@ -17,7 +17,7 @@ export async function findPersonBySlug(slug: string): Promise<PersonWithSlug | u
 
 // A graduation/alumni year embedded in the slug ("alumni/<group>/<year>/<slug>"),
 // or undefined for a current member ("current/<group>/<slug>").
-function alumniYear(person: PersonWithSlug): number | undefined {
+export function alumniYear(person: PersonWithSlug): number | undefined {
   const segments = person.slug.split("/");
   if (segments[0] !== "alumni") return undefined;
   const year = Number(segments[2]);
