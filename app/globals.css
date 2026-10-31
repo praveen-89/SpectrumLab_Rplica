@@ -2662,7 +2662,6 @@ html[data-theme="dark"] .card {
 .album-container .event-title {
   color: var(--global-theme-color);
   font-weight: 600;
-  font-size: 1.1rem;
 }
 .album-container .event-date {
   color: var(--global-text-color-light);
