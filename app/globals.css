@@ -1882,31 +1882,26 @@ html[data-theme="dark"] .card {
    above is for the home page's director mini-card; this scoped version
    overrides it for the people grid, matching the original's own cascade. */
 .people .grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 .people .grid-item {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  flex: 1 1 300px;
-  max-width: 350px;
   height: 450px;
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
+  .people .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .people .grid-item {
-    flex: 1 1 280px;
-    max-width: 320px;
     height: 420px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .people .grid-item {
-    flex: 1 1 250px;
-    max-width: 300px;
     height: 400px;
   }
 }
@@ -1920,7 +1915,15 @@ html[data-theme="dark"] .card {
   background-color: var(--global-bg-color);
 }
 .people .card img {
+  /* Capped independently of the grid column's width — at 2 columns a
+     column is wide enough that an uncapped circle would grow past what
+     the fixed-height card has room for (image + name + icons), pushing
+     the name down into the row below instead of wrapping within the
+     card. */
   width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: block;
 }
 .people .card-title {
   text-align: center;
@@ -1959,13 +1962,10 @@ html[data-theme="dark"] .card {
 }
 @media (max-width: 576px) {
   .people .grid {
+    grid-template-columns: 1fr;
     gap: 0.75rem;
-    justify-content: center;
   }
   .people .grid-item {
-    flex: none;
-    width: 100%;
-    max-width: 320px;
     height: auto;
     min-height: 320px;
   }
