@@ -394,20 +394,47 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   background: var(--global-hover-color);
   width: 28px;
 }
-.navbar-nav .dropdown-menu {
+/* Desktop dropdown menu (Talks/People/Gallery) — assets/css/main.css:
+   `.navbar .nav-item.dropdown .dropdown-menu`. The HTML's own Bootstrap
+   `dropdown-menu-end` class (right-aligned) is overridden here with
+   `!important`, same as the original — all three dropdowns are centred
+   under their trigger, including the wide People one. Scoped to #navbar
+   (the desktop bar only) so it can't reach the mobile offcanvas drawer,
+   which already fully overrides its own `.dropdown-menu` layout below. */
+#navbar .dropdown-menu {
+  /* react-bootstrap positions this menu itself via an inline style (a
+     floating-ui placement, not Bootstrap/Popper's own), setting `inset`
+     and `transform` directly on the element — both need !important to
+     be overridden, or the inline style wins and this never centres. The
+     original has no such JS positioning at all (plain Bootstrap 5 CSS
+     dropdown); this reproduces its static, always-centred placement. */
+  position: absolute !important;
+  inset: 100% auto auto 50% !important;
+  transform: translateX(-50%) !important;
+  min-width: 180px;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
   background-color: var(--global-bg-color);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--global-divider-color);
+  border-radius: 12px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 2px 10px rgba(0, 0, 0, 0.08);
 }
-.navbar-nav .dropdown-item {
+#navbar .dropdown-item {
   color: var(--global-text-color);
+  text-align: center;
 }
-.navbar-nav .dropdown-item:hover {
-  color: var(--global-hover-color);
-  background-color: var(--global-hover-bg-color);
-}
-.navbar-nav .dropdown-menu .dropdown-item.active {
+#navbar .dropdown-item:hover,
+#navbar .dropdown-item:focus {
+  background-color: rgba(var(--global-theme-color-rgb), 0.1);
   color: var(--global-theme-color);
-  font-weight: var(--font-weight-medium);
+}
+#navbar .dropdown-menu .dropdown-item.active {
+  background-color: var(--global-theme-color);
+  color: #fff;
 }
 
 /* Desktop dropdowns open on hover, as in the original, in addition to
