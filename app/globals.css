@@ -576,13 +576,12 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
 }
 [cmdk-dialog] {
   position: fixed;
-  top: 180px;
+  top: 190px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: calc(100% - 2rem);
   max-width: 640px;
   z-index: 1032;
-  padding: 0 1rem;
 }
 [cmdk-root] {
   background: var(--global-card-bg-color);
@@ -602,7 +601,7 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   outline: none;
 }
 [cmdk-list] {
-  max-height: 400px;
+  max-height: 316px;
   overflow-y: auto;
   padding: 0;
 }
