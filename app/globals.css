@@ -437,13 +437,12 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
   color: #fff;
 }
 
-/* Desktop dropdowns open on hover, as in the original, in addition to
-   react-bootstrap's own click-to-toggle ".show" behaviour. */
-@media (min-width: 992px) {
-  .navbar-nav .dropdown:hover > .dropdown-menu {
-    display: block;
-  }
-}
+/* The original has a `.nav-item.dropdown:hover .dropdown-menu` CSS rule,
+   but it only touches opacity/visibility/transform — the menu's own
+   `display:none` (removed only by Bootstrap's JS adding `.show` on click)
+   is never overridden, so that hover rule is dead CSS and hovering never
+   actually opens the menu there either (confirmed against the live
+   original: opacity:1 but display:none while hovering). Click/tap only. */
 
 /* Mobile off-canvas drawer (<992px) — react-bootstrap Offcanvas instead
    of the original's hand-rolled drawer-open/overlay JS, restyled to match:
