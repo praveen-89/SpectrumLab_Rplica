@@ -127,6 +127,17 @@ body.fixed-top-nav {
   padding-top: var(--navbar-height, 56px);
 }
 
+/* cmdk's Command.Dialog is built on Radix Dialog, which injects a global
+   body[data-scroll-locked] rule that zeroes out padding-top to counter
+   scroll-lock side effects. That rule has the same specificity as the
+   one above and loads after ours, so it wins while the search dialog is
+   open — collapsing the navbar offset and yanking the whole page up by
+   the navbar's height. The original has no such shift. A selector with
+   one more class/attribute than Radix's own beats it outright. */
+body.fixed-top-nav[data-scroll-locked] {
+  padding-top: var(--navbar-height, 56px);
+}
+
 h1,
 h2,
 h3,

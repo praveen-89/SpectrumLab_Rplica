@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type RefObject, useState } from "react";
+import { useEffect, useRef, type RefObject, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Command, useCommandState } from "cmdk";
@@ -39,8 +39,18 @@ export default function SearchDialog({
   restoreFocusRef: RefObject<HTMLElement | null>;
 }) {
   const [items, setItems] = useState<SearchItem[] | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { setTheme } = useTheme();
+
+  useEffect(() => {
+    // autoFocus on Command.Input triggers the browser's default
+    // focus-scroll behaviour, which can misjudge the position:fixed
+    // dialog as off-screen and scroll the whole page — the original's
+    // ninja-keys widget never does this, the page stays put. Focusing
+    // manually with preventScroll avoids it.
+    if (open) inputRef.current?.focus({ preventScroll: true });
+  }, [open]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -105,7 +115,7 @@ export default function SearchDialog({
       filter={(value, search) => (fuzzyMatch(value, search) ? 1 : 0)}
     >
       <div className="search-dialog-input-wrapper">
-        <Command.Input placeholder="Type to start searching" autoFocus />
+        <Command.Input ref={inputRef} placeholder="Type to start searching" />
       </div>
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
