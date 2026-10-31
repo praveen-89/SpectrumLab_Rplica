@@ -159,7 +159,7 @@ export default function Navbar() {
 
           <Nav as="ul" id="navbarNav" className="navbar-nav d-none d-lg-flex">
             {navEntries.map((entry) => (
-              <NavEntryItem key={entry.label} entry={entry} isActive={isActive} />
+              <NavEntryItem key={entry.label} entry={entry} isActive={isActive} desktop />
             ))}
             <Nav.Item as="li" className="d-none d-lg-block">
               <SearchTrigger onClick={openSearch} />
@@ -210,21 +210,17 @@ function NavEntryItem({
   entry,
   isActive,
   onNavigate,
+  desktop,
 }: {
   entry: NavEntry;
   isActive: (href: string) => boolean;
   onNavigate?: () => void;
+  desktop?: boolean;
 }) {
   if (isNavDropdown(entry)) {
     const active = entry.items.some((item) => !isNavDivider(item) && isActive(item.href));
     return (
-      <NavDropdown
-        as="li"
-        title={entry.label}
-        align="end"
-        renderMenuOnMount
-        className={active ? "active" : undefined}
-      >
+      <DesktopHoverDropdown title={entry.label} active={active} desktop={desktop}>
         {entry.items.map((item, index) =>
           isNavDivider(item) ? (
             <NavDropdown.Divider key={`divider-${index}`} />
@@ -240,7 +236,7 @@ function NavEntryItem({
             </NavDropdown.Item>
           ),
         )}
-      </NavDropdown>
+      </DesktopHoverDropdown>
     );
   }
 
@@ -252,5 +248,49 @@ function NavEntryItem({
         {active && <span className="visually-hidden">(current)</span>}
       </Nav.Link>
     </Nav.Item>
+  );
+}
+
+// Click/tap always opens the menu (react-bootstrap's own Dropdown
+// behaviour, needed for touch and keyboard users). On desktop, hovering
+// the whole nav item also opens it and leaving closes it again — unlike
+// the original, whose matching CSS rule is dead (leaves `display:none`
+// untouched), so hovering there visibly does nothing; this is a
+// deliberate improvement over that, not a reproduction of it.
+function DesktopHoverDropdown({
+  title,
+  active,
+  desktop,
+  children,
+}: {
+  title: string;
+  active: boolean;
+  desktop?: boolean;
+  children: React.ReactNode;
+}) {
+  const [show, setShow] = useState(false);
+
+  if (!desktop) {
+    return (
+      <NavDropdown as="li" title={title} align="end" renderMenuOnMount className={active ? "active" : undefined}>
+        {children}
+      </NavDropdown>
+    );
+  }
+
+  return (
+    <NavDropdown
+      as="li"
+      title={title}
+      align="end"
+      renderMenuOnMount
+      className={active ? "active" : undefined}
+      show={show}
+      onToggle={(nextShow) => setShow(nextShow)}
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      {children}
+    </NavDropdown>
   );
 }

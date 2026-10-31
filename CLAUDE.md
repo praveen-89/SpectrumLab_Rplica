@@ -40,6 +40,17 @@ faithfully matches the original):
   ever render; navigation is swipe, the pagination dots, autoplay, and
   arrow keys only. Ours reproduces that (no Navigation module/arrow UI),
   rather than adding working arrows the original never has.
+Explicit UX improvements over the original (requested, not fidelity bugs):
+- Navbar dropdowns (Talks/People/Gallery): the original's
+  `.nav-item.dropdown:hover .dropdown-menu` CSS rule is dead (it only sets
+  opacity/visibility/transform; the menu's `display:none` is never
+  touched outside its click-driven `.show` class, confirmed against the
+  live site), so hovering there visibly does nothing — click/tap is the
+  only way to open it, and once open it stays open until an outside
+  click. Ours deliberately hovers-to-open and closes on mouse-leave too
+  (on desktop only; the mobile drawer stays click-only), at the user's
+  explicit request to add this rather than reproduce the original's inert
+  hover rule.
 Approximated / not derivable from the original:
 - People list sort order: current members by name, then alumni by year
   (newest first) and name within a year — the original's own tie-break order
