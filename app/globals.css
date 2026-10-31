@@ -1896,6 +1896,20 @@ html[data-theme="dark"] .card {
   max-width: 350px;
   height: 450px;
 }
+@media (max-width: 992px) {
+  .people .grid-item {
+    flex: 1 1 280px;
+    max-width: 320px;
+    height: 420px;
+  }
+}
+@media (max-width: 768px) {
+  .people .grid-item {
+    flex: 1 1 250px;
+    max-width: 300px;
+    height: 400px;
+  }
+}
 .people .card {
   height: 100%;
   display: flex;
@@ -1910,6 +1924,7 @@ html[data-theme="dark"] .card {
 }
 .people .card-title {
   text-align: center;
+  font-size: 1.125rem;
   margin-bottom: 0.5rem;
 }
 .people .card-title a:hover {
@@ -1954,34 +1969,19 @@ html[data-theme="dark"] .card {
     height: auto;
     min-height: 320px;
   }
+  .people .card-title {
+    font-size: 1.1rem;
+  }
+  .people .card-icons {
+    gap: 0.75rem;
+  }
+  .people .card-icons a {
+    padding: 0.25rem;
+  }
 }
-
-/* People group pill nav — not in the original (see PeopleGroupNav.tsx). */
-.people-group-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1rem 0 2rem;
-}
-.people-group-pill {
-  padding: 0.4rem 1rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--global-text-color-light);
-  background: var(--global-card-bg-color);
-  border: 1px solid var(--global-divider-color);
-  text-decoration: none;
-  transition: all 200ms ease;
-}
-.people-group-pill:hover {
-  color: var(--global-theme-color);
-  border-color: var(--global-theme-color);
-}
-.people-group-pill.active {
-  color: #ffffff;
-  background: var(--global-theme-color);
-  border-color: var(--global-theme-color);
+html[data-theme="dark"] .people .card,
+html[data-theme="dark"] .people .grid-item {
+  background-color: initial;
 }
 
 /* Person profile page — assets/css/main.css: .social-icons, .social-icon,
