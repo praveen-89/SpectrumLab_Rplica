@@ -20,6 +20,14 @@ positions:
   - icon: "hands-helping"
     title: "Project Assistants"
     body: "**Target:** Candidates with a Bachelors/Masters degree having an excellent academic track record desirous of pursuing a research stint in our lab.\n\n**Projects:** We have several government funded and industry sponsored research projects and are always on the lookout for enthusiastic and efficient individuals who can deliver in a time-bound manner."
+additionalResources:
+  - label: "Entry Modes into IISc"
+    url: "https://iisc.ac.in/admissions/entry-modes-into-iisc/"
+  - label: "Centrally Funded Technical Institute (CFTI) List"
+    url: "https://iisc.ac.in/admissions/overview/centrally-funded-technical-institute-cfti/"
+  - label: "Department of Electrical Engineering, IISc"
+    url: "https://ee.iisc.ac.in/"
+readyToApply: "We encourage you to contact us if you believe you're a good fit for our research team. Send your resume to [css@iisc.ac.in](mailto:css@iisc.ac.in) and take the first step towards an exciting research journey with Spectrum Lab!"
 ---
 ## Join Our Research Team
 

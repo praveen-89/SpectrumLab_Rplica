@@ -11,6 +11,7 @@ import {
   FlaskIcon,
   BriefcaseIcon,
   HandsHelpingIcon,
+  ExternalLinkIcon,
 } from "@/components/icons";
 
 const ICONS = {
@@ -33,9 +34,10 @@ export const metadata: Metadata = {
 
 export default async function OpportunitiesPage() {
   const page = await readPage("opportunities", opportunitiesPageSchema);
-  const [bodyHtml, applicationHtml] = await Promise.all([
+  const [bodyHtml, applicationHtml, readyToApplyHtml] = await Promise.all([
     renderMarkdown(page.body),
     renderMarkdown(page.applicationProcess),
+    renderMarkdown(page.readyToApply),
   ]);
   const positionBodies = await Promise.all(page.positions.map((p) => renderMarkdown(p.body)));
 
@@ -91,6 +93,39 @@ export default async function OpportunitiesPage() {
                   </div>
                 );
               })}
+            </div>
+
+            <div className="row mt-4">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header">
+                    <h3 className="card-title-2 card-title">
+                      <ExternalLinkIcon size={14} /> Additional Resources
+                    </h3>
+                  </div>
+                  <div className="card-body">
+                    <p>For more detailed information about modes of entry to IISc, please visit:</p>
+                    <ul>
+                      {page.additionalResources.map((resource) => (
+                        <li key={resource.url}>
+                          <a href={resource.url} target="_blank" rel="external nofollow noopener">
+                            {resource.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row mt-4">
+              <div className="col-md-12">
+                <div className="alert alert-success" role="alert">
+                  <h4 className="alert-heading">🚀 Ready to Apply?</h4>
+                  <div dangerouslySetInnerHTML={{ __html: readyToApplyHtml }} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

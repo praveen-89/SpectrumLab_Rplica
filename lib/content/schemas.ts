@@ -198,11 +198,18 @@ export const opportunityPositionSchema = z.object({
   // Markdown (a short sequence of "**Label:** text" paragraphs).
   body: z.string(),
 });
+export const opportunityResourceLinkSchema = z.object({
+  label: z.string(),
+  url: z.string(),
+});
 export const opportunitiesPageSchema = z.object({
   requiredSkills: z.array(z.string()).default([]),
   // Markdown.
   applicationProcess: z.string(),
   positions: z.array(opportunityPositionSchema).default([]),
+  additionalResources: z.array(opportunityResourceLinkSchema).default([]),
+  // Markdown; the "Ready to Apply?" closing paragraph.
+  readyToApply: z.string(),
   // Markdown; the "Join Our Research Team" lead paragraph.
   body: z.string(),
 });
