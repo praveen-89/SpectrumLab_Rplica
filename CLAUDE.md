@@ -34,6 +34,12 @@ faithfully matches the original):
   and swallows clicks meant for it, matching the original (whose
   `event.stopPropagation()` doesn't actually fix the underlying
   z-index/hit-testing issue).
+- Gallery photo Swiper carousels: the original's `navigation` config points
+  `nextEl`/`prevEl` at `.swiper-button-next`/`.swiper-button-prev`, but no
+  such elements exist anywhere in its markup — dead config, so no arrows
+  ever render; navigation is swipe, the pagination dots, autoplay, and
+  arrow keys only. Ours reproduces that (no Navigation module/arrow UI),
+  rather than adding working arrows the original never has.
 Approximated / not derivable from the original:
 - People list sort order: current members by name, then alumni by year
   (newest first) and name within a year — the original's own tie-break order
@@ -42,8 +48,9 @@ Scope reductions for this rebuild:
 - Publications page's live bibtex text-search box (`bibsearch.js` in the
   original) was not built; out of scope. The type dropdown and year
   pagination filters are implemented.
-- Gallery photos are a plain CSS grid + native `<dialog>` lightbox, not the
-  original's per-event Swiper carousels.
+- Gallery photo captions: the original embeds `<a>` links to a person's
+  profile inside some captions (e.g. "Subhadip Mukherjee receiving...");
+  ours renders captions as plain text, so those names aren't clickable.
 - Articles list/detail pages are new pages not present in the original (the
   original 404s and redirects home for both `/articles/` and any article
   slug), added for symmetry with the rest of the site and kept visually

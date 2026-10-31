@@ -2646,71 +2646,196 @@ html[data-theme="dark"] .card {
   margin-bottom: 0.5rem;
 }
 
-/* Gallery photos — reimplemented as a plain CSS grid + native <dialog>
-   lightbox (not the original's per-event Swiper carousels), per this
-   step's brief. See PhotoGallery.tsx and the Step Report's
-   "Deviations from original". */
-.photo-gallery__event {
-  margin-bottom: 3rem;
+/* Gallery photos — per-event Swiper carousels, matching the original's own
+   assets/css/main.css rules (scoped under .album-container there too, so
+   .event-section/.event-header/.event-title/.event-description can reuse
+   the same class names as the unrelated News "event page" template above
+   without colliding with it). */
+.album-container .event-section {
+  margin-bottom: 4rem;
 }
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 0.75rem;
+.album-container .event-header {
+  border-bottom: 2px solid var(--global-theme-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+.album-container .event-title {
+  color: var(--global-theme-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.album-container .event-date {
+  color: var(--global-text-color-light);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.album-container .event-description {
+  color: var(--global-text-color);
+  font-style: italic;
+  margin-bottom: 0;
+}
+.album-container .album-swiper {
   margin-top: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-.photo-grid__item {
+html[data-theme="dark"] .album-container .album-swiper {
+  box-shadow: 0 4px 12px hsla(0, 0%, 100%, 0.1);
+}
+.album-container .album-swiper .swiper-pagination {
+  margin-top: 20px;
+  position: static;
+}
+.album-container .swiper-slide img {
+  transition: transform 0.3s ease;
+}
+.album-container .swiper-slide img:hover {
+  transform: scale(1.02);
+}
+.album-container .album-photo {
+  display: block;
   position: relative;
-  aspect-ratio: 1;
-  border: none;
-  padding: 0;
+  height: 400px;
+  width: 100%;
+  cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
-  cursor: pointer;
-  background: var(--global-divider-color);
+  border: none;
+  padding: 0;
+  background: none;
 }
-.photo-grid__image {
-  object-fit: cover;
-  transition: transform 250ms ease;
+.album-container .album-caption {
+  background: transparent;
+  color: var(--global-text-color);
+  padding: 1rem 0;
+  text-align: center;
 }
-.photo-grid__item:hover .photo-grid__image {
-  transform: scale(1.06);
+.album-container .album-caption h5 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--global-text-color);
+}
+@media (max-width: 768px) {
+  .album-container .album-photo {
+    height: 300px;
+    border-radius: 6px;
+  }
+  .album-container .album-caption h5 {
+    font-size: 0.95rem;
+  }
+  .album-container .event-section {
+    margin-bottom: 3rem;
+  }
+  .album-container .event-header {
+    margin-bottom: 1.5rem;
+  }
+  .album-container .album-swiper {
+    border-radius: 8px;
+  }
+}
+@media (max-width: 576px) {
+  .album-container .album-photo {
+    height: 220px;
+    border-radius: 4px;
+  }
+  .album-container .album-caption {
+    padding: 0.75rem 0;
+  }
+  .album-container .album-caption h5 {
+    font-size: 0.85rem;
+  }
+  .album-container .event-section {
+    margin-bottom: 2.5rem;
+  }
+  .album-container .event-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+  }
+  .album-container .event-title {
+    font-size: 1.1rem;
+  }
+  .album-container .event-date {
+    font-size: 0.8rem;
+  }
+  .album-container .event-description {
+    font-size: 0.9rem;
+  }
+  .album-container .album-swiper {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+@media (max-width: 400px) {
+  .album-container .album-photo {
+    height: 180px;
+  }
+}
+
+/* Gallery photo lightbox — a single shared modal (like the original's
+   #imageModal), styled with its glassmorphism (assets/css/main.css). */
+.photo-lightbox-backdrop {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .photo-lightbox {
   border: none;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 0.5rem;
+  padding: 0;
   max-width: 90vw;
-  max-height: 90vh;
-  background: var(--global-card-bg-color);
+  width: 32rem;
+  background: hsla(0, 0%, 100%, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsla(0, 0%, 100%, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   color: var(--global-text-color);
 }
+html[data-theme="dark"] .photo-lightbox {
+  background: rgba(33, 37, 41, 0.95);
+  border-color: hsla(0, 0%, 100%, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 .photo-lightbox::backdrop {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.5);
+}
+.photo-lightbox__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+.photo-lightbox__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
 }
 .photo-lightbox__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
   background: none;
   border: none;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1;
   color: var(--global-text-color);
   cursor: pointer;
+}
+html[data-theme="dark"] .photo-lightbox__close {
+  filter: invert(1);
+}
+.photo-lightbox__body {
+  padding: 1rem;
+  text-align: center;
 }
 .photo-lightbox__image {
   display: block;
   max-width: 100%;
   max-height: 75vh;
   margin: 0 auto;
-  border-radius: 6px;
 }
 .photo-lightbox__caption {
-  margin: 1rem 0 0;
-  text-align: center;
+  margin: 0.5rem 0 0;
   color: var(--global-text-color-light);
-  font-size: 0.9rem;
 }
 
 /* Articles list + detail — new pages, not in the original (see Step
