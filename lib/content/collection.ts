@@ -25,13 +25,16 @@ function slugFromPath(dir: string, filePath: string): string {
 }
 
 const cache = new Map<string, unknown[]>();
+// See lib/content/page.ts — caching is only safe for next build's single
+// pass; next dev keeps this module alive across content edits.
+const CACHE_ENABLED = process.env.NODE_ENV === "production";
 
 /** Reads and validates every Markdown file under content/<dir>. Cached per directory for the build. */
 export async function readCollection<Schema extends z.ZodType>(
   dir: string,
   schema: Schema,
 ): Promise<Array<z.infer<Schema> & { slug: string }>> {
-  const cached = cache.get(dir);
+  const cached = CACHE_ENABLED ? cache.get(dir) : undefined;
   if (cached) return cached as Array<z.infer<Schema> & { slug: string }>;
 
   const collectionDir = join(CONTENT_ROOT, dir);

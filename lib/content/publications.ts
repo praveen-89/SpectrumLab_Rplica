@@ -75,10 +75,13 @@ function toPublication(entry: Entry): Publication {
 }
 
 let cached: Publication[] | undefined;
+// See lib/content/page.ts — caching is only safe for next build's single
+// pass; next dev keeps this module alive across content edits.
+const CACHE_ENABLED = process.env.NODE_ENV === "production";
 
 /** Reads, validates and sorts (newest first) every entry in content/papers.bib. Cached for the build. */
 export async function readPublications(): Promise<Publication[]> {
-  if (cached) return cached;
+  if (CACHE_ENABLED && cached) return cached;
 
   const raw = await readFile(BIB_PATH, "utf-8");
   // "abstract" is parsed verbatim so inline LaTeX math ("$\mathbf{...}$")
