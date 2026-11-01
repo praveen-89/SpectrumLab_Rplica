@@ -103,18 +103,6 @@ export default function CohortTimeline({ people }: { people: PersonWithSlug[] })
                         <LinkedInIcon size={14} />
                       </a>
                     )}
-                    {links.website && (
-                      <a
-                        href={links.website}
-                        title="Personal Website"
-                        aria-label="Personal Website"
-                        className="alum__link"
-                        target="_blank"
-                        rel="external nofollow noopener"
-                      >
-                        <GlobeIcon size={14} />
-                      </a>
-                    )}
                     {links.twitter && (
                       <a
                         href={links.twitter}
@@ -125,6 +113,18 @@ export default function CohortTimeline({ people }: { people: PersonWithSlug[] })
                         rel="external nofollow noopener"
                       >
                         <TwitterIcon size={14} />
+                      </a>
+                    )}
+                    {links.website && (
+                      <a
+                        href={links.website}
+                        title="Personal Website"
+                        aria-label="Personal Website"
+                        className="alum__link"
+                        target="_blank"
+                        rel="external nofollow noopener"
+                      >
+                        <GlobeIcon size={14} />
                       </a>
                     )}
                   </div>

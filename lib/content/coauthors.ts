@@ -1,21 +1,10 @@
 import "server-only";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { z } from "zod";
+import { supabasePublic } from "../supabase/public";
 
-const COAUTHORS_PATH = join(process.cwd(), "data", "coauthors.json");
-
-const coauthorsSchema = z.record(z.string(), z.string());
-
-let cached: Record<string, string> | undefined;
-// See lib/content/page.ts — caching is only safe for next build's single
-// pass; next dev keeps this module alive across content edits.
-const CACHE_ENABLED = process.env.NODE_ENV === "production";
-
-/** Maps an author name variant (as it appears in papers.bib) to a /people/ profile URL. */
+/** Maps an author name variant (as it appears in papers.bib) to a /people/ profile URL — read from Supabase's coauthors table. */
 export async function readCoauthors(): Promise<Record<string, string>> {
-  if (CACHE_ENABLED && cached) return cached;
-  const raw = await readFile(COAUTHORS_PATH, "utf-8");
-  cached = coauthorsSchema.parse(JSON.parse(raw));
-  return cached;
+  const { data: rows, error } = await supabasePublic.from("coauthors").select("name_key, data");
+  if (error) throw new Error(`Failed to read coauthors from Supabase: ${error.message}`);
+
+  return Object.fromEntries(rows.map((row) => [row.name_key, (row.data as { href: string }).href]));
 }

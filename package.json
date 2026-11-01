@@ -11,10 +11,13 @@
     "snapshot": "node scripts/snapshot-site.mjs",
     "import:content": "node scripts/import/publications.mjs && node scripts/import/news.mjs && node scripts/import/director.mjs && node scripts/import/funders.mjs",
     "content:check": "tsx --conditions=react-server scripts/check-content.mts",
-    "compare": "node scripts/compare.mjs"
+    "compare": "node scripts/compare.mjs",
+    "migrate:supabase": "tsx --conditions=react-server --env-file=.env.local scripts/migrate-to-supabase.mts"
   },
   "dependencies": {
     "@retorquere/bibtex-parser": "^13.0.2",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
     "bootstrap": "^5.3.8",
     "cmdk": "^1.1.1",
     "gray-matter": "^4.0.3",

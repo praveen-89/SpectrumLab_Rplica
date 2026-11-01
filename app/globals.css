@@ -120,21 +120,15 @@ body {
    fixed value — its two-row desktop layout and one-row mobile layout are
    different heights, so a single hardcoded number can't fit both without
    either a gap on mobile or content hiding under the navbar on desktop.
-   56px is the fallback for the brief window before that JS runs. The
-   original <main class="container mt-5"> adds its own 3rem margin-top on
-   top of this; both are needed. */
-body.fixed-top-nav {
-  padding-top: var(--navbar-height, 56px);
-}
-
-/* cmdk's Command.Dialog is built on Radix Dialog, which injects a global
-   body[data-scroll-locked] rule that zeroes out padding-top to counter
-   scroll-lock side effects. That rule has the same specificity as the
-   one above and loads after ours, so it wins while the search dialog is
-   open — collapsing the navbar offset and yanking the whole page up by
-   the navbar's height. The original has no such shift. A selector with
-   one more class/attribute than Radix's own beats it outright. */
-body.fixed-top-nav[data-scroll-locked] {
+   56px is the fallback for the brief window before that JS runs.
+   Applied to the public site's own <main> (see app/(site)/layout.tsx),
+   not <body> — the admin portal shares the same <body> but has no fixed
+   navbar, so it must never inherit this offset. Living on <main> also
+   sidesteps the Radix Dialog scroll-lock conflict this used to need a
+   second override rule for: Radix's injected body[data-scroll-locked]
+   rule only resets body's own padding, which this element no longer
+   relies on. */
+.fixed-top-nav {
   padding-top: var(--navbar-height, 56px);
 }
 
@@ -2514,6 +2508,9 @@ html[data-theme="dark"] .people .grid-item {
   position: absolute;
   bottom: 12px;
   right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   background: rgba(0, 0, 0, 0.65);
   color: #ffffff;
   padding: 3px 10px;
@@ -2698,14 +2695,13 @@ html[data-theme="dark"] .people .grid-item {
   margin-bottom: 0.35rem;
 }
 .course-card__meta .meta-row svg {
-  color: var(--global-theme-color);
   flex-shrink: 0;
 }
 .course-card__arrow {
   position: absolute;
   bottom: 1rem;
   right: 1.25rem;
-  color: var(--global-theme-color);
+  color: var(--global-text-color-light);
   opacity: 0;
   transform: translateX(-6px);
   transition: all 250ms ease;

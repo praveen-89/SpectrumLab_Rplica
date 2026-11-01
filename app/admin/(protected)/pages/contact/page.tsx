@@ -1,0 +1,19 @@
+import type { Metadata } from "next";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import SingletonEditor from "@/Admin/frontend/components/SingletonEditor";
+import { updateContactPage } from "@/Admin/backend/actions/pages-actions";
+
+export const metadata: Metadata = { title: "Contact Page" };
+
+export default async function AdminContactPagePage() {
+  const supabase = await createSupabaseServerClient();
+  const { data: row, error } = await supabase.from("pages").select("data").eq("slug", "contact").single();
+  if (error) throw new Error(error.message);
+
+  return (
+    <div>
+      <h1>Contact Page</h1>
+      <SingletonEditor initialJson={JSON.stringify(row.data, null, 2)} updateAction={updateContactPage} />
+    </div>
+  );
+}

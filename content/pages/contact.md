@@ -5,11 +5,11 @@ administrator:
   email: "mmanjulashankar@gmail.com"
   phone: "+91 80 2293 2392/2376"
 address: ["C234 Department of Electrical Engineering", "Indian Institute of Science", "CV Raman Avenue, Malleshwaram", "Bengaluru 560 012"]
+collaborators: |
+  ## Potential Collaborators/Industry Partners
+
+  Please reach out by e-mail directly.
 ---
 ## Campus Location
 
 The Spectrum Lab is located in the Department of Electrical Engineering at the Indian Institute of Science (IISc), Bengaluru. Further information can be found [here](https://iisc.ac.in/), including campus maps and visitor information.
-
-## Potential Collaborators/Industry Partners
-
-Please reach out by e-mail directly.

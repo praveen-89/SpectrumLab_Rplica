@@ -32,6 +32,11 @@ export default function PersonCard({ person }: { person: PersonWithSlug }) {
               <EmailIcon size={18} />
             </a>
           )}
+          {links.orcid && (
+            <a href={links.orcid} title="ORCID" aria-label="ORCID" target="_blank" rel="external nofollow noopener">
+              <OrcidIcon size={18} />
+            </a>
+          )}
           {links.scholar && (
             <a href={links.scholar} title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="external nofollow noopener">
               <GoogleScholarIcon size={18} />
@@ -47,19 +52,14 @@ export default function PersonCard({ person }: { person: PersonWithSlug }) {
               <LinkedInIcon size={18} />
             </a>
           )}
-          {links.website && (
-            <a href={links.website} title="Personal Website" aria-label="Personal Website" target="_blank" rel="external nofollow noopener">
-              <GlobeIcon size={18} />
-            </a>
-          )}
-          {links.orcid && (
-            <a href={links.orcid} title="ORCID" aria-label="ORCID" target="_blank" rel="external nofollow noopener">
-              <OrcidIcon size={18} />
-            </a>
-          )}
           {links.twitter && (
             <a href={links.twitter} title="Twitter" aria-label="Twitter" target="_blank" rel="external nofollow noopener">
               <TwitterIcon size={18} />
+            </a>
+          )}
+          {links.website && (
+            <a href={links.website} title="Personal Website" aria-label="Personal Website" target="_blank" rel="external nofollow noopener">
+              <GlobeIcon size={18} />
             </a>
           )}
         </div>

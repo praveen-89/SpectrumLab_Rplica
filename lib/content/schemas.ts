@@ -228,9 +228,11 @@ export const contactPageSchema = z.object({
     phone: z.string().optional(),
   }),
   address: z.array(z.string()),
-  // Markdown; everything else (Campus Location intro, Potential
-  // Collaborators note).
+  // Markdown Campus Location intro, rendered above the map.
   body: z.string(),
+  // Markdown Potential Collaborators note, rendered below the map — the
+  // original's order is Campus Location -> map -> Potential Collaborators.
+  collaborators: z.string(),
 });
 export type ContactPage = z.infer<typeof contactPageSchema>;
 

@@ -12,20 +12,21 @@ import NewsList from "@/components/NewsList";
 import PublicationEntry from "@/components/PublicationEntry";
 import FundingCarousel from "@/components/FundingCarousel";
 import { GoogleScholarIcon, GitHubIcon, TwitterIcon, EmailIcon } from "@/components/icons";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
 export default async function Home() {
-  const [home, news, people, funders, publications, coauthors] = await Promise.all([
+  const [home, news, people, funders, publications, coauthors, site] = await Promise.all([
     readPage("home", homePageSchema),
     readCollection("news", newsItemSchema),
     readCollection("people", personSchema),
     readData("funders.json", funderSchema),
     readPublications(),
     readCoauthors(),
+    getSite(),
   ]);
 
   const introHtml = await renderMarkdown(home.body);

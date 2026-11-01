@@ -3,7 +3,7 @@ import { readPage } from "@/lib/content/page";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { contactPageSchema } from "@/lib/content/schemas";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, TwitterIcon } from "@/components/icons";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const page = await readPage("contact", contactPageSchema);
+  const [page, site] = await Promise.all([readPage("contact", contactPageSchema), getSite()]);
   const bodyHtml = await renderMarkdown(page.body);
+  const collaboratorsHtml = await renderMarkdown(page.collaborators);
 
   return (
     <div className="post">
@@ -30,6 +31,8 @@ export default async function ContactPage() {
           allowFullScreen
           loading="lazy"
         />
+
+        <div dangerouslySetInnerHTML={{ __html: collaboratorsHtml }} />
 
         <h3 className="contact-subheading">Administrative Assistant</h3>
         <p>

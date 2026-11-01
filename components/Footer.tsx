@@ -1,10 +1,11 @@
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/site";
 
 // The original's global footer (present on every crawled page, including
 // publications/, teaching/, funding/) is copyright + credits only — the
 // social icon row seen on the homepage lives in that page's own content,
 // not the shared layout, so it isn't reproduced here.
-export default function Footer() {
+export default async function Footer() {
+  const site = await getSite();
   const year = new Date().getFullYear();
 
   return (

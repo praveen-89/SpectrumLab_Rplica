@@ -1,120 +1,26 @@
 import "server-only";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { parse, type Entry } from "@retorquere/bibtex-parser/js";
 import { publicationSchema, type Publication } from "./schemas";
 import { renderMarkdown } from "./markdown";
+import { supabasePublic } from "../supabase/public";
 import type { PublicationView } from "../publications-view";
 
-const BIB_PATH = join(process.cwd(), "content", "papers.bib");
-
-const MONTH_NAMES = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-// BibTeX's predefined month macros (bare "apr" etc., no braces/quotes) are
-// expanded by this parser to the plain cardinal number ("4"), not the
-// name — so the loader normalizes to a 3-letter name ("Apr") for display,
-// accepting either form as input (numeric or already-named).
-function formatMonth(month: string | undefined): string | undefined {
-  if (!month) return undefined;
-  const trimmed = month.trim();
-  const asNumber = Number(trimmed);
-  if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 12) {
-    return MONTH_NAMES[asNumber - 1];
-  }
-  const index = MONTH_NAMES.findIndex((name) => name.toLowerCase() === trimmed.slice(0, 3).toLowerCase());
-  return index >= 0 ? MONTH_NAMES[index] : trimmed;
-}
-
-// "firstName lastName" order matches the "S. Mandal" / "C. S. Seelamantula"
-// name-variant keys in data/coauthors.json, built from the same source page.
-function formatAuthors(entry: Entry): string[] {
-  const authors = entry.fields.author;
-  if (!authors) return [];
-  return authors.map(
-    (author) => author.name ?? [author.firstName, author.lastName].filter(Boolean).join(" "),
-  );
-}
-
-function field(entry: Entry, name: string): string | undefined {
-  const value = entry.fields[name];
-  return typeof value === "string" ? value : undefined;
-}
-
-function toPublication(entry: Entry): Publication {
-  const year = Number(field(entry, "year"));
-  return publicationSchema.parse({
-    key: entry.key,
-    type: entry.type,
-    year: Number.isFinite(year) ? year : 0,
-    month: formatMonth(field(entry, "month")),
-    title: field(entry, "title") ?? "",
-    authors: formatAuthors(entry),
-    venue: field(entry, "booktitle") ?? field(entry, "journal") ?? field(entry, "publisher"),
-    abbr: field(entry, "abbr"),
-    abstract: field(entry, "abstract"),
-    doi: field(entry, "doi"),
-    url: field(entry, "url") ?? field(entry, "html"),
-    code: field(entry, "code"),
-    articlePage: field(entry, "article_page"),
-    pdf: field(entry, "pdf"),
-    bibtex: entry.input,
-  });
-}
-
-let cached: Publication[] | undefined;
-// See lib/content/page.ts — caching is only safe for next build's single
-// pass; next dev keeps this module alive across content edits.
-const CACHE_ENABLED = process.env.NODE_ENV === "production";
-
-/** Reads, validates and sorts (newest first) every entry in content/papers.bib. Cached for the build. */
+/** Reads and validates every publication from Supabase, newest year first — the admin-managed equivalent of the old content/papers.bib. */
 export async function readPublications(): Promise<Publication[]> {
-  if (CACHE_ENABLED && cached) return cached;
+  const { data: rows, error } = await supabasePublic
+    .from("publications")
+    .select("data")
+    .order("year", { ascending: false })
+    .order("bib_order", { ascending: true });
+  if (error) throw new Error(`Failed to read publications from Supabase: ${error.message}`);
 
-  const raw = await readFile(BIB_PATH, "utf-8");
-  // "abstract" is parsed verbatim so inline LaTeX math ("$\mathbf{...}$")
-  // survives intact for our own markdown + KaTeX pipeline, instead of
-  // being normalized/stripped like author and title text should be.
-  // sentenceCase: false keeps titles/venues exactly as written in the
-  // source BibTeX ("Velocity Adaptation for Flow-Matching Models"), rather
-  // than the parser's default heuristic re-casing to sentence case.
-  const { entries, errors } = parse(raw, {
-    verbatimFields: ["abstract"],
-    sentenceCase: false,
+  return rows.map((row) => {
+    const result = publicationSchema.safeParse(row.data);
+    if (!result.success) {
+      const [issue] = result.error.issues;
+      throw new Error(`Invalid publication data: ${issue.path.join(".")} — ${issue.message}`);
+    }
+    return result.data;
   });
-  // Per the parser's own docs, these are recoverable diagnostics (e.g. an
-  // unrecognised LaTeX macro inside an abstract) — entries are still
-  // returned. Only treat parsing as having failed if nothing came back.
-  if (entries.length === 0 && errors.length > 0) {
-    throw new Error(`Failed to parse ${BIB_PATH}: ${errors.map((error) => error.error).join("; ")}`);
-  }
-  if (errors.length > 0) {
-    console.warn(
-      `readPublications: ${errors.length} recoverable diagnostic(s) from ${BIB_PATH}: ${errors
-        .map((error) => error.error)
-        .join("; ")}`,
-    );
-  }
-
-  // Sort by year only; Array#sort is stable (guaranteed by spec), so
-  // entries from the same year keep their relative order from papers.bib,
-  // which already matches the original page's order.
-  const publications = entries.map(toPublication).sort((a, b) => b.year - a.year);
-
-  cached = publications;
-  return publications;
 }
 
 /**

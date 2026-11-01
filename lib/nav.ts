@@ -1,29 +1,13 @@
-import navData from "@/data/nav.json";
+import "server-only";
+import { supabasePublic } from "./supabase/public";
+import type { NavEntry } from "./nav-types";
 
-export type NavLink = {
-  label: string;
-  href: string;
-};
+export type { NavLink, NavDivider, NavDropdownItem, NavDropdown, NavEntry } from "./nav-types";
+export { isNavDropdown, isNavDivider } from "./nav-types";
 
-export type NavDivider = {
-  divider: true;
-};
-
-export type NavDropdownItem = NavLink | NavDivider;
-
-export type NavDropdown = {
-  label: string;
-  items: NavDropdownItem[];
-};
-
-export type NavEntry = NavLink | NavDropdown;
-
-export function isNavDropdown(entry: NavEntry): entry is NavDropdown {
-  return "items" in entry;
+/** The navbar's structure — read from Supabase's site_config table (admin-managed equivalent of the old data/nav.json). */
+export async function getNavEntries(): Promise<NavEntry[]> {
+  const { data: row, error } = await supabasePublic.from("site_config").select("data").eq("key", "nav").single();
+  if (error) throw new Error(`Failed to read nav entries from Supabase: ${error.message}`);
+  return row.data as NavEntry[];
 }
-
-export function isNavDivider(item: NavDropdownItem): item is NavDivider {
-  return "divider" in item;
-}
-
-export const navEntries: NavEntry[] = navData as NavEntry[];

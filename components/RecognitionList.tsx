@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { RecognitionItem } from "@/lib/content/schemas";
-import { UserGraduateIcon } from "./icons";
+import { UserGraduateIcon, ImagesIcon } from "./icons";
 
 const FILTERS = [
   { value: "all", label: "All Achievements" },
@@ -51,7 +51,9 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
                 </div>
               )}
               {item.images.length > 1 && (
-                <span className="photo-count">+{item.images.length - 1} more</span>
+                <span className="photo-count">
+                  <ImagesIcon size={12} /> +{item.images.length - 1} more
+                </span>
               )}
               {item.year && <span className="recognition-card__year">{item.year}</span>}
             </div>

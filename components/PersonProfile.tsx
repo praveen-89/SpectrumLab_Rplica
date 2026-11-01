@@ -64,6 +64,11 @@ export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }
             <LinkedInIcon size={20} />
           </a>
         )}
+        {links.twitter && (
+          <a href={links.twitter} title="Twitter" aria-label="Twitter" className="social-icon" target="_blank" rel="external nofollow noopener">
+            <TwitterIcon size={20} />
+          </a>
+        )}
         {links.website && (
           <a
             href={links.website}
@@ -74,11 +79,6 @@ export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }
             rel="external nofollow noopener"
           >
             <GlobeIcon size={20} />
-          </a>
-        )}
-        {links.twitter && (
-          <a href={links.twitter} title="Twitter" aria-label="Twitter" className="social-icon" target="_blank" rel="external nofollow noopener">
-            <TwitterIcon size={20} />
           </a>
         )}
       </div>

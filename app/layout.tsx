@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
 import { Roboto, Roboto_Slab } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { site } from "@/lib/site";
 
 // The original site loads "SF Pro Display/Text" via a private Adobe Typekit
 // kit we have no access to; -apple-system/BlinkMacSystemFont resolve to the
@@ -27,79 +23,15 @@ const robotoSlab = Roboto_Slab({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    template: `%s | ${site.name}`,
-    default: site.name,
-  },
-  description: site.description,
-  keywords: [
-    "IISc",
-    "Indian Institute of Science",
-    "Bengaluru",
-    "Spectrum Lab",
-    "Chandra Sekhar Seelamantula",
-    "signal processing",
-    "image processing",
-    "computational imaging",
-    "machine learning",
-    "deep learning",
-    "sampling theory",
-    "bio-imaging",
-    "medical imaging",
-    "AI healthcare",
-    "spline theory",
-    "finite rate of innovation",
-    "denoising",
-    "reconstruction",
-    "PhD opportunities IISc",
-    "generative modeling",
-    "flow matching",
-    "diffusion",
-    "Chaksu AI",
-    "TAANU",
-    "neuromorphic",
-    "radar",
-  ],
-  authors: [{ name: site.name }],
-  openGraph: {
-    type: "website",
-    locale: "en",
-    title: site.name,
-    description: site.description,
-  },
-  twitter: {
-    card: "summary",
-    site: site.social.twitterHandle,
-    creator: site.social.twitterHandle,
-  },
-  icons: {
-    icon: "/assets/favicon/favicon_io/favicon.ico",
-  },
-  verification: {
-    google: "BZruwyNTkZvWoF9dJ-dg_5-QFlyAvFYIZsrjYqTPfc4",
-  },
-};
-
+// Deliberately minimal: the public site's Navbar/Footer/metadata live in
+// app/(site)/layout.tsx, not here, so the admin portal (a sibling route
+// under app/admin/) never inherits the public site's chrome. Only truly
+// shared infrastructure (fonts, theming) belongs at this root.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${roboto.variable} ${robotoSlab.variable}`}
-    >
-      <body className="fixed-top-nav">
-        <a href="#main-content" className="visually-hidden-focusable">
-          Skip to main content
-        </a>
-        <Providers>
-          <Navbar />
-          <main id="main-content" className="container mt-5" role="main">
-            {children}
-          </main>
-          <Footer />
-        </Providers>
+    <html lang="en" suppressHydrationWarning className={`${roboto.variable} ${robotoSlab.variable}`}>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

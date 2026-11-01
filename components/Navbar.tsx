@@ -8,11 +8,11 @@ import { Nav, NavDropdown, Offcanvas } from "react-bootstrap";
 import ThemeToggle from "./ThemeToggle";
 import SearchTrigger from "./SearchTrigger";
 import SearchDialog from "./SearchDialog";
-import { isNavDivider, isNavDropdown, navEntries, type NavEntry } from "@/lib/nav";
+import { isNavDivider, isNavDropdown, type NavEntry } from "@/lib/nav-types";
 
 const withTrailingSlash = (path: string) => (path.endsWith("/") ? path : `${path}/`);
 
-export default function Navbar() {
+export default function Navbar({ navEntries }: { navEntries: NavEntry[] }) {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);

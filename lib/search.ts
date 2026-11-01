@@ -1,5 +1,5 @@
 import "server-only";
-import { navEntries, isNavDropdown, isNavDivider } from "./nav";
+import { getNavEntries, isNavDropdown, isNavDivider } from "./nav";
 import { readPublications } from "./content/publications";
 import { readCollection } from "./content/collection";
 import { newsItemSchema } from "./content/schemas";
@@ -8,7 +8,7 @@ import { readArticles } from "./content/articles";
 import { readTalks } from "./content/talks";
 import { readData } from "./content/data";
 import { recognitionItemSchema } from "./content/schemas";
-import { site } from "./site";
+import { getSite } from "./site";
 
 export type SearchSection =
   | "Navigation"
@@ -57,6 +57,7 @@ function plainTextPreview(markdown: string, maxLength = 90): string {
  */
 export async function buildSearchIndex(): Promise<SearchItem[]> {
   const items: SearchItem[] = [];
+  const [navEntries, site] = await Promise.all([getNavEntries(), getSite()]);
 
   for (const entry of navEntries) {
     if (isNavDropdown(entry)) {
