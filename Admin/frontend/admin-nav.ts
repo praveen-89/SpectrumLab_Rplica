@@ -1,57 +1,57 @@
-// Shared between the sidebar and the dashboard's overview cards, so the
+// Shared between the sidebar and the topbar's page-title lookup, so the
 // two never drift out of sync as content types are added.
 
-export type AdminNavItem = { href: string; label: string; description: string };
+export type AdminNavItem = { href: string; label: string };
 export type AdminNavGroup = { label: string; items: AdminNavItem[]; caution?: boolean };
 
 export const ADMIN_NAV: AdminNavGroup[] = [
   {
     label: "Pages",
     items: [
-      { href: "/admin/pages/home", label: "Home Page", description: "Hero text, group photo, logos" },
-      { href: "/admin/pages/opportunities", label: "Opportunities Page", description: "Open positions, how to apply" },
-      { href: "/admin/pages/contact", label: "Contact Page", description: "Address, map, administrator" },
+      { href: "/admin/pages/home", label: "Home Page" },
+      { href: "/admin/pages/opportunities", label: "Opportunities Page" },
+      { href: "/admin/pages/contact", label: "Contact Page" },
     ],
   },
   {
     label: "Publications & People",
     items: [
-      { href: "/admin/publications", label: "Publications", description: "Papers, BibTeX, abstracts" },
-      { href: "/admin/coauthors", label: "Coauthors", description: "Name → profile link mapping" },
-      { href: "/admin/people", label: "People", description: "Current members and alumni" },
+      { href: "/admin/publications", label: "Publications" },
+      { href: "/admin/coauthors", label: "Coauthors" },
+      { href: "/admin/people", label: "People" },
     ],
   },
   {
     label: "Content",
     items: [
-      { href: "/admin/news", label: "News", description: "News feed and home page highlights" },
-      { href: "/admin/articles", label: "Articles", description: "Long-form writeups" },
-      { href: "/admin/talks", label: "Talks", description: "Organized and delivered talks" },
-      { href: "/admin/teaching", label: "Teaching", description: "Courses and materials" },
+      { href: "/admin/news", label: "News" },
+      { href: "/admin/articles", label: "Articles" },
+      { href: "/admin/talks", label: "Talks" },
+      { href: "/admin/teaching", label: "Teaching" },
     ],
   },
   {
     label: "Media",
     items: [
-      { href: "/admin/gallery-events", label: "Gallery Photos", description: "Photo events" },
-      { href: "/admin/gallery-videos", label: "Gallery Videos", description: "YouTube videos" },
+      { href: "/admin/gallery-events", label: "Gallery Photos" },
+      { href: "/admin/gallery-videos", label: "Gallery Videos" },
     ],
   },
   {
     label: "Recognition & Funding",
     items: [
-      { href: "/admin/recognition", label: "Recognition", description: "Awards and honors" },
-      { href: "/admin/funders", label: "Funders", description: "Funding page logos" },
-      { href: "/admin/grants", label: "Grants", description: "Funded projects" },
+      { href: "/admin/recognition", label: "Recognition" },
+      { href: "/admin/funders", label: "Funders" },
+      { href: "/admin/grants", label: "Grants" },
     ],
   },
   {
     label: "Site Structure",
     caution: true,
     items: [
-      { href: "/admin/site-config/nav", label: "Navigation", description: "Navbar links on every page" },
-      { href: "/admin/site-config/site", label: "Site Settings", description: "Site name, social links, SEO" },
-      { href: "/admin/site-config/people-groups", label: "People Group Labels", description: "Group page titles" },
+      { href: "/admin/site-config/nav", label: "Navigation" },
+      { href: "/admin/site-config/site", label: "Site Settings" },
+      { href: "/admin/site-config/people-groups", label: "People Group Labels" },
     ],
   },
 ];

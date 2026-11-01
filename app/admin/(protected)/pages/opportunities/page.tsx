@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import SingletonEditor from "@/Admin/frontend/components/SingletonEditor";
+import OpportunitiesPageForm from "@/Admin/frontend/components/OpportunitiesPageForm";
 import { updateOpportunitiesPage } from "@/Admin/backend/actions/pages-actions";
 
 export const metadata: Metadata = { title: "Opportunities Page" };
@@ -10,10 +10,26 @@ export default async function AdminOpportunitiesPagePage() {
   const { data: row, error } = await supabase.from("pages").select("data").eq("slug", "opportunities").single();
   if (error) throw new Error(error.message);
 
+  const data = row.data as {
+    body: string;
+    requiredSkills: string[];
+    applicationProcess: string;
+    readyToApply: string;
+    positions: unknown;
+    additionalResources: unknown;
+  };
+
   return (
-    <div>
-      <h1>Opportunities Page</h1>
-      <SingletonEditor initialJson={JSON.stringify(row.data, null, 2)} updateAction={updateOpportunitiesPage} />
-    </div>
+    <OpportunitiesPageForm
+      initial={{
+        body: data.body,
+        requiredSkills: data.requiredSkills,
+        applicationProcess: data.applicationProcess,
+        readyToApply: data.readyToApply,
+        positionsJson: JSON.stringify(data.positions, null, 2),
+        additionalResourcesJson: JSON.stringify(data.additionalResources, null, 2),
+      }}
+      updateAction={updateOpportunitiesPage}
+    />
   );
 }

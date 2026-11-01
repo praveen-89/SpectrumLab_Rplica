@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import SingletonEditor from "@/Admin/frontend/components/SingletonEditor";
+import HomePageForm, { type HomePageFormValues } from "@/Admin/frontend/components/HomePageForm";
 import { updateHomePage } from "@/Admin/backend/actions/pages-actions";
 
 export const metadata: Metadata = { title: "Home Page" };
@@ -10,10 +10,5 @@ export default async function AdminHomePagePage() {
   const { data: row, error } = await supabase.from("pages").select("data").eq("slug", "home").single();
   if (error) throw new Error(error.message);
 
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <SingletonEditor initialJson={JSON.stringify(row.data, null, 2)} updateAction={updateHomePage} />
-    </div>
-  );
+  return <HomePageForm initial={row.data as HomePageFormValues} updateAction={updateHomePage} />;
 }

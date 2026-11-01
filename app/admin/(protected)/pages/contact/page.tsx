@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import SingletonEditor from "@/Admin/frontend/components/SingletonEditor";
+import ContactPageForm from "@/Admin/frontend/components/ContactPageForm";
 import { updateContactPage } from "@/Admin/backend/actions/pages-actions";
 
 export const metadata: Metadata = { title: "Contact Page" };
@@ -10,10 +10,26 @@ export default async function AdminContactPagePage() {
   const { data: row, error } = await supabase.from("pages").select("data").eq("slug", "contact").single();
   if (error) throw new Error(error.message);
 
+  const data = row.data as {
+    mapEmbedUrl: string;
+    administrator: { name: string; email: string; phone?: string };
+    address: string[];
+    body: string;
+    collaborators: string;
+  };
+
   return (
-    <div>
-      <h1>Contact Page</h1>
-      <SingletonEditor initialJson={JSON.stringify(row.data, null, 2)} updateAction={updateContactPage} />
-    </div>
+    <ContactPageForm
+      initial={{
+        mapEmbedUrl: data.mapEmbedUrl,
+        administratorName: data.administrator.name,
+        administratorEmail: data.administrator.email,
+        administratorPhone: data.administrator.phone ?? "",
+        address: data.address,
+        body: data.body,
+        collaborators: data.collaborators,
+      }}
+      updateAction={updateContactPage}
+    />
   );
 }

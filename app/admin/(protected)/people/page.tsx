@@ -1,30 +1,8 @@
 import type { Metadata } from "next";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import JsonRow from "@/Admin/frontend/components/JsonRow";
-import JsonCreateForm from "@/Admin/frontend/components/JsonCreateForm";
-import { createPerson, updatePerson, deletePerson } from "@/Admin/backend/actions/people-actions";
+import PeopleList, { type PersonRow } from "@/Admin/frontend/components/PeopleList";
 
 export const metadata: Metadata = { title: "People" };
-
-const PLACEHOLDER = JSON.stringify(
-  { slug: "example_person", name: "Person Name", group: "phd-students", body: "Short bio." },
-  null,
-  2,
-);
-
-function StatusYearFields({ status, year }: { status?: string; year?: number | null }) {
-  return (
-    <>
-      <select name="status" defaultValue={status ?? "current"} required>
-        <option value="current">Current</option>
-        <option value="alumni">Alumni</option>
-      </select>
-      <input name="year" type="number" placeholder="Alumni year (if alumni)" defaultValue={year ?? ""} />
-    </>
-  );
-}
-
-type PersonRow = { id: string; group: string; status: string; year: number | null; data: { name: string; slug: string } };
 
 export default async function AdminPeoplePage() {
   const supabase = await createSupabaseServerClient();
@@ -35,30 +13,15 @@ export default async function AdminPeoplePage() {
     .order("status", { ascending: true });
   if (error) throw new Error(error.message);
 
-  const people = rows as unknown as PersonRow[];
+  const people: PersonRow[] = rows.map((row) => ({
+    id: row.id,
+    group: row.group,
+    status: row.status,
+    year: row.year,
+    name: (row.data as { name: string }).name,
+    slug: (row.data as { slug: string }).slug,
+    image: (row.data as { image?: string }).image,
+  }));
 
-  return (
-    <div>
-      <h1>People</h1>
-      <p>
-        The <code>slug</code> and <code>group</code> fields are part of the JSON. &quot;Status&quot; and
-        &quot;Alumni year&quot; below control which URL the person lives at (<code>/people/current/...</code> vs{" "}
-        <code>/people/alumni/.../&lt;year&gt;/...</code>).
-      </p>
-
-      {people.map((person) => (
-        <JsonRow
-          key={person.id}
-          label={`${person.data.name} (${person.group}, ${person.status})`}
-          initialJson={JSON.stringify(person.data, null, 2)}
-          updateAction={updatePerson.bind(null, person.id)}
-          deleteAction={deletePerson.bind(null, person.id, person.group, person.status, person.year, person.data.slug)}
-          extraFields={<StatusYearFields status={person.status} year={person.year} />}
-        />
-      ))}
-
-      <h2>Add a person</h2>
-      <JsonCreateForm createAction={createPerson} placeholder={PLACEHOLDER} extraFields={<StatusYearFields />} />
-    </div>
-  );
+  return <PeopleList people={people} />;
 }
