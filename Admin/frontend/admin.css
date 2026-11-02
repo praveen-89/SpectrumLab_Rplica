@@ -795,6 +795,9 @@
   font-weight: 700;
   line-height: 1.1;
   display: block;
+  /* Explicit, not just inherited from .admin-stat-card's color — the
+     count must never shift on hover regardless of ancestor link states. */
+  color: var(--admin-text);
 }
 
 .admin-stat-label {
@@ -1240,8 +1243,15 @@
 }
 
 .admin-table thead th {
-  position: sticky;
-  top: var(--admin-topbar-height);
+  /* Not sticky: .admin-table-wrapper's overflow-x: auto forces its
+     overflow-y to compute as "auto" too (the CSS spec requires this
+     whenever one axis is a scrolling value and the other is "visible"),
+     which makes the wrapper itself the sticky positioning context
+     instead of the page. top: 56px then sticks 56px below the
+     *wrapper's* edge unconditionally, not 56px below the viewport once
+     scrolled — pushing the header down into the first row even with no
+     scrolling at all. A plain, non-sticky header avoids the whole
+     category of bug; the table still scrolls with the page normally. */
   background: var(--admin-surface-2);
   text-align: left;
   font-weight: 600;

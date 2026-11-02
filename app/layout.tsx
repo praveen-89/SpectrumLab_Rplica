@@ -1,5 +1,4 @@
 import { Roboto, Roboto_Slab } from "next/font/google";
-import "./globals.css";
 import Providers from "@/components/Providers";
 
 // The original site loads "SF Pro Display/Text" via a private Adobe Typekit
