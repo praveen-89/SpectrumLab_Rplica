@@ -104,6 +104,19 @@
   box-sizing: border-box;
 }
 
+/* This stylesheet only loads on /admin/** (see app/admin/layout.tsx), so
+   this never touches the public site. Needed since app/globals.css —
+   which used to incidentally zero out body's default 8px browser margin
+   — no longer loads on admin pages (it's scoped to app/(site)/layout.tsx
+   now); without this, that default margin shows as a thin strip of the
+   browser's own white background on every edge of the admin app. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--admin-bg);
+}
+
 /* ---------------------------------------------------------------------
    Animations
    --------------------------------------------------------------------- */
