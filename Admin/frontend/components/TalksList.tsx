@@ -50,7 +50,9 @@ export default function TalksList({ organized, delivered }: { organized: TalkRow
       <div className="admin-page-header">
         <div>
           <h1>Talks</h1>
-          <p>Organized and delivered talks.</p>
+          <p>
+            {organized.length} organized, {delivered.length} delivered.
+          </p>
         </div>
         <Link href="/admin/talks/new" className="admin-btn admin-btn-primary">
           Add Talk

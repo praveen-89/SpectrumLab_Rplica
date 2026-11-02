@@ -46,7 +46,7 @@ export default function RecognitionList({ items }: { items: RecognitionRow[] }) 
       <div className="admin-page-header">
         <div>
           <h1>Recognition</h1>
-          <p>Awards and honors.</p>
+          <p>{items.length} awards and honors.</p>
         </div>
         <Link href="/admin/recognition/new" className="admin-btn admin-btn-primary">
           Add Recognition

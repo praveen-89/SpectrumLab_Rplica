@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IconX } from "@tabler/icons-react";
 import { ADMIN_NAV } from "@/Admin/frontend/admin-nav";
 
 export default function AdminSidebar({ open, onClose }: { open?: boolean; onClose?: () => void }) {
@@ -10,12 +11,16 @@ export default function AdminSidebar({ open, onClose }: { open?: boolean; onClos
   return (
     <nav className={`admin-sidebar ${open ? "open" : ""}`} aria-label="Admin sections">
       <button type="button" className="admin-sidebar-close" aria-label="Close menu" onClick={onClose}>
-        ✕
+        <IconX size={18} />
       </button>
       <Link href="/admin" className="admin-sidebar-brand" onClick={onClose}>
         Spectrum Lab Admin
       </Link>
-      <Link href="/admin" className={`admin-sidebar-overview ${pathname === "/admin" ? "active" : ""}`} onClick={onClose}>
+      <Link
+        href="/admin"
+        className={`admin-sidebar-overview ${pathname === "/admin" || pathname === "/admin/" ? "active" : ""}`}
+        onClick={onClose}
+      >
         Dashboard
       </Link>
       {ADMIN_NAV.map((group) => (
@@ -33,6 +38,7 @@ export default function AdminSidebar({ open, onClose }: { open?: boolean; onClos
           ))}
         </div>
       ))}
+      <span className="admin-sidebar-version">Spectrum Lab v1.0</span>
     </nav>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IconMenu2 } from "@tabler/icons-react";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopbarTitle from "./AdminTopbarTitle";
+import AdminThemeToggle from "./AdminThemeToggle";
 
 /** Client wrapper owning the mobile sidebar-open state — the layout itself stays a Server Component for the auth check. */
 export default function AdminShell({
@@ -16,6 +18,13 @@ export default function AdminShell({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sidebarOpen]);
+
   return (
     <div className="admin-app">
       {sidebarOpen && <div className="admin-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
@@ -24,11 +33,12 @@ export default function AdminShell({
         <header className="admin-topbar">
           <div className="admin-topbar-left">
             <button type="button" className="admin-menu-toggle" aria-label="Toggle menu" onClick={() => setSidebarOpen(true)}>
-              ☰
+              <IconMenu2 size={18} />
             </button>
             <AdminTopbarTitle />
           </div>
           <div className="admin-topbar-right">
+            <AdminThemeToggle />
             <span className="admin-topbar-user">{email}</span>
             <form action={signOutAction}>
               <button type="submit" className="admin-signout-button">
@@ -38,6 +48,7 @@ export default function AdminShell({
           </div>
         </header>
         <div className="admin-content">{children}</div>
+        <footer className="admin-footer">Spectrum Lab Admin · Built with Next.js · © 2024 IISc</footer>
       </div>
     </div>
   );

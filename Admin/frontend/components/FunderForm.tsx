@@ -44,7 +44,6 @@ export default function FunderForm({
     const action = updateAction ?? createAction;
     if (!action) return;
     const result = await action(undefined, formData);
-    if (!result?.error && createAction) router.push("/admin/funders");
     return result;
   }
 

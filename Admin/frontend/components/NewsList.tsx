@@ -51,7 +51,7 @@ export default function NewsList({ items }: { items: NewsRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>News</h1>
-          <p>News feed and home page highlights, newest first.</p>
+          <p>{items.length} news items — feed and home page highlights, newest first.</p>
         </div>
         <Link href="/admin/news/new" className="admin-btn admin-btn-primary">
           Add News

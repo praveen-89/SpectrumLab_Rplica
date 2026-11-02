@@ -45,7 +45,7 @@ export default function GrantsList({ grants }: { grants: GrantRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>Grants</h1>
-          <p>Funded projects, shown on the Funding page.</p>
+          <p>{grants.length} funded projects, shown on the Funding page.</p>
         </div>
         <Link href="/admin/grants/new" className="admin-btn admin-btn-primary">
           Add Grant

@@ -73,7 +73,7 @@ export default function PeopleList({ people }: { people: PersonRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>People</h1>
-          <p>Current members and alumni.</p>
+          <p>{people.length} people — current members and alumni.</p>
         </div>
         <Link href="/admin/people/new" className="admin-btn admin-btn-primary">
           Add Person

@@ -41,7 +41,7 @@ export default function AdminTable<T>({
 }) {
   if (rows.length === 0) {
     return (
-      <div className="admin-table-wrapper">
+      <div className="admin-table-wrapper anim-fade-up">
         <div className="admin-empty-state">
           <EmptyIllustration />
           <span className="admin-empty-state-heading">No {emptyLabel} yet</span>
@@ -56,7 +56,7 @@ export default function AdminTable<T>({
   }
 
   return (
-    <div className="admin-table-wrapper">
+    <div className="admin-table-wrapper anim-fade-up">
       <table className="admin-table">
         <thead>
           <tr>

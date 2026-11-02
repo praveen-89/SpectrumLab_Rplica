@@ -49,7 +49,7 @@ export default function GalleryEventsList({ events }: { events: GalleryEventRow[
       <div className="admin-page-header">
         <div>
           <h1>Gallery Photos</h1>
-          <p>Photo events shown on the Gallery &gt; Photos page.</p>
+          <p>{events.length} photo events shown on the Gallery &gt; Photos page.</p>
         </div>
         <Link href="/admin/gallery-events/new" className="admin-btn admin-btn-primary">
           Add Event

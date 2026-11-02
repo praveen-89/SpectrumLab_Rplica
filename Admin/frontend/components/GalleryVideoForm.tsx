@@ -47,7 +47,6 @@ export default function GalleryVideoForm({
     const action = updateAction ?? createAction;
     if (!action) return;
     const result = await action(undefined, formData);
-    if (!result?.error && createAction) router.push("/admin/gallery-videos");
     return result;
   }
 

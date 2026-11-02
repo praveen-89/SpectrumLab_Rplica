@@ -48,7 +48,7 @@ export default function CoauthorsList({ coauthors }: { coauthors: CoauthorRow[] 
       <div className="admin-page-header">
         <div>
           <h1>Coauthors</h1>
-          <p>Maps an author name variant to a /people/ profile URL.</p>
+          <p>{coauthors.length} coauthors — maps an author name variant to a /people/ profile URL.</p>
         </div>
         <Link href="/admin/coauthors/new" className="admin-btn admin-btn-primary">
           Add Coauthor

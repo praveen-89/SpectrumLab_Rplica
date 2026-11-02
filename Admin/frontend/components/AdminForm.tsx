@@ -2,6 +2,7 @@
 
 import { useRef, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ConfirmDialog, { type ConfirmDialogHandle } from "./ConfirmDialog";
 import ToastContainer, { useToast } from "./Toast";
 
@@ -14,6 +15,10 @@ export type AdminFormResult = { error?: string } | void;
  * actual Server Action call and FormData assembly (each content type's
  * fields differ too much to generalize that part); this component only
  * owns the surrounding chrome, pending state, and toast feedback.
+ *
+ * On a successful save, redirects to `backHref` after a short delay so
+ * the "Saved successfully" toast is visible first; on error, shows the
+ * toast and stays put so the user can fix the form.
  */
 export default function AdminForm({
   title,
@@ -34,13 +39,18 @@ export default function AdminForm({
   const [deleting, startDelete] = useTransition();
   const confirmRef = useRef<ConfirmDialogHandle>(null);
   const { toasts, showToast } = useToast();
+  const router = useRouter();
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     startSave(async () => {
       const result = await onSubmit();
-      if (result?.error) showToast(result.error, "error");
-      else showToast("Saved.", "success");
+      if (result?.error) {
+        showToast(`Error: ${result.error}`, "error");
+      } else {
+        showToast("Saved successfully", "success");
+        setTimeout(() => router.push(backHref), 1500);
+      }
     });
   }
 
@@ -53,13 +63,19 @@ export default function AdminForm({
   }
 
   return (
-    <div className="admin-card-surface">
-      <h1>{title}</h1>
+    <div className="admin-card-surface anim-fade-up">
+      <div className="admin-page-header">
+        <h1>{title}</h1>
+        <Link href={backHref} className="admin-btn admin-btn-ghost admin-btn-sm">
+          ← Back to list
+        </Link>
+      </div>
       <form className="admin-form" onSubmit={handleSubmit}>
         {children}
         <div className="admin-form-actions">
           <div className="admin-form-actions-main">
             <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>
+              {saving && <span className="admin-btn-spinner" aria-hidden="true" />}
               {saving ? "Saving..." : "Save"}
             </button>
             <Link href={backHref} className="admin-btn admin-btn-secondary">
@@ -68,6 +84,7 @@ export default function AdminForm({
           </div>
           {onDelete && (
             <button type="button" className="admin-btn admin-btn-danger-outline" onClick={handleDelete} disabled={deleting}>
+              {deleting && <span className="admin-btn-spinner" aria-hidden="true" />}
               {deleting ? "Deleting..." : deleteLabel}
             </button>
           )}

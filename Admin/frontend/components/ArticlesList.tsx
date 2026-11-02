@@ -48,7 +48,7 @@ export default function ArticlesList({ articles }: { articles: ArticleRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>Articles</h1>
-          <p>Long-form writeups.</p>
+          <p>{articles.length} articles — long-form writeups.</p>
         </div>
         <Link href="/admin/articles/new" className="admin-btn admin-btn-primary">
           Add Article

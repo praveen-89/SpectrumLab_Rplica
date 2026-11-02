@@ -50,7 +50,7 @@ export default function GalleryVideosList({ videos }: { videos: GalleryVideoRow[
       <div className="admin-page-header">
         <div>
           <h1>Gallery Videos</h1>
-          <p>Shown on the Gallery &gt; Videos page.</p>
+          <p>{videos.length} videos shown on the Gallery &gt; Videos page.</p>
         </div>
         <Link href="/admin/gallery-videos/new" className="admin-btn admin-btn-primary">
           Add Video

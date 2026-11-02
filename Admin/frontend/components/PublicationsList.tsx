@@ -69,7 +69,7 @@ export default function PublicationsList({ publications }: { publications: Publi
       <div className="admin-page-header">
         <div>
           <h1>Publications</h1>
-          <p>Papers, BibTeX, abstracts.</p>
+          <p>{publications.length} publications — papers, BibTeX, abstracts.</p>
         </div>
         <Link href="/admin/publications/new" className="admin-btn admin-btn-primary">
           Add Publication

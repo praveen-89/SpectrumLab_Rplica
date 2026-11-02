@@ -46,7 +46,7 @@ export default function CoursesList({ courses }: { courses: CourseRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>Teaching</h1>
-          <p>Courses and materials.</p>
+          <p>{courses.length} courses and materials.</p>
         </div>
         <Link href="/admin/teaching/new" className="admin-btn admin-btn-primary">
           Add Course

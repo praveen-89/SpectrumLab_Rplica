@@ -9,7 +9,7 @@ const ALL_ITEMS = ADMIN_NAV.flatMap((group) => group.items);
 export default function AdminTopbarTitle() {
   const pathname = usePathname();
 
-  if (pathname === "/admin") return <h1 className="admin-topbar-title">Dashboard</h1>;
+  if (pathname === "/admin" || pathname === "/admin/") return <h1 className="admin-topbar-title">Dashboard</h1>;
 
   const match = ALL_ITEMS.filter((item) => pathname.startsWith(item.href)).sort((a, b) => b.href.length - a.href.length)[0];
 

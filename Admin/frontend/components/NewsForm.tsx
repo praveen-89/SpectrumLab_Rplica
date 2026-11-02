@@ -73,7 +73,6 @@ export default function NewsForm({
     const action = updateAction ?? createAction;
     if (!action) return;
     const result = await action(undefined, formData);
-    if (!result?.error && createAction) router.push("/admin/news");
     return result;
   }
 

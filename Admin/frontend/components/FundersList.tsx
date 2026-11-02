@@ -49,7 +49,7 @@ export default function FundersList({ funders }: { funders: FunderRow[] }) {
       <div className="admin-page-header">
         <div>
           <h1>Funders</h1>
-          <p>Shown on the Funding page and the home page&apos;s carousel.</p>
+          <p>{funders.length} funders — shown on the Funding page and the home page&apos;s carousel.</p>
         </div>
         <Link href="/admin/funders/new" className="admin-btn admin-btn-primary">
           Add Funder
