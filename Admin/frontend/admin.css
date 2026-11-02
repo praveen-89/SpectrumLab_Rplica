@@ -26,11 +26,11 @@
   --admin-warn: #d97706;
   --admin-caution-bg: rgba(217, 119, 6, 0.1);
   --admin-caution-border: rgba(217, 119, 6, 0.35);
-  --admin-sidebar-bg: #0d1117;
-  --admin-sidebar-surface: rgba(255, 255, 255, 0.04);
-  --admin-sidebar-border: rgba(255, 255, 255, 0.07);
-  --admin-sidebar-text: #8b949e;
-  --admin-sidebar-text-active: #ffffff;
+  --admin-sidebar-bg: #ffffff;
+  --admin-sidebar-surface: rgba(0, 0, 0, 0.045);
+  --admin-sidebar-border: rgba(0, 0, 0, 0.08);
+  --admin-sidebar-text: #5c6370;
+  --admin-sidebar-text-active: #0f1117;
   --admin-sidebar-accent: #2563eb;
   --admin-glass-bg: rgba(255, 255, 255, 0.65);
   --admin-glass-border: rgba(255, 255, 255, 0.5);
@@ -159,16 +159,25 @@
   }
 }
 
+/* fill-mode: backwards (not "both") — "backwards" still applies the
+   from-keyframe during any animation-delay so staggered cards don't
+   flash visible before their turn, but — unlike "both" — releases the
+   element back to the normal cascade once the animation ends instead of
+   permanently pinning transform at the keyframe's final value. With
+   "both", that pinned transform silently out-prioritizes any later
+   :hover transform (e.g. .admin-glass-card.hoverable's hover lift/scale)
+   since CSS animations always win over regular, non-animation
+   declarations — even ones triggered by a pseudo-class. */
 .anim-fade-up {
-  animation: admin-fade-up 0.35s ease both;
+  animation: admin-fade-up 0.35s ease backwards;
 }
 
 .anim-fade-in {
-  animation: admin-fade-in 0.25s ease both;
+  animation: admin-fade-in 0.25s ease backwards;
 }
 
 .anim-stagger > * {
-  animation: admin-fade-up 0.35s ease both;
+  animation: admin-fade-up 0.35s ease backwards;
 }
 
 .anim-stagger > *:nth-child(1) {
@@ -238,6 +247,10 @@
   height: 100vh;
   scrollbar-width: thin;
   scrollbar-color: var(--admin-sidebar-border) transparent;
+  /* Sidebar now follows the theme toggle (light mode's bg is close to
+     --admin-bg), so a border is needed to separate it from the content
+     area instead of relying on a permanent dark/light contrast. */
+  border-right: 1px solid var(--admin-sidebar-border);
 }
 
 .admin-sidebar::-webkit-scrollbar {
@@ -514,7 +527,7 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.1),
     0 2px 6px rgba(0, 0, 0, 0.06);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.015);
 }
 
 /* Legacy alias — .admin-card-surface was the pre-redesign card class;
