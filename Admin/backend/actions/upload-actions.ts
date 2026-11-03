@@ -26,6 +26,11 @@ export async function uploadImage(folder: string, formData: FormData): Promise<{
   if (!(file instanceof File) || file.size === 0) return { error: "No file provided." };
   if (!file.type.startsWith("image/")) return { error: "Only image files are allowed." };
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+  if (file.size > MAX_FILE_SIZE) {
+    return { error: "File exceeds maximum allowed size of 5 MB." };
+  }
+
   const supabase = createSupabaseAdminClient();
   const extension = file.name.split(".").pop() || "bin";
   const path = `${folder}/${crypto.randomUUID()}.${extension}`;

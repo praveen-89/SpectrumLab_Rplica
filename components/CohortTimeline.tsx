@@ -3,6 +3,8 @@ import Image from "next/image";
 import type { PersonWithSlug } from "@/lib/content/people";
 import { alumniYear } from "@/lib/content/people";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, TwitterIcon } from "./icons";
+import ObfuscatedEmail from "./ObfuscatedEmail";
+import { obfuscateEmail } from "@/lib/security/obfuscate";
 
 // "Kolavennu Mani Kanta Krishna Kumar" -> "KM" on the original (first two
 // words, not first+last) — confirmed against its rendered initials for
@@ -63,9 +65,14 @@ export default function CohortTimeline({ people }: { people: PersonWithSlug[] })
                   {person.now && <p className="alum__now">{person.now}</p>}
                   <div className="alum__links">
                     {links.email && (
-                      <a href={`mailto:${links.email}`} title="Email" aria-label="Email" className="alum__link">
+                      <ObfuscatedEmail
+                        encoded={obfuscateEmail(links.email)}
+                        title="Email"
+                        aria-label="Email"
+                        className="alum__link"
+                      >
                         <EmailIcon size={14} />
-                      </a>
+                      </ObfuscatedEmail>
                     )}
                     {links.scholar && (
                       <a

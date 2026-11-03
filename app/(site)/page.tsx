@@ -12,6 +12,8 @@ import NewsList from "@/components/NewsList";
 import PublicationEntry from "@/components/PublicationEntry";
 import FundingCarousel from "@/components/FundingCarousel";
 import { GoogleScholarIcon, GitHubIcon, TwitterIcon, EmailIcon } from "@/components/icons";
+import ObfuscatedEmail from "@/components/ObfuscatedEmail";
+import { obfuscateEmail } from "@/lib/security/obfuscate";
 import { getSite } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -131,9 +133,9 @@ export default async function Home() {
                   </Link>
                 </h2>
                 <div className="card-icons">
-                  <a href={`mailto:${site.social.email}`} title="e-mail">
+                  <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="e-mail" ariaLabel="e-mail">
                     <EmailIcon />
-                  </a>
+                  </ObfuscatedEmail>
                   {director.links?.scholar && (
                     <a href={director.links.scholar} title="Google Scholar" target="_blank" rel="external nofollow noopener">
                       <GoogleScholarIcon />
@@ -213,9 +215,9 @@ export default async function Home() {
       {/* Social */}
       <div className="social">
         <div className="contact-icons">
-          <a href={`mailto:${site.social.email}`} title="Email" aria-label="Email">
+          <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
             <EmailIcon size={28} />
-          </a>
+          </ObfuscatedEmail>
           <a href={site.social.googleScholarUrl} title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="external nofollow noopener">
             <GoogleScholarIcon size={28} />
           </a>

@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import type { PersonWithSlug } from "@/lib/content/people";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, OrcidIcon, TwitterIcon } from "./icons";
+import ObfuscatedEmail from "./ObfuscatedEmail";
+import { obfuscateEmail } from "@/lib/security/obfuscate";
 
 export default function PersonCard({ person }: { person: PersonWithSlug }) {
   const href = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
@@ -29,9 +31,9 @@ export default function PersonCard({ person }: { person: PersonWithSlug }) {
         </h2>
         <div className="card-icons">
           {links.email && (
-            <a href={`mailto:${links.email}`} title="Email" aria-label="Email">
+            <ObfuscatedEmail encoded={obfuscateEmail(links.email)} title="Email" aria-label="Email">
               <EmailIcon size={18} />
-            </a>
+            </ObfuscatedEmail>
           )}
           {links.orcid && (
             <a href={links.orcid} title="ORCID" aria-label="ORCID" target="_blank" rel="external nofollow noopener">

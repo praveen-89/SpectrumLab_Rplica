@@ -3,6 +3,8 @@ import { readPage } from "@/lib/content/page";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { contactPageSchema } from "@/lib/content/schemas";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, TwitterIcon } from "@/components/icons";
+import ObfuscatedEmail from "@/components/ObfuscatedEmail";
+import { obfuscateEmail } from "@/lib/security/obfuscate";
 import { getSite } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -38,7 +40,13 @@ export default async function ContactPage() {
         <p>
           <strong>{page.administrator.name}</strong>
           <br />
-          Email: <a href={`mailto:${page.administrator.email}`}>{page.administrator.email}</a>
+          Email:{" "}
+          <ObfuscatedEmail
+            encoded={obfuscateEmail(page.administrator.email)}
+            showText
+            title="Email"
+            ariaLabel="Email"
+          />
           {page.administrator.phone && (
             <>
               <br />
@@ -59,9 +67,9 @@ export default async function ContactPage() {
 
         <div className="social">
           <div className="contact-icons">
-            <a href={`mailto:${site.social.email}`} title="Email" aria-label="Email">
+            <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
               <EmailIcon />
-            </a>
+            </ObfuscatedEmail>
             <a
               href={site.social.googleScholarUrl}
               title="Google Scholar"

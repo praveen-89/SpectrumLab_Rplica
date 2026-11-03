@@ -23,6 +23,19 @@ function buildCompositeSlug(status: string, group: string, year: string | number
   return `current/${group}/${leaf}`;
 }
 
+function friendlyError(result: JsonFormState): JsonFormState {
+  if (
+    result?.error?.includes("23505") ||
+    result?.error?.includes("duplicate key")
+  ) {
+    return {
+      error:
+        "A person with this slug already exists in this group. Please use a different slug and try again.",
+    };
+  }
+  return result;
+}
+
 function peoplePaths(compositeSlug: string): Array<string | [string, "page"]> {
   const clean = compositeSlug.replace(/^\/+|\/+$/g, "");
   return [`/people/${clean}/`, ["/people/[group]", "page"], "/"];
@@ -44,18 +57,20 @@ export async function createPerson(_prevState: JsonFormState | undefined, formDa
   const dataPayload = { ...parsed.data, slug: compositeSlug };
   const paths = peoplePaths(compositeSlug);
 
-  return genericCreate(
-    "people",
-    "id",
-    schema,
-    JSON.stringify(dataPayload),
-    () => ({
-      slug: leafSlug,
-      group: parsed.data.group,
-      status,
-      year: year ? Number(year) : null,
-    }),
-    paths,
+  return friendlyError(
+    await genericCreate(
+      "people",
+      "id",
+      schema,
+      JSON.stringify(dataPayload),
+      () => ({
+        slug: leafSlug,
+        group: parsed.data.group,
+        status,
+        year: year ? Number(year) : null,
+      }),
+      paths,
+    ),
   );
 }
 
@@ -87,19 +102,21 @@ export async function updatePerson(
     paths.push(`/people/${prevSlug.replace(/^\/+|\/+$/g, "")}/`);
   }
 
-  return genericUpdate(
-    "people",
-    "id",
-    id,
-    schema,
-    JSON.stringify(dataPayload),
-    () => ({
-      slug: leafSlug,
-      group: parsed.data.group,
-      status,
-      year: year ? Number(year) : null,
-    }),
-    paths,
+  return friendlyError(
+    await genericUpdate(
+      "people",
+      "id",
+      id,
+      schema,
+      JSON.stringify(dataPayload),
+      () => ({
+        slug: leafSlug,
+        group: parsed.data.group,
+        status,
+        year: year ? Number(year) : null,
+      }),
+      paths,
+    ),
   );
 }
 

@@ -6,6 +6,8 @@ import { readPublications, buildPublicationViews } from "@/lib/content/publicati
 import { readCoauthors } from "@/lib/content/coauthors";
 import { getPublicationsForPerson, groupByYear } from "@/lib/publications-view";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, OrcidIcon, TwitterIcon } from "./icons";
+import ObfuscatedEmail from "./ObfuscatedEmail";
+import { obfuscateEmail } from "@/lib/security/obfuscate";
 import CollapsibleSection from "./CollapsibleSection";
 import PublicationEntry from "./PublicationEntry";
 
@@ -26,9 +28,14 @@ export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }
       <h1 className="mt-3">{person.name}</h1>
       <div className="d-flex flex-wrap justify-content-center gap-3 mt-3 social-icons">
         {links.email && (
-          <a href={`mailto:${links.email}`} title="Email" aria-label="Email" className="social-icon">
+          <ObfuscatedEmail
+            encoded={obfuscateEmail(links.email)}
+            title="Email"
+            aria-label="Email"
+            className="social-icon"
+          >
             <EmailIcon size={20} />
-          </a>
+          </ObfuscatedEmail>
         )}
         {links.orcid && (
           <a href={links.orcid} title="ORCID" aria-label="ORCID" className="social-icon" target="_blank" rel="external nofollow noopener">
