@@ -36,9 +36,19 @@ function friendlyError(result: JsonFormState): JsonFormState {
   return result;
 }
 
-function peoplePaths(compositeSlug: string): Array<string | [string, "page"]> {
+function peoplePaths(group: string, compositeSlug: string): Array<string | [string, "layout" | "page"]> {
   const clean = compositeSlug.replace(/^\/+|\/+$/g, "");
-  return [`/people/${clean}/`, ["/people/[group]", "page"], "/"];
+  return [
+    `/people/${clean}/`,
+    `/people/${clean}`,
+    `/people/${group}/`,
+    `/people/${group}`,
+    ["/people/[group]", "page"],
+    "/people/",
+    "/people",
+    "/",
+    ["/", "layout"],
+  ];
 }
 
 export async function createPerson(_prevState: JsonFormState | undefined, formData: FormData) {
@@ -55,7 +65,7 @@ export async function createPerson(_prevState: JsonFormState | undefined, formDa
   const leafSlug = extractLeaf(rawLeaf);
 
   const dataPayload = { ...parsed.data, slug: compositeSlug };
-  const paths = peoplePaths(compositeSlug);
+  const paths = peoplePaths(parsed.data.group, compositeSlug);
 
   return friendlyError(
     await genericCreate(
@@ -97,9 +107,11 @@ export async function updatePerson(
   const leafSlug = extractLeaf(rawLeaf);
 
   const dataPayload = { ...parsed.data, slug: compositeSlug };
-  const paths = peoplePaths(compositeSlug);
+  const paths = peoplePaths(parsed.data.group, compositeSlug);
   if (prevSlug && prevSlug !== compositeSlug) {
-    paths.push(`/people/${prevSlug.replace(/^\/+|\/+$/g, "")}/`);
+    const cleanPrev = prevSlug.replace(/^\/+|\/+$/g, "");
+    paths.push(`/people/${cleanPrev}/`);
+    paths.push(`/people/${cleanPrev}`);
   }
 
   return friendlyError(
@@ -124,7 +136,10 @@ export async function deletePerson(id: string, group: string, status: string, ye
   const compositeSlug = slug.startsWith("current/") || slug.startsWith("alumni/")
     ? slug
     : buildCompositeSlug(status, group, year, slug);
-  const paths = peoplePaths(compositeSlug);
+  const paths = peoplePaths(group, compositeSlug);
   await genericDelete("people", "id", id, paths);
   revalidatePath("/people/[group]", "page");
+  revalidatePath(`/people/${group}/`);
+  revalidatePath(`/people/${group}`);
+  revalidatePath("/", "layout");
 }

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { readPeople, findPersonBySlug } from "@/lib/content/people";
 import PersonProfile from "@/components/PersonProfile";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const people = await readPeople();
   return people

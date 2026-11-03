@@ -4,6 +4,8 @@ import { readPeople, findPersonBySlug } from "@/lib/content/people";
 import PersonProfile from "@/components/PersonProfile";
 import DirectorProfile from "@/components/DirectorProfile";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const people = await readPeople();
   return people
