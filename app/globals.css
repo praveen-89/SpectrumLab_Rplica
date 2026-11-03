@@ -1971,6 +1971,8 @@ html[data-theme="dark"] .card {
   background-color: var(--global-bg-color);
 }
 .people .card img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   /* Capped independently of the grid column's width — at 2 columns a
      column is wide enough that an uncapped circle would grow past what
      the fixed-height card has room for (image + name + icons), pushing

@@ -22,10 +22,14 @@ export default async function EditPersonPage({ params }: { params: Promise<{ id:
     links?: Record<string, string>;
   };
 
+  const leafSlug = data.slug.includes("/")
+    ? data.slug.split("/").filter(Boolean).pop() || data.slug
+    : data.slug;
+
   return (
     <PersonForm
       initial={{
-        slug: data.slug,
+        slug: leafSlug,
         name: data.name,
         group: row.group,
         status: row.status as "current" | "alumni",
@@ -42,7 +46,7 @@ export default async function EditPersonPage({ params }: { params: Promise<{ id:
           website: data.links?.website ?? "",
         },
       }}
-      updateAction={updatePerson.bind(null, id)}
+      updateAction={updatePerson.bind(null, id, data.slug)}
       deleteAction={deletePerson.bind(null, id, row.group, row.status, row.year, data.slug)}
     />
   );

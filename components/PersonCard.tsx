@@ -4,7 +4,7 @@ import type { PersonWithSlug } from "@/lib/content/people";
 import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, OrcidIcon, TwitterIcon } from "./icons";
 
 export default function PersonCard({ person }: { person: PersonWithSlug }) {
-  const href = `/people/${person.slug}/`;
+  const href = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
   const links = person.links ?? {};
 
   return (
@@ -18,6 +18,7 @@ export default function PersonCard({ person }: { person: PersonWithSlug }) {
               className="img-fluid rounded-circle z-depth-0"
               width={300}
               height={300}
+              style={{ aspectRatio: "1 / 1", objectFit: "cover" }}
             />
           )}
         </Link>

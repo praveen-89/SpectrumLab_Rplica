@@ -6,7 +6,7 @@ import { ThemeProvider } from "next-themes";
 // "theme" localStorage key, system preference by default.
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem storageKey="theme">
+    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem storageKey="theme" scriptProps={{ async: true }}>
       {children}
     </ThemeProvider>
   );

@@ -43,7 +43,7 @@ export default function CohortTimeline({ people }: { people: PersonWithSlug[] })
           </div>
           <ul className="cohort__people">
             {group.map((person) => {
-              const href = `/people/${person.slug}/`;
+              const href = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
               const links = person.links ?? {};
               return (
                 <li className="alum" key={person.slug}>

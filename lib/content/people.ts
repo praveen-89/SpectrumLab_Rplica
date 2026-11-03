@@ -4,15 +4,28 @@ import { personSchema, type Person, type PersonGroup } from "./schemas";
 
 export type PersonWithSlug = Person & { slug: string };
 
+function normalizePersonSlug(person: PersonWithSlug): string {
+  if (person.slug.startsWith("current/") || person.slug.startsWith("alumni/")) {
+    return person.slug;
+  }
+  const isAlumni = person.group.includes("graduates") || person.group === "past-post-docs";
+  return isAlumni ? `alumni/${person.group}/${person.slug}` : `current/${person.group}/${person.slug}`;
+}
+
 /** Reads every person under content/people/ (current + alumni + the director). */
 export async function readPeople(): Promise<PersonWithSlug[]> {
-  return readCollection("people", personSchema);
+  const people = await readCollection("people", personSchema);
+  return people.map((person) => {
+    const slug = normalizePersonSlug(person);
+    return slug === person.slug ? person : { ...person, slug };
+  });
 }
 
 /** Looks up a person by their slug (the full "current/..." or "alumni/..." path). */
 export async function findPersonBySlug(slug: string): Promise<PersonWithSlug | undefined> {
   const people = await readPeople();
-  return people.find((person) => person.slug === slug);
+  const cleanSlug = slug.replace(/^\/+|\/+$/g, "");
+  return people.find((person) => person.slug === cleanSlug);
 }
 
 // A graduation/alumni year embedded in the slug ("alumni/<group>/<year>/<slug>"),

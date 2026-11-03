@@ -109,9 +109,9 @@ export async function BiographyCard({ person }: { person: PersonWithSlug }) {
 async function PersonPublications({ person }: { person: PersonWithSlug }) {
   const [people, publications, coauthors] = await Promise.all([readPeople(), readPublications(), readCoauthors()]);
   const director = people.find((p) => p.group === "lab-director");
-  const directorHref = director ? `/people/${director.slug}/` : undefined;
+  const directorHref = director ? `/people/${director.slug.replace(/^\/+|\/+$/g, "")}/` : undefined;
 
-  const personHref = `/people/${person.slug}/`;
+  const personHref = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
   const personPublications = getPublicationsForPerson(publications, coauthors, personHref);
   const views = await buildPublicationViews(personPublications, coauthors, directorHref);
   const byYear = [...groupByYear(views, (view) => view.publication).entries()].sort((a, b) => b[0] - a[0]);

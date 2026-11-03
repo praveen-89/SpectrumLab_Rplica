@@ -41,10 +41,26 @@ const LINK_LABELS: Array<[keyof PersonFormValues["links"], string]> = [
   ["website", "Website"],
 ];
 
+function cleanLeafSlug(slug: string): string {
+  const trimmed = slug.trim().replace(/^\/+|\/+$/g, "");
+  return trimmed.includes("/") ? trimmed.split("/").filter(Boolean).pop() || "" : trimmed;
+}
+
+export function buildPersonCompositeSlug(status: "current" | "alumni", group: string, year: string, leafSlug: string): string {
+  const cleanLeaf = cleanLeafSlug(leafSlug);
+  if (status === "alumni") {
+    const cleanYear = year.trim();
+    return `alumni/${group}/${cleanYear}/${cleanLeaf}`.replace(/\/+/g, "/");
+  }
+  return `current/${group}/${cleanLeaf}`;
+}
+
 function buildFormData(values: PersonFormValues): FormData {
   const links = Object.fromEntries(Object.entries(values.links).filter(([, v]) => v.trim() !== ""));
+  const leafSlug = cleanLeafSlug(values.slug) || slugify(values.name);
+  const compositeSlug = buildPersonCompositeSlug(values.status, values.group, values.year, leafSlug);
   const personData = {
-    slug: values.slug,
+    slug: compositeSlug,
     name: values.name,
     group: values.group,
     image: values.image || undefined,
@@ -55,7 +71,8 @@ function buildFormData(values: PersonFormValues): FormData {
   const formData = new FormData();
   formData.set("json", JSON.stringify(personData));
   formData.set("status", values.status);
-  formData.set("year", values.status === "alumni" ? values.year : "");
+  formData.set("year", values.status === "alumni" ? values.year.trim() : "");
+  formData.set("leafSlug", leafSlug);
   return formData;
 }
 
@@ -72,8 +89,14 @@ export default function PersonForm({
   updateAction?: PersonAction;
   deleteAction?: () => Promise<void>;
 }) {
-  const [values, setValues] = useState<PersonFormValues>({ ...EMPTY, ...initial, links: { ...EMPTY.links, ...initial?.links } });
-  const [slugEdited, setSlugEdited] = useState(Boolean(initial?.slug));
+  const initialLeaf = initial?.slug ? cleanLeafSlug(initial.slug) : "";
+  const [values, setValues] = useState<PersonFormValues>({
+    ...EMPTY,
+    ...initial,
+    slug: initialLeaf || initial?.slug || "",
+    links: { ...EMPTY.links, ...initial?.links },
+  });
+  const [slugEdited, setSlugEdited] = useState(Boolean(initialLeaf));
   const router = useRouter();
 
   function set<K extends keyof PersonFormValues>(key: K, value: PersonFormValues[K]) {
@@ -97,6 +120,11 @@ export default function PersonForm({
     return result;
   }
 
+  const currentLeaf = cleanLeafSlug(values.slug) || (values.name ? slugify(values.name) : "slug");
+  const previewPath = values.status === "alumni"
+    ? `/people/alumni/${values.group}/${values.year || "YYYY"}/${currentLeaf}/`
+    : `/people/current/${values.group}/${currentLeaf}/`;
+
   return (
     <AdminForm
       title={createAction ? "Add Person" : "Edit Person"}
@@ -115,7 +143,7 @@ export default function PersonForm({
           <FormField label="Full Name" htmlFor="name" required>
             <input id="name" value={values.name} onChange={(e) => handleNameChange(e.target.value)} required />
           </FormField>
-          <FormField label="Slug" htmlFor="slug" required help="Used in the profile URL.">
+          <FormField label="Slug" htmlFor="slug" required help={`Profile URL: ${previewPath}`}>
             <div style={{ display: "flex", gap: "0.5rem" }}>
               <input
                 id="slug"
