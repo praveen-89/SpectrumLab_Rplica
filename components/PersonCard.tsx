@@ -5,12 +5,16 @@ import { EmailIcon, GoogleScholarIcon, GitHubIcon, LinkedInIcon, GlobeIcon, Orci
 import ObfuscatedEmail from "./ObfuscatedEmail";
 import { obfuscateEmail } from "@/lib/security/obfuscate";
 
-export default function PersonCard({ person }: { person: PersonWithSlug }) {
+export default function PersonCard({ person, index }: { person: PersonWithSlug; index?: number }) {
   const href = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
   const links = person.links ?? {};
 
   return (
-    <div className="grid-item">
+    <div
+      className="grid-item"
+      data-aos="fade-down"
+      data-aos-delay={index !== undefined ? Math.min(index * 80, 320) : undefined}
+    >
       <div className="card hoverable">
         <Link href={href} aria-hidden="true" tabIndex={-1}>
           {person.image && (

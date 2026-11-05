@@ -27,7 +27,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">{course.title}</h1>
       </header>
       <article>

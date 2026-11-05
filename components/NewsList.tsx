@@ -25,7 +25,7 @@ export default async function NewsList({ items }: { items: NewsItem[] }) {
     <div className="news">
       <div className="news-list">
         <ul className="news-items">
-          {rendered.map(({ item, html }) => {
+          {rendered.map(({ item, html }, index) => {
             // A titled link — either to a /news/ detail page (detailSlug)
             // or elsewhere on the site (link) — renders as the original's
             // <a class="news-title">; anything else is prose from Markdown.
@@ -34,6 +34,8 @@ export default async function NewsList({ items }: { items: NewsItem[] }) {
               <li
                 className="news-item"
                 key={`${item.date}-${item.detailSlug ?? item.link ?? item.title ?? item.body}`}
+                data-aos="fade-down"
+                data-aos-delay={Math.min(index * 80, 320)}
               >
                 <div className="news-meta">
                   <span className="news-date">{formatDate(item.date)}</span>

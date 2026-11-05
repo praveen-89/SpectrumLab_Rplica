@@ -1,5 +1,6 @@
 import { Roboto, Roboto_Slab } from "next/font/google";
 import Providers from "@/components/Providers";
+import KatexStyles from "@/components/KatexStyles";
 
 // The original site loads "SF Pro Display/Text" via a private Adobe Typekit
 // kit we have no access to; -apple-system/BlinkMacSystemFont resolve to the
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" suppressHydrationWarning className={`${roboto.variable} ${robotoSlab.variable}`}>
       <body>
         <Providers>{children}</Providers>
+        <KatexStyles />
       </body>
     </html>
   );

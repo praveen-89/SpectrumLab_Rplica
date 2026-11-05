@@ -8,7 +8,6 @@
    chunks shared an identical `data-precedence="next"` value with no
    guaranteed relative order) — a single file removes that ambiguity. */
 @import "bootstrap/dist/css/bootstrap.min.css";
-@import "katex/dist/katex.min.css";
 
 :root {
   /* Colour tokens (light) — assets/css/main.css, :root block */

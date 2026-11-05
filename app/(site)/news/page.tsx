@@ -16,11 +16,11 @@ export default async function NewsPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">News</h1>
         <h2 className="post-description"></h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <NewsList items={sorted} />
       </article>
     </div>

@@ -51,7 +51,7 @@ export default async function TalkDetail({
 
   return (
     <div className="talk-page">
-      <header className="talk-header">
+      <header className="talk-header" data-aos="fade-down">
         {talk.type && <span className={`talk-badge ${badgeClass(talk.type)}`}>{talk.type}</span>}
         <h1 className="talk-title">{talk.title}</h1>
         <div className="talk-meta">
@@ -90,7 +90,7 @@ export default async function TalkDetail({
       </header>
 
       {talk.speakers.length === 1 && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           <h2>
             <UserTieIcon size={14} />
             {talk.speakersLabel ?? "Speaker"}
@@ -110,7 +110,7 @@ export default async function TalkDetail({
       )}
 
       {talk.speakers.length > 1 && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           <h2>
             <UsersIcon size={14} />
             {talk.speakersLabel ?? "Speakers"}
@@ -127,7 +127,7 @@ export default async function TalkDetail({
       )}
 
       {talk.host && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           <h2>
             <UserFriendsIcon size={14} />
             Host
@@ -139,7 +139,7 @@ export default async function TalkDetail({
       )}
 
       {abstractHtml && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           <h2>
             <FileAltIcon size={14} />
             {talk.abstractLabel ?? "Abstract"}
@@ -149,7 +149,7 @@ export default async function TalkDetail({
       )}
 
       {talk.links.url && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           <a href={talk.links.url} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
             <UserPlusIcon size={14} /> Register
           </a>
@@ -157,7 +157,7 @@ export default async function TalkDetail({
       )}
 
       {(talk.links.slides || talk.links.video) && (
-        <section className="talk-section">
+        <section className="talk-section" data-aos="fade-down">
           {talk.links.slides && (
             <a href={talk.links.slides} className="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">
               Slides
@@ -171,7 +171,7 @@ export default async function TalkDetail({
         </section>
       )}
 
-      <footer className="talk-footer">
+      <footer className="talk-footer" data-aos="fade-down">
         <Link href="/talks/organized/" className="btn btn-outline-primary">
           Back to Talks Organized
         </Link>

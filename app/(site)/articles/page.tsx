@@ -24,11 +24,11 @@ export default async function ArticlesPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Articles</h1>
         <h2 className="post-description">In-depth research highlights from Spectrum Lab</h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <ul className="articles-list">
           {articles.map((item) => (
             <li className="article-item" key={item.slug}>

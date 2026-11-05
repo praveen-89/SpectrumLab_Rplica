@@ -23,11 +23,11 @@ export default async function FundingPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Funding</h1>
         <h2 className="post-description">{DESCRIPTION}</h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <div className="funding">
           <div className="container-md">
             <FundingCarousel funders={funders} />
@@ -36,8 +36,13 @@ export default async function FundingPage() {
 
         <div className="projects">
           <div className="funding-grid">
-            {grants.map((grant) => (
-              <div className="funding-card mb-4 p-3 hoverable" key={grant.title}>
+            {grants.map((grant, index) => (
+              <div
+                className="funding-card mb-4 p-3 hoverable"
+                key={grant.title}
+                data-aos="fade-down"
+                data-aos-delay={Math.min(index * 80, 320)}
+              >
                 <h3 className="card-title mb-1 funding-card__title">{grant.title}</h3>
                 <h4 className="card-subtitle mb-3 text-muted">
                   <BuildingColumnsIcon size={14} className="iconinstitution" />

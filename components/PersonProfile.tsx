@@ -15,7 +15,7 @@ import PublicationEntry from "./PublicationEntry";
 export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }) {
   const links = person.links ?? {};
   return (
-    <div className="col-md-4 text-center">
+    <div className="col-md-4 text-center" data-aos="fade-down">
       {person.image && (
         <Image
           src={person.image}
@@ -108,7 +108,7 @@ export async function BiographyContent({ person }: { person: PersonWithSlug }) {
 
 export async function BiographyCard({ person }: { person: PersonWithSlug }) {
   return (
-    <div className="card shadow-sm border-0 mb-4">
+    <div className="card shadow-sm border-0 mb-4" data-aos="fade-down">
       <div className="card-body">
         <BiographyContent person={person} />
       </div>

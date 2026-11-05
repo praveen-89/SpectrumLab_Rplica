@@ -22,7 +22,7 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
   return (
     <div className="course-wrapper">
       <div className="container-md py-4">
-        <header className="course-header">
+        <header className="course-header" data-aos="fade-down">
           {course.description && (
             <div className="course-syllabus">
               <p className="course-header__desc">{course.description}</p>
@@ -64,7 +64,7 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
         </header>
 
         {course.schedule.length > 0 && (
-          <section className="content-section">
+          <section className="content-section" data-aos="fade-down">
             <div className="section-label">
               <div className="section-label__icon">
                 <ClockIcon size={16} />
@@ -92,10 +92,15 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
           </section>
         )}
 
-        {course.sections.map((section) => {
+        {course.sections.map((section, index) => {
           const SectionIcon = SECTION_ICON[section.type];
           return (
-            <section className="content-section" key={section.label}>
+            <section
+              className="content-section"
+              key={section.label}
+              data-aos="fade-down"
+              data-aos-delay={Math.min(index * 80, 320)}
+            >
               <div className="section-label">
                 <div className="section-label__icon">
                   <SectionIcon size={16} />
@@ -144,7 +149,7 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
         })}
 
         {bodyHtml && (
-          <section className="content-section" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+          <section className="content-section" data-aos="fade-down" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
         )}
       </div>
     </div>

@@ -34,8 +34,8 @@ function groupByYear(people: PersonWithSlug[]): [number, PersonWithSlug[]][] {
 export default function CohortTimeline({ people }: { people: PersonWithSlug[] }) {
   return (
     <div className="cohorts">
-      {groupByYear(people).map(([year, group]) => (
-        <section className="cohort" key={year}>
+      {groupByYear(people).map(([year, group], index) => (
+        <section className="cohort" key={year} data-aos="fade-down" data-aos-delay={Math.min(index * 80, 320)}>
           <div className="cohort__rail">
             <span className="cohort__year">{year}</span>
             <span className="cohort__count">

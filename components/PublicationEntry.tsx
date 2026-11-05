@@ -71,7 +71,7 @@ export default function PublicationEntry({
   const showLink = Boolean(url) && url !== (doi ? `https://doi.org/${doi}` : undefined);
 
   return (
-    <li>
+    <li data-aos="fade-down">
       <div className="row pub-item" data-year={year} data-type-key={entryKey}>
         {abbr && (
           <div className="col col-sm-2 abbr">

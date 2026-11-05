@@ -88,6 +88,7 @@ export default function FundingCarousel({ funders }: { funders: Funder[] }) {
   return (
     <div
       className="funding-carousel"
+      data-aos="fade-down"
       ref={rootRef}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

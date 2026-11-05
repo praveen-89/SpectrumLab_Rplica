@@ -11,8 +11,13 @@ export default function VideoGallery({ videos }: { videos: GalleryVideo[] }) {
 
   return (
     <div className="videos-grid">
-      {videos.map((video) => (
-        <div className="video-card minimal-card minimal-card--interactive" key={video.youtubeId}>
+      {videos.map((video, index) => (
+        <div
+          className="video-card minimal-card minimal-card--interactive"
+          key={video.youtubeId}
+          data-aos="fade-down"
+          data-aos-delay={Math.min(index * 80, 320)}
+        >
           {playingId === video.youtubeId ? (
             <div className="video-card__player">
               <iframe

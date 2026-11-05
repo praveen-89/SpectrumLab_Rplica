@@ -39,8 +39,13 @@ export default function TalksList({ talks, basePath }: { talks: TalkWithSlug[]; 
         <section className="talks-year-section" key={year}>
           <h2 className="year-header">{year}</h2>
           <div className="talks-grid">
-            {items.map((talk) => (
-              <article className="talk-card" key={talk.slug}>
+            {items.map((talk, index) => (
+              <article
+                className="talk-card"
+                key={talk.slug}
+                data-aos="fade-down"
+                data-aos-delay={Math.min(index * 80, 320)}
+              >
                 <div className="talk-card-header">
                   {talk.type && <span className={`talk-type-badge ${badgeClass(talk.type)}`}>{talk.type}</span>}
                   <time className="talk-date">{formatDate(talk.date)}</time>

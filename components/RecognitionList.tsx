@@ -26,7 +26,7 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
 
   return (
     <>
-      <div className="recognition-filters">
+      <div className="recognition-filters" data-aos="fade-down">
         {FILTERS.map((f) => (
           <button
             key={f.value}
@@ -41,7 +41,12 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
 
       <div className="recognition-grid">
         {visible.map((item, index) => (
-          <div className={`recognition-card ${item.type}`} key={`${item.title}-${index}`}>
+          <div
+            className={`recognition-card ${item.type}`}
+            key={`${item.title}-${index}`}
+            data-aos="fade-down"
+            data-aos-delay={Math.min(index * 80, 320)}
+          >
             <div className="recognition-card__image-container">
               {item.images[0] ? (
                 // eslint-disable-next-line @next/next/no-img-element -- a plain decorative photo, not worth Next/Image's fixed-size optimization for a user-contributed, variably-sized gallery of award photos

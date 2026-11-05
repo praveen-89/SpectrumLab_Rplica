@@ -36,7 +36,7 @@ export default async function NewsDetail({ item }: { item: NewsItem }) {
 
   return (
     <div className="event-page">
-      <header className="event-header">
+      <header className="event-header" data-aos="fade-down">
         {item.category && <span className={`event-badge ${badgeClass(item.category)}`}>{item.category}</span>}
         <h1 className="event-title">{item.title}</h1>
         <div className="event-meta">
@@ -60,7 +60,7 @@ export default async function NewsDetail({ item }: { item: NewsItem }) {
       </header>
 
       {item.speakers.length > 0 && (
-        <section className="event-section">
+        <section className="event-section" data-aos="fade-down">
           <h2>
             <UsersIcon size={14} />
             Speakers
@@ -77,7 +77,7 @@ export default async function NewsDetail({ item }: { item: NewsItem }) {
       )}
 
       {item.host && (
-        <section className="event-section">
+        <section className="event-section" data-aos="fade-down">
           <h2>
             <UserFriendsIcon size={14} />
             Host
@@ -89,7 +89,7 @@ export default async function NewsDetail({ item }: { item: NewsItem }) {
       )}
 
       {contentHtml && (
-        <section className="event-section">
+        <section className="event-section" data-aos="fade-down">
           <div className="event-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
         </section>
       )}

@@ -45,12 +45,12 @@ export default async function OpportunitiesPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Opportunities</h1>
         <h2 className="post-description">{DESCRIPTION}</h2>
       </header>
       <article>
-        <div className="opportunities">
+        <div className="opportunities" data-aos="fade-down">
           <div className="container">
             <div className="row">
               <div className="col-md-12">

@@ -47,7 +47,7 @@ export default async function Home() {
       <h1 className="visually-hidden">{site.name}</h1>
 
       {/* Intro card — hero-section */}
-      <div className="hero-section">
+      <div className="hero-section" data-aos="fade-down">
         <div className="container-fluid px-4 py-3">
           <div className="row align-items-center">
             <div className="col-lg-9 col-md-8">
@@ -95,7 +95,7 @@ export default async function Home() {
       </div>
 
       {/* Group photo */}
-      <div className="row mt-4">
+      <div className="row mt-4" data-aos="fade-down">
         <div className="col-sm mt-3 mt-md-0">
           <Image
             src={home.groupPhoto}
@@ -113,7 +113,7 @@ export default async function Home() {
 
       {/* Lab Director */}
       {director && directorHref && (
-        <div className="lab-director-section">
+        <div className="lab-director-section" data-aos="fade-down">
           <h2 className="category">Lab Director</h2>
           <div className="row align-items-center">
             <div className="col-md-4 text-center">
@@ -166,56 +166,62 @@ export default async function Home() {
       )}
 
       {/* News */}
-      <h2>
-        <Link href="/news/" style={{ color: "inherit" }}>
-          News
-        </Link>
-      </h2>
-      <hr />
-      <NewsList items={latestNews} />
+      <div data-aos="fade-down">
+        <h2>
+          <Link href="/news/" style={{ color: "inherit" }}>
+            News
+          </Link>
+        </h2>
+        <hr />
+        <NewsList items={latestNews} />
+      </div>
 
       {/* Recent Publications */}
-      <h2>
-        <Link href="/publications/" style={{ color: "inherit" }}>
-          Recent Publications
-        </Link>
-      </h2>
-      <hr />
-      <div className="publications">
-        <ol className="bibliography">
-          {publicationsWithAuthors.map(({ publication, authors, abstractHtml }) => (
-            <PublicationEntry
-              key={publication.key}
-              entryKey={publication.key}
-              abbr={publication.abbr}
-              title={publication.title}
-              authors={authors}
-              venue={publication.venue}
-              year={publication.year}
-              month={publication.month}
-              doi={publication.doi}
-              url={publication.url}
-              code={publication.code}
-              articlePage={publication.articlePage}
-              pdf={publication.pdf}
-              abstractHtml={abstractHtml}
-              bibtex={publication.bibtex}
-            />
-          ))}
-        </ol>
+      <div data-aos="fade-down">
+        <h2>
+          <Link href="/publications/" style={{ color: "inherit" }}>
+            Recent Publications
+          </Link>
+        </h2>
+        <hr />
+        <div className="publications">
+          <ol className="bibliography">
+            {publicationsWithAuthors.map(({ publication, authors, abstractHtml }) => (
+              <PublicationEntry
+                key={publication.key}
+                entryKey={publication.key}
+                abbr={publication.abbr}
+                title={publication.title}
+                authors={authors}
+                venue={publication.venue}
+                year={publication.year}
+                month={publication.month}
+                doi={publication.doi}
+                url={publication.url}
+                code={publication.code}
+                articlePage={publication.articlePage}
+                pdf={publication.pdf}
+                abstractHtml={abstractHtml}
+                bibtex={publication.bibtex}
+              />
+            ))}
+          </ol>
+        </div>
       </div>
 
       {/* Funding */}
-      <h2>Funding</h2>
-      <hr />
-      <div className="funding">
-        <div className="container-md">
-          <FundingCarousel funders={funders} />
+      <div data-aos="fade-down">
+        <h2>Funding</h2>
+        <hr />
+        <div className="funding">
+          <div className="container-md">
+            <FundingCarousel funders={funders} />
+          </div>
         </div>
       </div>
 
       {/* Social */}
-      <div className="social">
+      <div className="social" data-aos="fade-down">
         <div className="contact-icons">
           <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
             <EmailIcon size={28} />

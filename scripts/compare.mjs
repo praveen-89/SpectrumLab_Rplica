@@ -32,6 +32,17 @@ const DISABLE_ANIMATIONS_CSS = `
   }
 `;
 
+// AOS (our site only) starts [data-aos] elements at opacity:0 until
+// scrolled into view. A fullPage screenshot captures every section at
+// once without ever scrolling them into view for real, so without this
+// override everything below the first viewport would be invisible.
+const FORCE_AOS_VISIBLE_CSS = `
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+`;
+
 function slugify(path) {
   if (path === "/") return "home";
   return path.replace(/^\/|\/$/g, "").replace(/\//g, "-");
@@ -43,11 +54,13 @@ async function shoot(browser, { site, baseUrl, path, viewport, theme }) {
     colorScheme: theme,
   });
 
-  // Both the original (theme.js) and ours (next-themes) read this same
-  // localStorage key, so one init script sets the theme for either site.
+  // The original's theme.js reads "theme"; ours reads "theme-v2" (bumped
+  // from "theme" so visitors with an old stored value don't get stuck on
+  // it). Setting both covers either site with one init script.
   await context.addInitScript((value) => {
     try {
       localStorage.setItem("theme", value);
+      localStorage.setItem("theme-v2", value);
     } catch {
       // ignore (e.g. storage disabled)
     }
@@ -60,7 +73,9 @@ async function shoot(browser, { site, baseUrl, path, viewport, theme }) {
 
   await page.goto(`${baseUrl}${path}`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
-  await page.addStyleTag({ content: DISABLE_ANIMATIONS_CSS + HIDE_NEXT_DEV_INDICATOR_CSS });
+  await page.addStyleTag({
+    content: DISABLE_ANIMATIONS_CSS + HIDE_NEXT_DEV_INDICATOR_CSS + FORCE_AOS_VISIBLE_CSS,
+  });
 
   const slug = slugify(path);
   const dir = join(SHOTS_DIR, slug);

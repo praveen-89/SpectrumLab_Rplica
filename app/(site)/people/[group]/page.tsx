@@ -32,11 +32,11 @@ export default async function PeopleGroupPage({ params }: { params: Promise<{ gr
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">{meta.title}</h1>
         <h2 className="post-description">{meta.description}</h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <div className="people">
           {meta.group === "mtech-graduates" ? <CohortTimeline people={people} /> : <PeopleGrid people={people} />}
         </div>

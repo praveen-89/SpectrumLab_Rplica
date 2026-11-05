@@ -22,7 +22,12 @@ export default function ActivityAccordion({ sections }: { sections: AccordionSec
   return (
     <Accordion>
       {sections.map((section, index) => (
-        <Accordion.Item eventKey={String(index)} key={section.title}>
+        <Accordion.Item
+          eventKey={String(index)}
+          key={section.title}
+          data-aos="fade-down"
+          data-aos-delay={Math.min(index * 80, 320)}
+        >
           {/* Nested under the "Professional Activities" <h2> — react-bootstrap defaults this to h2 itself, which would duplicate that level instead of nesting under it. */}
           <Accordion.Header as="h3">
             <SectionIcon name={section.icon} />

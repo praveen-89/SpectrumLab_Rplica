@@ -75,7 +75,7 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
 
   return (
     <>
-      <div className="pub-controls-row">
+      <div className="pub-controls-row" data-aos="fade-down">
         <div className="search-wrapper">
           <SearchIcon size={14} className="search-icon" />
           <input
@@ -132,7 +132,7 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
 
       {isSearching
         ? searchResultsByYear.map(([year, yearItems]) => (
-            <div className="publications" key={year}>
+            <div className="publications" data-aos="fade-down" key={year}>
               <h2 className="bibliography">{year}</h2>
               <ol className="bibliography">
                 {yearItems.map(({ publication, authors, abstractHtml }) => (
@@ -158,7 +158,7 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
             </div>
           ))
         : (
-            <div className="publications">
+            <div className="publications" data-aos="fade-down">
               <h2 className="bibliography">{currentYear}</h2>
               <ol className="bibliography">
                 {currentYearItems.map(({ publication, authors, abstractHtml }) => (

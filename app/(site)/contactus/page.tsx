@@ -21,11 +21,11 @@ export default async function ContactPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Contact</h1>
         <h2 className="post-description"></h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
 
         <iframe

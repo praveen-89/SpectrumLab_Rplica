@@ -18,11 +18,11 @@ export default async function GalleryPhotosPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Photos</h1>
         <p className="post-description">{DESCRIPTION}</p>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <PhotoGallery events={events} />
       </article>
     </div>

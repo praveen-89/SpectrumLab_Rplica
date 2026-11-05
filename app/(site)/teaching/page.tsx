@@ -18,15 +18,15 @@ export default async function TeachingPage() {
 
   return (
     <div className="post">
-      <header className="post-header">
+      <header className="post-header" data-aos="fade-down">
         <h1 className="post-title">Teaching</h1>
         <h2 className="post-description">Repository of course material</h2>
       </header>
-      <article>
+      <article data-aos="fade-down">
         <div className="teaching-wrapper">
           <div className="container-md py-4">
             {regular.length > 0 && (
-              <section className="course-section">
+              <section className="course-section" data-aos="fade-down">
                 <div className="section-label">
                   <div className="section-label__icon">
                     <BookIcon size={16} />
@@ -42,7 +42,7 @@ export default async function TeachingPage() {
             )}
 
             {short.length > 0 && (
-              <section className="course-section">
+              <section className="course-section" data-aos="fade-down">
                 <div className="section-label">
                   <div className="section-label__icon">
                     <BoltIcon size={16} />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AosInit from "@/components/AosInit";
 import { getSite } from "@/lib/site";
 import { getNavEntries } from "@/lib/nav";
 
@@ -72,6 +73,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         Skip to main content
       </a>
       <Navbar navEntries={navEntries} />
+      <AosInit />
       <main id="main-content" className="fixed-top-nav container mt-5" role="main">
         {children}
       </main>

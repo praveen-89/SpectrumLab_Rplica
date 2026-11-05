@@ -39,7 +39,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="article-page">
-      <header className="article-header">
+      <header className="article-header" data-aos="fade-down">
         <h1 className="article-title">{article.title}</h1>
         <p className="article-excerpt">{article.excerpt}</p>
         <div className="article-meta">
@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {article.date && <time className="article-date">{formatDate(article.date)}</time>}
         </div>
       </header>
-      <div className="article-content" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+      <div className="article-content" data-aos="fade-down" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </div>
   );
 }

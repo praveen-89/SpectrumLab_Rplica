@@ -9,7 +9,7 @@ export default async function DirectorProfile({ person }: { person: PersonWithSl
       <div className="row">
         <PersonPhotoAndLinks person={person} />
         <div className="col-md-8">
-          <div className="card shadow-sm border-0 mb-4">
+          <div className="card shadow-sm border-0 mb-4" data-aos="fade-down">
             <div className="card-body">
               <BiographyContent person={person} />
               {person.awards.length > 0 && (
@@ -26,7 +26,7 @@ export default async function DirectorProfile({ person }: { person: PersonWithSl
           </div>
 
           {person.accordion.length > 0 && (
-            <div className="card shadow-sm border-0 mt-4">
+            <div className="card shadow-sm border-0 mt-4" data-aos="fade-down">
               <div className="card-body">
                 <h2 className="card-title mb-4">Professional Activities</h2>
                 <Suspense fallback={null}>

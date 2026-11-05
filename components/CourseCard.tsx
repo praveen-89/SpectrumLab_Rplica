@@ -4,7 +4,7 @@ import { UserIcon, UsersIcon, ArrowRightIcon } from "./icons";
 
 export default function CourseCard({ course }: { course: CourseWithSlug }) {
   return (
-    <article className="course-card minimal-card minimal-card--interactive">
+    <article className="course-card minimal-card minimal-card--interactive" data-aos="fade-down">
       <header className="course-card__header">
         <h3 className="course-card__title">
           <Link href={`/teaching/${course.slug}/`} className="text-reset">
