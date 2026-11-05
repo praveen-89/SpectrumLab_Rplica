@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { readCourses } from "@/lib/content/teaching";
 import CourseDetail from "@/components/CourseDetail";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 async function findCourse(slug: string) {
   const courses = await readCourses();

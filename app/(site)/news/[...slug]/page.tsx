@@ -4,7 +4,7 @@ import { readCollection } from "@/lib/content/collection";
 import { newsItemSchema } from "@/lib/content/schemas";
 import NewsDetail from "@/components/NewsDetail";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 async function findItem(slug: string) {
   const news = await readCollection("news", newsItemSchema);

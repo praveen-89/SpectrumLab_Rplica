@@ -1,5 +1,4 @@
 import "server-only";
-import { unstable_cache } from "next/cache";
 import { readCollection } from "./collection";
 import { personSchema, type Person, type PersonGroup } from "./schemas";
 
@@ -22,15 +21,11 @@ export async function readPeople(): Promise<PersonWithSlug[]> {
   });
 }
 
-/** The lab director only — cached separately so pages that just need the director's href (e.g. a person's Publications section) don't pay for reading every person. */
-export const readDirector = unstable_cache(
-  async (): Promise<PersonWithSlug | undefined> => {
-    const people = await readPeople();
-    return people.find((p) => p.group === "lab-director");
-  },
-  ["director"],
-  { revalidate: 10, tags: ["people"] },
-);
+/** The lab director only. */
+export async function readDirector(): Promise<PersonWithSlug | undefined> {
+  const people = await readPeople();
+  return people.find((p) => p.group === "lab-director");
+}
 
 /** Looks up a person by their slug (the full "current/..." or "alumni/..." path). */
 export async function findPersonBySlug(slug: string): Promise<PersonWithSlug | undefined> {

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { readTalks } from "@/lib/content/talks";
 import TalkDetail from "@/components/TalkDetail";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 async function findTalk(year: string, slug: string) {
   const talks = await readTalks("delivered");

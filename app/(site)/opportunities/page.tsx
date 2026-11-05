@@ -14,7 +14,7 @@ import {
   ExternalLinkIcon,
 } from "@/components/icons";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 const ICONS = {
   sun: SummerIcon,

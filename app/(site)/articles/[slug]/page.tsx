@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { readArticles } from "@/lib/content/articles";
 import { renderMarkdown } from "@/lib/content/markdown";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 async function findArticle(slug: string) {
   const articles = await readArticles();

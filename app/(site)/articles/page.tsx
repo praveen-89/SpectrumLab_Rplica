@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { readArticles } from "@/lib/content/articles";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Articles",
