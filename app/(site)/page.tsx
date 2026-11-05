@@ -64,6 +64,7 @@ export default async function Home() {
                         className="logo-img"
                         width={800}
                         height={748}
+                        priority
                       />
                     </span>
                     <span className="iisc-logo-dark">
@@ -73,6 +74,7 @@ export default async function Home() {
                         className="logo-img"
                         width={800}
                         height={748}
+                        priority
                       />
                     </span>
                   </a>
@@ -85,6 +87,7 @@ export default async function Home() {
                       className="logo-img ee-logo"
                       width={256}
                       height={368}
+                      priority
                     />
                   </a>
                 </div>
