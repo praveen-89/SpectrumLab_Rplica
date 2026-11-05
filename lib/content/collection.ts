@@ -1,5 +1,6 @@
 import "server-only";
 import type { z } from "zod";
+import { unstable_cache } from "next/cache";
 import { supabasePublic } from "../supabase/public";
 
 type CollectionSource = { table: string; filter?: Record<string, string> };
@@ -27,12 +28,21 @@ export async function readCollection<Schema extends z.ZodType>(
   const source = SOURCE_BY_DIR[dir];
   if (!source) throw new Error(`readCollection: no Supabase table mapped for "${dir}"`);
 
-  let query = supabasePublic.from(source.table).select("data");
-  for (const [column, value] of Object.entries(source.filter ?? {})) {
-    query = query.eq(column, value);
-  }
-  const { data: rows, error } = await query;
-  if (error) throw new Error(`Failed to read ${dir} from Supabase: ${error.message}`);
+  const fetcher = unstable_cache(
+    async () => {
+      let query = supabasePublic.from(source.table).select("data");
+      for (const [column, value] of Object.entries(source.filter ?? {})) {
+        query = query.eq(column, value);
+      }
+      const { data: rows, error } = await query;
+      if (error) throw new Error(`Failed to read ${dir} from Supabase: ${error.message}`);
+      return rows;
+    },
+    [dir],
+    { revalidate: 10, tags: [dir] },
+  );
+
+  const rows = await fetcher();
 
   return rows.map((row) => {
     const result = schema.safeParse(row.data);

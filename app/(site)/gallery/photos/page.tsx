@@ -3,7 +3,7 @@ import { readData } from "@/lib/content/data";
 import { galleryEventSchema } from "@/lib/content/schemas";
 import PhotoGallery from "@/components/PhotoGallery";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 const DESCRIPTION = "A collection of memorable moments from our lab events and activities";
 

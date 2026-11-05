@@ -4,7 +4,7 @@ import { funderSchema, grantSchema } from "@/lib/content/schemas";
 import FundingCarousel from "@/components/FundingCarousel";
 import { BuildingColumnsIcon, UserTieIcon, CalendarIcon, UsersIcon } from "@/components/icons";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 const DESCRIPTION =
   "Research grants and sponsored projects at Spectrum Lab including government and industry-funded initiatives";

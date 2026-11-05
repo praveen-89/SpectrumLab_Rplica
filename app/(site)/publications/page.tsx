@@ -5,7 +5,7 @@ import { readCoauthors } from "@/lib/content/coauthors";
 import { personSchema } from "@/lib/content/schemas";
 import PublicationsBrowser from "@/components/PublicationsBrowser";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 const DESCRIPTION =
   "Peer-reviewed journal articles, conference papers, and preprints from Spectrum Lab at IISc Bangalore";

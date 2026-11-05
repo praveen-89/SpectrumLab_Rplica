@@ -6,7 +6,7 @@ import { readPeopleByGroup } from "@/lib/content/people";
 import PeopleGrid from "@/components/PeopleGrid";
 import CohortTimeline from "@/components/CohortTimeline";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 async function findGroupMeta(group: string) {
   const groups = await readData("people-groups.json", peopleGroupMetaSchema);

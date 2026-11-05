@@ -1,5 +1,6 @@
 import "server-only";
 import type { z } from "zod";
+import { unstable_cache } from "next/cache";
 import { supabasePublic } from "../supabase/public";
 
 const TABLE_BY_FILE: Record<string, { table: string; orderColumn: string }> = {
@@ -25,10 +26,18 @@ export async function readData<Schema extends z.ZodType>(
 
   const configKey = SITE_CONFIG_ARRAY_BY_FILE[file];
   if (configKey) {
-    const { data: row, error } = await supabasePublic.from("site_config").select("data").eq("key", configKey).single();
-    if (error) throw new Error(`Failed to read ${file} from Supabase: ${error.message}`);
+    const fetchConfigRow = unstable_cache(
+      async () => {
+        const { data: row, error } = await supabasePublic.from("site_config").select("data").eq("key", configKey).single();
+        if (error) throw new Error(`Failed to read ${file} from Supabase: ${error.message}`);
+        return row.data;
+      },
+      [file],
+      { revalidate: 10, tags: [file] },
+    );
 
-    const result = arraySchema.safeParse(row.data);
+    const data = await fetchConfigRow();
+    const result = arraySchema.safeParse(data);
     if (!result.success) {
       const [issue] = result.error.issues;
       throw new Error(`Invalid data in ${file}: ${issue.path.join(".")} — ${issue.message}`);
@@ -39,12 +48,20 @@ export async function readData<Schema extends z.ZodType>(
   const mapping = TABLE_BY_FILE[file];
   if (!mapping) throw new Error(`readData: no Supabase table mapped for "${file}"`);
 
-  const { data: rows, error } = await supabasePublic
-    .from(mapping.table)
-    .select("data")
-    .order(mapping.orderColumn, { ascending: true });
-  if (error) throw new Error(`Failed to read ${file} from Supabase: ${error.message}`);
+  const fetchRows = unstable_cache(
+    async () => {
+      const { data: rows, error } = await supabasePublic
+        .from(mapping.table)
+        .select("data")
+        .order(mapping.orderColumn, { ascending: true });
+      if (error) throw new Error(`Failed to read ${file} from Supabase: ${error.message}`);
+      return rows;
+    },
+    [file],
+    { revalidate: 10, tags: [file] },
+  );
 
+  const rows = await fetchRows();
   const result = arraySchema.safeParse(rows.map((row) => row.data));
   if (!result.success) {
     const [issue] = result.error.issues;

@@ -3,7 +3,7 @@ import { readCollection } from "@/lib/content/collection";
 import { newsItemSchema } from "@/lib/content/schemas";
 import NewsList from "@/components/NewsList";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 export const metadata: Metadata = {
   title: "News",
