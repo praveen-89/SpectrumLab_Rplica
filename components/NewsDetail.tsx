@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { NewsItem } from "@/lib/content/schemas";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { CalendarIcon, ClockIcon, MapMarkerIcon, UsersIcon, UserFriendsIcon } from "./icons";
@@ -20,9 +21,9 @@ function PersonLink({ person }: { person: { name: string; href?: string; prefix?
     <>
       {person.prefix && `${person.prefix} `}
       {person.href ? (
-        <a href={person.href} className="coauthor-link">
+        <Link href={person.href} className="coauthor-link">
           {person.name}
-        </a>
+        </Link>
       ) : (
         person.name
       )}

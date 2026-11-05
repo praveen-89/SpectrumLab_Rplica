@@ -3,17 +3,11 @@ import { notFound } from "next/navigation";
 import { readTalks } from "@/lib/content/talks";
 import TalkDetail from "@/components/TalkDetail";
 
+export const revalidate = 10;
+
 async function findTalk(year: string, slug: string) {
   const talks = await readTalks("delivered");
   return talks.find((talk) => talk.slug === `${year}/${slug}`);
-}
-
-export async function generateStaticParams() {
-  const talks = await readTalks("delivered");
-  return talks.map((talk) => {
-    const [year, slug] = talk.slug.split("/");
-    return { year, slug };
-  });
 }
 
 export async function generateMetadata({

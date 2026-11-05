@@ -30,9 +30,9 @@ function PersonLink({ person }: { person: { name: string; href?: string; prefix?
     <>
       {person.prefix && `${person.prefix} `}
       {person.href ? (
-        <a href={person.href} className="coauthor-link">
+        <Link href={person.href} className="coauthor-link">
           {person.name}
-        </a>
+        </Link>
       ) : (
         person.name
       )}

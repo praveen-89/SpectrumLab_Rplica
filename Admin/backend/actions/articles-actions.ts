@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { updateTag } from "next/cache";
 import { genericCreate, genericUpdate, genericDelete, type JsonFormState } from "./generic-crud";
 import { articleSchema } from "@/lib/content/schemas";
 
@@ -9,7 +10,7 @@ const PATHS = ["/articles/"];
 const schema = articleSchema.extend({ slug: z.string() });
 
 export async function createArticle(_prevState: JsonFormState | undefined, formData: FormData) {
-  return genericCreate(
+  const result = await genericCreate(
     TABLE,
     "id",
     schema,
@@ -17,10 +18,12 @@ export async function createArticle(_prevState: JsonFormState | undefined, formD
     (data) => ({ slug: data.slug, item_date: data.date ?? null }),
     PATHS,
   );
+  if (!result?.error) updateTag("articles");
+  return result;
 }
 
 export async function updateArticle(id: string, _prevState: JsonFormState | undefined, formData: FormData) {
-  return genericUpdate(
+  const result = await genericUpdate(
     TABLE,
     "id",
     id,
@@ -29,8 +32,12 @@ export async function updateArticle(id: string, _prevState: JsonFormState | unde
     (data) => ({ slug: data.slug, item_date: data.date ?? null }),
     PATHS,
   );
+  if (!result?.error) updateTag("articles");
+  return result;
 }
 
 export async function deleteArticle(id: string) {
-  return genericDelete(TABLE, "id", id, PATHS);
+  const result = await genericDelete(TABLE, "id", id, PATHS);
+  updateTag("articles");
+  return result;
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { updateTag } from "next/cache";
 import { genericCreate, genericUpdate, genericDelete, type JsonFormState } from "./generic-crud";
 import { talkItemSchema } from "@/lib/content/schemas";
 
@@ -16,9 +17,14 @@ function splitSlug(slug: string) {
   return { year: Number(year), slug: leaf };
 }
 
+function revalidateTalkTags() {
+  updateTag("talks/organized");
+  updateTag("talks/delivered");
+}
+
 export async function createTalk(_prevState: JsonFormState | undefined, formData: FormData) {
   const kind = String(formData.get("kind")) as "organized" | "delivered";
-  return genericCreate(
+  const result = await genericCreate(
     "talks",
     "id",
     schema,
@@ -26,10 +32,12 @@ export async function createTalk(_prevState: JsonFormState | undefined, formData
     (data) => ({ kind, ...splitSlug(data.slug) }),
     kind === "organized" ? PATHS_ORGANIZED : PATHS_DELIVERED,
   );
+  if (!result?.error) revalidateTalkTags();
+  return result;
 }
 
 export async function updateTalk(id: string, kind: "organized" | "delivered", _prevState: JsonFormState | undefined, formData: FormData) {
-  return genericUpdate(
+  const result = await genericUpdate(
     "talks",
     "id",
     id,
@@ -38,8 +46,12 @@ export async function updateTalk(id: string, kind: "organized" | "delivered", _p
     (data) => ({ kind, ...splitSlug(data.slug) }),
     kind === "organized" ? PATHS_ORGANIZED : PATHS_DELIVERED,
   );
+  if (!result?.error) revalidateTalkTags();
+  return result;
 }
 
 export async function deleteTalk(id: string, kind: "organized" | "delivered") {
-  return genericDelete("talks", "id", id, kind === "organized" ? PATHS_ORGANIZED : PATHS_DELIVERED);
+  const result = await genericDelete("talks", "id", id, kind === "organized" ? PATHS_ORGANIZED : PATHS_DELIVERED);
+  revalidateTalkTags();
+  return result;
 }

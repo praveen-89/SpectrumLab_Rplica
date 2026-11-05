@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { NewsItem } from "@/lib/content/schemas";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { ArrowRightIcon, UserTieIcon } from "./icons";
@@ -55,9 +56,9 @@ export default async function NewsList({ items }: { items: NewsItem[] }) {
                       <UserTieIcon size={12} />
                       {item.speaker.prefix && `${item.speaker.prefix} `}
                       {item.speaker.href ? (
-                        <a href={item.speaker.href} className="coauthor-link">
+                        <Link href={item.speaker.href} className="coauthor-link">
                           {item.speaker.name}
-                        </a>
+                        </Link>
                       ) : (
                         item.speaker.name
                       )}

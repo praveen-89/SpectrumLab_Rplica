@@ -20,6 +20,8 @@ export default function PersonCard({ person }: { person: PersonWithSlug }) {
               className="img-fluid rounded-circle z-depth-0"
               width={300}
               height={300}
+              sizes="(max-width: 576px) 120px, (max-width: 992px) 180px, 220px"
+              loading="lazy"
               style={{ aspectRatio: "1 / 1", objectFit: "cover" }}
             />
           )}

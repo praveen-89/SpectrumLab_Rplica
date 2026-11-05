@@ -1,17 +1,27 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { publicationSchema, type Publication } from "./schemas";
 import { renderMarkdown } from "./markdown";
 import { supabasePublic } from "../supabase/public";
 import type { PublicationView } from "../publications-view";
 
+const fetchPublications = unstable_cache(
+  async () => {
+    const { data: rows, error } = await supabasePublic
+      .from("publications")
+      .select("data")
+      .order("year", { ascending: false })
+      .order("bib_order", { ascending: true });
+    if (error) throw new Error(`Failed to read publications from Supabase: ${error.message}`);
+    return rows;
+  },
+  ["publications"],
+  { revalidate: 10, tags: ["publications"] },
+);
+
 /** Reads and validates every publication from Supabase, newest year first — the admin-managed equivalent of the old content/papers.bib. */
 export async function readPublications(): Promise<Publication[]> {
-  const { data: rows, error } = await supabasePublic
-    .from("publications")
-    .select("data")
-    .order("year", { ascending: false })
-    .order("bib_order", { ascending: true });
-  if (error) throw new Error(`Failed to read publications from Supabase: ${error.message}`);
+  const rows = await fetchPublications();
 
   return rows.map((row) => {
     const result = publicationSchema.safeParse(row.data);

@@ -14,6 +14,8 @@ import {
   ExternalLinkIcon,
 } from "@/components/icons";
 
+export const revalidate = 10;
+
 const ICONS = {
   sun: SummerIcon,
   "graduation-cap": GraduationCapIcon,

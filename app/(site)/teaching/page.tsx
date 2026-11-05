@@ -3,6 +3,8 @@ import { readCourses } from "@/lib/content/teaching";
 import CourseCard from "@/components/CourseCard";
 import { BookIcon, BoltIcon } from "@/components/icons";
 
+export const revalidate = 10;
+
 export const metadata: Metadata = {
   title: "Teaching",
   description: "Repository of course material",

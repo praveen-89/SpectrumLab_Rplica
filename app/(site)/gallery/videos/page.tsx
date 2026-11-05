@@ -3,6 +3,8 @@ import { readData } from "@/lib/content/data";
 import { galleryVideoSchema } from "@/lib/content/schemas";
 import VideoGallery from "@/components/VideoGallery";
 
+export const revalidate = 10;
+
 const DESCRIPTION = "Research talks, tutorials, and lab activity recordings";
 
 export const metadata: Metadata = {

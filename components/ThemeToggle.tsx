@@ -5,8 +5,8 @@ import { useTheme } from "next-themes";
 import { MoonIcon, SunIcon, SystemIcon } from "./icons";
 
 // Matches the original's theme.js cycle order exactly: system -> light ->
-// dark -> system. next-themes is configured with storageKey="theme" in
-// Providers.tsx, the same localStorage key theme.js uses.
+// dark -> system. next-themes is configured with storageKey="theme-v2" in
+// Providers.tsx.
 function nextSetting(current: "system" | "light" | "dark") {
   if (current === "system") return "light";
   if (current === "light") return "dark";

@@ -51,7 +51,15 @@ export default function CohortTimeline({ people }: { people: PersonWithSlug[] })
                 <li className="alum" key={person.slug}>
                   <Link className="alum__face" href={href} aria-hidden="true" tabIndex={-1}>
                     {person.image ? (
-                      <Image src={person.image} alt="" width={88} height={88} className="alum__photo" />
+                      <Image
+                        src={person.image}
+                        alt=""
+                        width={88}
+                        height={88}
+                        className="alum__photo"
+                        sizes="88px"
+                        loading="lazy"
+                      />
                     ) : (
                       <span className="alum__initials">{initials(person.name)}</span>
                     )}

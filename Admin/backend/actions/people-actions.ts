@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { genericCreate, genericUpdate, genericDelete, type JsonFormState } from "./generic-crud";
 import { personSchema } from "@/lib/content/schemas";
@@ -67,21 +67,21 @@ export async function createPerson(_prevState: JsonFormState | undefined, formDa
   const dataPayload = { ...parsed.data, slug: compositeSlug };
   const paths = peoplePaths(parsed.data.group, compositeSlug);
 
-  return friendlyError(
-    await genericCreate(
-      "people",
-      "id",
-      schema,
-      JSON.stringify(dataPayload),
-      () => ({
-        slug: leafSlug,
-        group: parsed.data.group,
-        status,
-        year: year ? Number(year) : null,
-      }),
-      paths,
-    ),
+  const result = await genericCreate(
+    "people",
+    "id",
+    schema,
+    JSON.stringify(dataPayload),
+    () => ({
+      slug: leafSlug,
+      group: parsed.data.group,
+      status,
+      year: year ? Number(year) : null,
+    }),
+    paths,
   );
+  if (!result?.error) updateTag("people");
+  return friendlyError(result);
 }
 
 export async function updatePerson(
@@ -114,22 +114,22 @@ export async function updatePerson(
     paths.push(`/people/${cleanPrev}`);
   }
 
-  return friendlyError(
-    await genericUpdate(
-      "people",
-      "id",
-      id,
-      schema,
-      JSON.stringify(dataPayload),
-      () => ({
-        slug: leafSlug,
-        group: parsed.data.group,
-        status,
-        year: year ? Number(year) : null,
-      }),
-      paths,
-    ),
+  const result = await genericUpdate(
+    "people",
+    "id",
+    id,
+    schema,
+    JSON.stringify(dataPayload),
+    () => ({
+      slug: leafSlug,
+      group: parsed.data.group,
+      status,
+      year: year ? Number(year) : null,
+    }),
+    paths,
   );
+  if (!result?.error) updateTag("people");
+  return friendlyError(result);
 }
 
 export async function deletePerson(id: string, group: string, status: string, year: number | null, slug: string) {
@@ -142,4 +142,5 @@ export async function deletePerson(id: string, group: string, status: string, ye
   revalidatePath(`/people/${group}/`);
   revalidatePath(`/people/${group}`);
   revalidatePath("/", "layout");
+  updateTag("people");
 }

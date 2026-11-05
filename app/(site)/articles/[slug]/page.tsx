@@ -3,14 +3,11 @@ import { notFound } from "next/navigation";
 import { readArticles } from "@/lib/content/articles";
 import { renderMarkdown } from "@/lib/content/markdown";
 
+export const revalidate = 10;
+
 async function findArticle(slug: string) {
   const articles = await readArticles();
   return articles.find((article) => article.slug === slug);
-}
-
-export async function generateStaticParams() {
-  const articles = await readArticles();
-  return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

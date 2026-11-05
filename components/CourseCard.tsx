@@ -21,9 +21,9 @@ export default function CourseCard({ course }: { course: CourseWithSlug }) {
             <span>
               {course.instructor.prefix && `${course.instructor.prefix} `}
               {course.instructor.href ? (
-                <a href={course.instructor.href} className="coauthor-link">
+                <Link href={course.instructor.href} className="coauthor-link">
                   {course.instructor.name}
-                </a>
+                </Link>
               ) : (
                 course.instructor.name
               )}

@@ -3,6 +3,8 @@ import { readData } from "@/lib/content/data";
 import { recognitionItemSchema } from "@/lib/content/schemas";
 import RecognitionList from "@/components/RecognitionList";
 
+export const revalidate = 10;
+
 const DESCRIPTION = "A showcase of the prestigious awards, fellowships, and honors received by our lab members.";
 
 export const metadata: Metadata = {

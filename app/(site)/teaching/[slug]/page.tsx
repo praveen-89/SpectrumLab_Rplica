@@ -3,14 +3,11 @@ import { notFound } from "next/navigation";
 import { readCourses } from "@/lib/content/teaching";
 import CourseDetail from "@/components/CourseDetail";
 
+export const revalidate = 10;
+
 async function findCourse(slug: string) {
   const courses = await readCourses();
   return courses.find((course) => course.slug === slug);
-}
-
-export async function generateStaticParams() {
-  const courses = await readCourses();
-  return courses.map((course) => ({ slug: course.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

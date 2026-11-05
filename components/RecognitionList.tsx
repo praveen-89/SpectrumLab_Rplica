@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { RecognitionItem } from "@/lib/content/schemas";
 import { UserGraduateIcon, ImagesIcon } from "./icons";
 
@@ -68,7 +69,7 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
                   {item.people.map((person, i) => (
                     <span key={person.name}>
                       {i > 0 && ", "}
-                      {person.href ? <a href={person.href} className="coauthor-link">{person.name}</a> : person.name}
+                      {person.href ? <Link href={person.href} className="coauthor-link">{person.name}</Link> : person.name}
                     </span>
                   ))}
                 </span>

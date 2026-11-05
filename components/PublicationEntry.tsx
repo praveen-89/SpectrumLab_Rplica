@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Link from "next/link";
 import { FileIcon } from "./icons";
 
 export type PublicationAuthor = {
@@ -89,7 +90,15 @@ export default function PublicationEntry({
           </div>
           <div className="author">
             {authors.map((author, index) => {
-              const node = author.href ? <a href={author.href}>{author.name}</a> : author.name;
+              const node = author.href ? (
+                author.href.startsWith("/") ? (
+                  <Link href={author.href}>{author.name}</Link>
+                ) : (
+                  <a href={author.href}>{author.name}</a>
+                )
+              ) : (
+                author.name
+              );
               const rendered = author.italic ? <em>{node}</em> : node;
               const isLast = index === authors.length - 1;
               const isSecondLast = index === authors.length - 2;

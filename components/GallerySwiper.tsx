@@ -34,7 +34,7 @@ export default function GallerySwiper({
           keyboard={{ enabled: true, onlyInViewport: true }}
           onSlideChange={(swiper: SwiperInstance) => setActiveIndex(swiper.realIndex)}
         >
-          {photos.map((photo) => (
+          {photos.map((photo, index) => (
             <SwiperSlide key={photo.src} className="d-flex justify-content-center align-items-center">
               <button
                 type="button"
@@ -48,6 +48,8 @@ export default function GallerySwiper({
                   fill
                   style={{ objectFit: "cover" }}
                   sizes="(max-width: 576px) 100vw, 50vw"
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </button>
             </SwiperSlide>

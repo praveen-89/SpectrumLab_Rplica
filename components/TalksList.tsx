@@ -54,7 +54,11 @@ export default function TalksList({ talks, basePath }: { talks: TalkWithSlug[]; 
                     <span>
                       {talk.speakers[0].prefix && `${talk.speakers[0].prefix} `}
                       {talk.speakers[0].href ? (
-                        <a href={talk.speakers[0].href}>{talk.speakers[0].name}</a>
+                        talk.speakers[0].href.startsWith("/") ? (
+                          <Link href={talk.speakers[0].href}>{talk.speakers[0].name}</Link>
+                        ) : (
+                          <a href={talk.speakers[0].href}>{talk.speakers[0].name}</a>
+                        )
                       ) : (
                         talk.speakers[0].name
                       )}
@@ -69,7 +73,15 @@ export default function TalksList({ talks, basePath }: { talks: TalkWithSlug[]; 
                       <UserFriendsIcon size={14} />
                       <span>
                         Host: {talk.host.prefix && `${talk.host.prefix} `}
-                        {talk.host.href ? <a href={talk.host.href}>{talk.host.name}</a> : talk.host.name}
+                        {talk.host.href ? (
+                          talk.host.href.startsWith("/") ? (
+                            <Link href={talk.host.href}>{talk.host.name}</Link>
+                          ) : (
+                            <a href={talk.host.href}>{talk.host.name}</a>
+                          )
+                        ) : (
+                          talk.host.name
+                        )}
                       </span>
                     </div>
                   )

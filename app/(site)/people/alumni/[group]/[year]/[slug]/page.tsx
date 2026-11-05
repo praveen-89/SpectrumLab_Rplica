@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { readPeople, findPersonBySlug } from "@/lib/content/people";
+import { findPersonBySlug } from "@/lib/content/people";
 import PersonProfile from "@/components/PersonProfile";
 
-export const dynamic = "force-dynamic";
-
-export async function generateStaticParams() {
-  const people = await readPeople();
-  return people
-    .filter((person) => person.slug.startsWith("alumni/"))
-    .map((person) => {
-      const [, group, year, slug] = person.slug.split("/");
-      return { group, year, slug };
-    });
-}
+export const revalidate = 10;
 
 export async function generateMetadata({
   params,

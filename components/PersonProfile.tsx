@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { Suspense } from "react";
 import type { PersonWithSlug } from "@/lib/content/people";
-import { readPeople } from "@/lib/content/people";
+import { readDirector } from "@/lib/content/people";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { readPublications, buildPublicationViews } from "@/lib/content/publications";
 import { readCoauthors } from "@/lib/content/coauthors";
@@ -23,6 +24,8 @@ export async function PersonPhotoAndLinks({ person }: { person: PersonWithSlug }
           style={{ maxHeight: 300 }}
           width={300}
           height={300}
+          sizes="(max-width: 768px) 200px, 300px"
+          priority
         />
       )}
       <h1 className="mt-3">{person.name}</h1>
@@ -114,8 +117,7 @@ export async function BiographyCard({ person }: { person: PersonWithSlug }) {
 }
 
 async function PersonPublications({ person }: { person: PersonWithSlug }) {
-  const [people, publications, coauthors] = await Promise.all([readPeople(), readPublications(), readCoauthors()]);
-  const director = people.find((p) => p.group === "lab-director");
+  const [director, publications, coauthors] = await Promise.all([readDirector(), readPublications(), readCoauthors()]);
   const directorHref = director ? `/people/${director.slug.replace(/^\/+|\/+$/g, "")}/` : undefined;
 
   const personHref = `/people/${person.slug.replace(/^\/+|\/+$/g, "")}/`;
@@ -164,7 +166,9 @@ export default async function PersonProfile({ person }: { person: PersonWithSlug
           <BiographyCard person={person} />
         </div>
       </div>
-      <PersonPublications person={person} />
+      <Suspense fallback={null}>
+        <PersonPublications person={person} />
+      </Suspense>
     </div>
   );
 }

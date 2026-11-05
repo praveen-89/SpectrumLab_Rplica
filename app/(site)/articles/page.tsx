@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { readArticles } from "@/lib/content/articles";
 
+export const revalidate = 10;
+
 export const metadata: Metadata = {
   title: "Articles",
   description: "In-depth research highlights from Spectrum Lab",

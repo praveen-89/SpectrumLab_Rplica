@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { PersonWithSlug } from "@/lib/content/people";
 import { PersonPhotoAndLinks, BiographyContent } from "./PersonProfile";
 import ActivityAccordion from "./ActivityAccordion";
@@ -28,7 +29,9 @@ export default async function DirectorProfile({ person }: { person: PersonWithSl
             <div className="card shadow-sm border-0 mt-4">
               <div className="card-body">
                 <h2 className="card-title mb-4">Professional Activities</h2>
-                <ActivityAccordion sections={person.accordion} />
+                <Suspense fallback={null}>
+                  <ActivityAccordion sections={person.accordion} />
+                </Suspense>
               </div>
             </div>
           )}

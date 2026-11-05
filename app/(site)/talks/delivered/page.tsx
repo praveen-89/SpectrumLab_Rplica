@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { readTalks } from "@/lib/content/talks";
 import TalksList from "@/components/TalksList";
 
+export const revalidate = 10;
+
 export const metadata: Metadata = {
   title: "Talks Delivered",
   alternates: { canonical: "/talks/delivered/" },

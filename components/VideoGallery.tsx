@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { GalleryVideo } from "@/lib/content/schemas";
 import { UserIcon, CalendarIcon } from "./icons";
 
@@ -44,9 +45,9 @@ export default function VideoGallery({ videos }: { videos: GalleryVideo[] }) {
                 <UserIcon size={13} />
                 <span>
                   {video.speaker.href ? (
-                    <a href={video.speaker.href} className="coauthor-link">
+                    <Link href={video.speaker.href} className="coauthor-link">
                       {video.speaker.name}
-                    </a>
+                    </Link>
                   ) : (
                     video.speaker.name
                   )}

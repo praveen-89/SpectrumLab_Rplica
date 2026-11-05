@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { CourseWithSlug } from "@/lib/content/teaching";
 import { renderMarkdown } from "@/lib/content/markdown";
 import {
@@ -33,9 +34,9 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
                 <UserIcon size={12} />
                 {course.instructor.prefix && `${course.instructor.prefix} `}
                 {course.instructor.href ? (
-                  <a href={course.instructor.href} className="coauthor-link">
+                  <Link href={course.instructor.href} className="coauthor-link">
                     {course.instructor.name}
-                  </a>
+                  </Link>
                 ) : (
                   course.instructor.name
                 )}

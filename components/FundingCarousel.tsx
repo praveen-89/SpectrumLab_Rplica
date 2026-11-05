@@ -114,6 +114,8 @@ export default function FundingCarousel({ funders }: { funders: Funder[] }) {
               width={220}
               height={140}
               className="img-fluid mx-auto d-block"
+              sizes="(max-width: 576px) 100vw, 220px"
+              loading="lazy"
               style={{ width: 220, height: 140, objectFit: "contain" }}
             />
           );
