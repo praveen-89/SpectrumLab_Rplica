@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { readTalks } from "@/lib/content/talks";
 import TalksList from "@/components/TalksList";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Talks Delivered",

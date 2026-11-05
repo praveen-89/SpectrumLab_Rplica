@@ -7,7 +7,7 @@ import ObfuscatedEmail from "@/components/ObfuscatedEmail";
 import { obfuscateEmail } from "@/lib/security/obfuscate";
 import { getSite } from "@/lib/site";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Contact",

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { findPersonBySlug } from "@/lib/content/people";
 import PersonProfile from "@/components/PersonProfile";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

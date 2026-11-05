@@ -3,7 +3,7 @@ import { readData } from "@/lib/content/data";
 import { galleryVideoSchema } from "@/lib/content/schemas";
 import VideoGallery from "@/components/VideoGallery";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 const DESCRIPTION = "Research talks, tutorials, and lab activity recordings";
 
