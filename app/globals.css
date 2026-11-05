@@ -453,11 +453,25 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
    of the original's hand-rolled drawer-open/overlay JS, restyled to match:
    280px panel, divider border, dark backdrop (Bootstrap's default offcanvas
    backdrop is already ~rgba(0,0,0,.5), matching the original closely). */
-.navbar-drawer .offcanvas {
+.navbar-drawer.offcanvas,
+.navbar-drawer {
+  top: var(--navbar-height, 60px) !important;
+  height: calc(100vh - var(--navbar-height, 60px)) !important;
+  height: calc(100dvh - var(--navbar-height, 60px)) !important;
   width: 280px;
   max-width: 85vw;
-  background-color: var(--global-bg-color);
-  border-right: 1px solid var(--global-divider-color);
+  background-color: var(--global-bg-color) !important;
+  color: var(--global-text-color) !important;
+  border-right: 1px solid var(--global-divider-color) !important;
+  border-top: 1px solid var(--global-divider-color) !important;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
+}
+.navbar-drawer .offcanvas-body {
+  background-color: var(--global-bg-color) !important;
+  color: var(--global-text-color) !important;
+}
+.offcanvas-backdrop {
+  top: var(--navbar-height, 60px) !important;
 }
 .navbar-drawer .navbar-nav {
   padding: 1rem 0.5rem;
@@ -468,16 +482,20 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
 }
 .navbar-drawer .navbar-nav .nav-link {
   display: block;
-  padding: 1rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   border-radius: 0.5rem;
   text-align: left;
+  color: var(--global-text-color) !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.navbar-drawer .navbar-nav .nav-item .nav-link:hover {
-  background-color: var(--global-hover-bg-color);
-  color: var(--global-theme-color);
+.navbar-drawer .navbar-nav .nav-item .nav-link:hover,
+.navbar-drawer .navbar-nav .nav-link:hover {
+  background-color: var(--global-hover-bg-color) !important;
+  color: var(--global-theme-color) !important;
 }
 .navbar-drawer .navbar-nav .nav-item.active > .nav-link {
-  background-color: rgba(var(--global-theme-color-rgb), 0.1);
+  background-color: rgba(var(--global-theme-color-rgb), 0.12) !important;
+  color: var(--global-theme-color) !important;
 }
 .navbar-drawer .navbar-nav .nav-item.active > .nav-link::after {
   display: none;
@@ -498,8 +516,20 @@ html[data-theme="dark"] #navbar.navbar-scrolled {
 }
 .navbar-drawer .navbar-nav .dropdown-item {
   padding: 0.5rem 1.5rem;
-  color: var(--global-text-color-light);
+  color: var(--global-text-color-light) !important;
   text-align: left;
+  border-radius: 0.35rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.navbar-drawer .navbar-nav .dropdown-item:hover,
+.navbar-drawer .navbar-nav .dropdown-item:focus {
+  background-color: var(--global-hover-bg-color) !important;
+  color: var(--global-theme-color) !important;
+}
+.navbar-drawer .navbar-nav .dropdown-item.active,
+.navbar-drawer .navbar-nav .dropdown-item:active {
+  background-color: rgba(var(--global-theme-color-rgb), 0.12) !important;
+  color: var(--global-theme-color) !important;
 }
 .navbar-drawer .toggle-container {
   padding: 0.5rem 1.5rem;
