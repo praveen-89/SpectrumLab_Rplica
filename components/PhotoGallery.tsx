@@ -26,7 +26,7 @@ export default function PhotoGallery({ events }: { events: GalleryEvent[] }) {
   return (
     <div className="album-container">
       {events.map((event, i) => (
-        <section className="event-section" key={event.title ?? i} data-aos="fade-down" data-aos-delay={Math.min(i * 80, 320)}>
+        <section className="event-section" key={event.title ?? i} data-aos="fade-down" data-aos-delay={Math.min(i * 50, 300)}>
           <div className="event-header">
             {event.title && <h2 className="event-title">{event.title}</h2>}
             {event.description && <p className="event-description">{event.description}</p>}

@@ -35,7 +35,7 @@ export default async function NewsList({ items }: { items: NewsItem[] }) {
                 className="news-item"
                 key={`${item.date}-${item.detailSlug ?? item.link ?? item.title ?? item.body}`}
                 data-aos="fade-down"
-                data-aos-delay={Math.min(index * 80, 320)}
+                data-aos-delay={Math.min(index * 50, 300)}
               >
                 <div className="news-meta">
                   <span className="news-date">{formatDate(item.date)}</span>

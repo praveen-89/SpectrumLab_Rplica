@@ -45,7 +45,7 @@ export default function RecognitionList({ items }: { items: RecognitionItem[] })
             className={`recognition-card ${item.type}`}
             key={`${item.title}-${index}`}
             data-aos="fade-down"
-            data-aos-delay={Math.min(index * 80, 320)}
+            data-aos-delay={Math.min(index * 50, 300)}
           >
             <div className="recognition-card__image-container">
               {item.images[0] ? (

@@ -16,7 +16,7 @@ export default function VideoGallery({ videos }: { videos: GalleryVideo[] }) {
           className="video-card minimal-card minimal-card--interactive"
           key={video.youtubeId}
           data-aos="fade-down"
-          data-aos-delay={Math.min(index * 80, 320)}
+          data-aos-delay={Math.min(index * 50, 300)}
         >
           {playingId === video.youtubeId ? (
             <div className="video-card__player">

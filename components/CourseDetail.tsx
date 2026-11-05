@@ -99,7 +99,7 @@ export default async function CourseDetail({ course }: { course: CourseWithSlug 
               className="content-section"
               key={section.label}
               data-aos="fade-down"
-              data-aos-delay={Math.min(index * 80, 320)}
+              data-aos-delay={Math.min(index * 50, 300)}
             >
               <div className="section-label">
                 <div className="section-label__icon">

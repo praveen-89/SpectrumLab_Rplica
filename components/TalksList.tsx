@@ -44,7 +44,7 @@ export default function TalksList({ talks, basePath }: { talks: TalkWithSlug[]; 
                 className="talk-card"
                 key={talk.slug}
                 data-aos="fade-down"
-                data-aos-delay={Math.min(index * 80, 320)}
+                data-aos-delay={Math.min(index * 50, 300)}
               >
                 <div className="talk-card-header">
                   {talk.type && <span className={`talk-type-badge ${badgeClass(talk.type)}`}>{talk.type}</span>}

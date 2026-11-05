@@ -13,7 +13,7 @@ export default function PersonCard({ person, index }: { person: PersonWithSlug; 
     <div
       className="grid-item"
       data-aos="fade-down"
-      data-aos-delay={index !== undefined ? Math.min(index * 80, 320) : undefined}
+      data-aos-delay={index !== undefined ? Math.min(index * 50, 300) : undefined}
     >
       <div className="card hoverable">
         <Link href={href} aria-hidden="true" tabIndex={-1}>

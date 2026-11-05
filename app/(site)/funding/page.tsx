@@ -41,7 +41,7 @@ export default async function FundingPage() {
                 className="funding-card mb-4 p-3 hoverable"
                 key={grant.title}
                 data-aos="fade-down"
-                data-aos-delay={Math.min(index * 80, 320)}
+                data-aos-delay={Math.min(index * 50, 300)}
               >
                 <h3 className="card-title mb-1 funding-card__title">{grant.title}</h3>
                 <h4 className="card-subtitle mb-3 text-muted">
