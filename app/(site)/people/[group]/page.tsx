@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readData } from "@/lib/content/data";
@@ -8,10 +9,10 @@ import CohortTimeline from "@/components/CohortTimeline";
 
 export const dynamic = "force-dynamic";
 
-async function findGroupMeta(group: string) {
+const findGroupMeta = cache(async (group: string) => {
   const groups = await readData("people-groups.json", peopleGroupMetaSchema);
   return groups.find((g) => g.group === group);
-}
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ group: string }> }): Promise<Metadata> {
   const { group } = await params;

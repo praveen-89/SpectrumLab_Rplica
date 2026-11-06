@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { z } from "zod";
 import { supabasePublic } from "../supabase/public";
 
@@ -17,7 +18,7 @@ const SITE_CONFIG_ARRAY_BY_FILE: Record<string, string> = {
 };
 
 /** Reads and validates a content array from Supabase — the admin-managed equivalent of the old /data/<file>.json. */
-export async function readData<Schema extends z.ZodType>(
+export const readData = cache(async function readData<Schema extends z.ZodType>(
   file: string,
   schema: Schema,
 ): Promise<Array<z.infer<Schema>>> {
@@ -51,4 +52,4 @@ export async function readData<Schema extends z.ZodType>(
     throw new Error(`Invalid data in ${file}: ${issue.path.join(".")} — ${issue.message}`);
   }
   return result.data;
-}
+});

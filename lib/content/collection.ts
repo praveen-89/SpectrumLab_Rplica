@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { z } from "zod";
 import { supabasePublic } from "../supabase/public";
 
@@ -20,7 +21,7 @@ const SOURCE_BY_DIR: Record<string, CollectionSource> = {
  * filesystem version derived from the file's path (preserved verbatim by
  * the migration script), so the returned shape is unchanged.
  */
-export async function readCollection<Schema extends z.ZodType>(
+export const readCollection = cache(async function readCollection<Schema extends z.ZodType>(
   dir: string,
   schema: Schema,
 ): Promise<Array<z.infer<Schema> & { slug: string }>> {
@@ -44,4 +45,4 @@ export async function readCollection<Schema extends z.ZodType>(
       slug: string;
     };
   });
-}
+});

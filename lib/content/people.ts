@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { readCollection } from "./collection";
 import { personSchema, type Person, type PersonGroup } from "./schemas";
 
@@ -13,26 +14,26 @@ function normalizePersonSlug(person: PersonWithSlug): string {
 }
 
 /** Reads every person under content/people/ (current + alumni + the director). */
-export async function readPeople(): Promise<PersonWithSlug[]> {
+export const readPeople = cache(async (): Promise<PersonWithSlug[]> => {
   const people = await readCollection("people", personSchema);
   return people.map((person) => {
     const slug = normalizePersonSlug(person);
     return slug === person.slug ? person : { ...person, slug };
   });
-}
+});
 
 /** The lab director only. */
-export async function readDirector(): Promise<PersonWithSlug | undefined> {
+export const readDirector = cache(async (): Promise<PersonWithSlug | undefined> => {
   const people = await readPeople();
   return people.find((p) => p.group === "lab-director");
-}
+});
 
 /** Looks up a person by their slug (the full "current/..." or "alumni/..." path). */
-export async function findPersonBySlug(slug: string): Promise<PersonWithSlug | undefined> {
+export const findPersonBySlug = cache(async (slug: string): Promise<PersonWithSlug | undefined> => {
   const people = await readPeople();
   const cleanSlug = slug.replace(/^\/+|\/+$/g, "");
   return people.find((person) => person.slug === cleanSlug);
-}
+});
 
 // A graduation/alumni year embedded in the slug ("alumni/<group>/<year>/<slug>"),
 // or undefined for a current member ("current/<group>/<slug>").
