@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { supabasePublic } from "./supabase/public";
 
 export type SiteConfig = {
@@ -15,8 +16,8 @@ export type SiteConfig = {
 };
 
 /** Site-wide settings — read from Supabase's site_config table (admin-managed equivalent of the old data/site.json). */
-export async function getSite(): Promise<SiteConfig> {
+export const getSite = cache(async (): Promise<SiteConfig> => {
   const { data: row, error } = await supabasePublic.from("site_config").select("data").eq("key", "site").single();
   if (error) throw new Error(`Failed to read site config from Supabase: ${error.message}`);
   return row.data as SiteConfig;
-}
+});
