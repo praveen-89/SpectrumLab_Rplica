@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readData } from "@/lib/content/data";
 import { recognitionItemSchema } from "@/lib/content/schemas";
@@ -13,9 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/recognition/" },
 };
 
-export default async function RecognitionPage() {
+async function RecognitionContent() {
   const items = await readData("recognition.json", recognitionItemSchema);
+  return <RecognitionList items={items} />;
+}
 
+export default function RecognitionPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -30,7 +34,9 @@ export default async function RecognitionPage() {
         </p>
       </div>
       <article data-aos="fade-down">
-        <RecognitionList items={items} />
+        <Suspense fallback={null}>
+          <RecognitionContent />
+        </Suspense>
       </article>
     </div>
   );

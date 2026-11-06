@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -22,25 +23,171 @@ export const metadata: Metadata = {
   title: "Home",
 };
 
-export default async function Home() {
-  const [home, news, people, funders, publications, coauthors, site] = await Promise.all([
-    readPage("home", homePageSchema),
+async function HomeDirectorAndNews() {
+  const [news, people, site] = await Promise.all([
     readCollection("news", newsItemSchema),
     readCollection("people", personSchema),
-    readData("funders.json", funderSchema),
-    readPublications(),
-    readCoauthors(),
     getSite(),
   ]);
 
-  const introHtml = await renderMarkdown(home.body);
   const director = people.find((person) => person.group === "lab-director");
   const directorHref = director ? `/people/${director.slug}/` : undefined;
-
   const latestNews = [...news].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
-  const recentPublications = publications.slice(0, 5);
 
+  return (
+    <>
+      {/* Lab Director */}
+      {director && directorHref && (
+        <div className="lab-director-section" data-aos="fade-down">
+          <h2 className="category">Lab Director</h2>
+          <div className="row align-items-center">
+            <div className="col-md-4 text-center">
+              <div className="profile-card">
+                <Link href={directorHref}>
+                  {director.image && (
+                    <Image
+                      src={director.image}
+                      alt={director.name}
+                      className="img-fluid rounded-circle z-depth-1 mb-3 profile-image"
+                      width={800}
+                      height={800}
+                    />
+                  )}
+                </Link>
+                <h2 className="card-title font-weight-bold mb-2">
+                  <Link href={directorHref} className="text-decoration-none">
+                    {director.name}
+                  </Link>
+                </h2>
+                <div className="card-icons">
+                  <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="e-mail" ariaLabel="e-mail">
+                    <EmailIcon />
+                  </ObfuscatedEmail>
+                  {director.links?.scholar && (
+                    <a href={director.links.scholar} title="Google Scholar" target="_blank" rel="external nofollow noopener">
+                      <GoogleScholarIcon />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="col-md-8">
+              <div className="biography-content">
+                <div
+                  className="biography-text"
+                  dangerouslySetInnerHTML={{
+                    __html: await renderMarkdown(director.summary ?? ""),
+                  }}
+                />
+                <p className="read-more-link">
+                  <Link href={directorHref} className="btn btn-outline-primary btn-sm">
+                    Read Full Profile →
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* News */}
+      <div data-aos="fade-down">
+        <h2>
+          <Link href="/news/" style={{ color: "inherit" }}>
+            News
+          </Link>
+        </h2>
+        <hr />
+        <NewsList items={latestNews} />
+      </div>
+
+      {/* Social */}
+      <div className="social" data-aos="fade-down">
+        <div className="contact-icons">
+          <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
+            <EmailIcon size={28} />
+          </ObfuscatedEmail>
+          <a href={site.social.googleScholarUrl} title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="external nofollow noopener">
+            <GoogleScholarIcon size={28} />
+          </a>
+          <a href={site.social.githubUrl} title="GitHub" aria-label="GitHub" target="_blank" rel="external nofollow noopener">
+            <GitHubIcon size={28} />
+          </a>
+          <a href={site.social.twitterUrl} title="Twitter" aria-label="Twitter" target="_blank" rel="external nofollow noopener">
+            <TwitterIcon size={28} />
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
+
+async function HomePublications() {
+  const [publications, coauthors, people] = await Promise.all([
+    readPublications(),
+    readCoauthors(),
+    readCollection("people", personSchema),
+  ]);
+
+  const director = people.find((person) => person.group === "lab-director");
+  const directorHref = director ? `/people/${director.slug}/` : undefined;
+  const recentPublications = publications.slice(0, 5);
   const publicationsWithAuthors = await buildPublicationViews(recentPublications, coauthors, directorHref);
+
+  return (
+    <div data-aos="fade-down">
+      <h2>
+        <Link href="/publications/" style={{ color: "inherit" }}>
+          Recent Publications
+        </Link>
+      </h2>
+      <hr />
+      <div className="publications">
+        <ol className="bibliography">
+          {publicationsWithAuthors.map(({ publication, authors, abstractHtml }) => (
+            <PublicationEntry
+              key={publication.key}
+              entryKey={publication.key}
+              abbr={publication.abbr}
+              title={publication.title}
+              authors={authors}
+              venue={publication.venue}
+              year={publication.year}
+              month={publication.month}
+              doi={publication.doi}
+              url={publication.url}
+              code={publication.code}
+              articlePage={publication.articlePage}
+              pdf={publication.pdf}
+              abstractHtml={abstractHtml}
+              bibtex={publication.bibtex}
+            />
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
+
+async function HomeFunding() {
+  const funders = await readData("funders.json", funderSchema);
+
+  return (
+    <div data-aos="fade-down">
+      <h2>Funding</h2>
+      <hr />
+      <div className="funding">
+        <div className="container-md">
+          <FundingCarousel funders={funders} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default async function Home() {
+  const [home, site] = await Promise.all([readPage("home", homePageSchema), getSite()]);
+  const introHtml = await renderMarkdown(home.body);
 
   return (
     <>
@@ -114,132 +261,15 @@ export default async function Home() {
       </div>
       <div className="caption">{home.groupPhotoCaption}</div>
 
-      {/* Lab Director */}
-      {director && directorHref && (
-        <div className="lab-director-section" data-aos="fade-down">
-          <h2 className="category">Lab Director</h2>
-          <div className="row align-items-center">
-            <div className="col-md-4 text-center">
-              <div className="profile-card">
-                <Link href={directorHref}>
-                  {director.image && (
-                    <Image
-                      src={director.image}
-                      alt={director.name}
-                      className="img-fluid rounded-circle z-depth-1 mb-3 profile-image"
-                      width={800}
-                      height={800}
-                    />
-                  )}
-                </Link>
-                <h2 className="card-title font-weight-bold mb-2">
-                  <Link href={directorHref} className="text-decoration-none">
-                    {director.name}
-                  </Link>
-                </h2>
-                <div className="card-icons">
-                  <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="e-mail" ariaLabel="e-mail">
-                    <EmailIcon />
-                  </ObfuscatedEmail>
-                  {director.links?.scholar && (
-                    <a href={director.links.scholar} title="Google Scholar" target="_blank" rel="external nofollow noopener">
-                      <GoogleScholarIcon />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="col-md-8">
-              <div className="biography-content">
-                <div
-                  className="biography-text"
-                  dangerouslySetInnerHTML={{
-                    __html: await renderMarkdown(director.summary ?? ""),
-                  }}
-                />
-                <p className="read-more-link">
-                  <Link href={directorHref} className="btn btn-outline-primary btn-sm">
-                    Read Full Profile →
-                  </Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* News */}
-      <div data-aos="fade-down">
-        <h2>
-          <Link href="/news/" style={{ color: "inherit" }}>
-            News
-          </Link>
-        </h2>
-        <hr />
-        <NewsList items={latestNews} />
-      </div>
-
-      {/* Recent Publications */}
-      <div data-aos="fade-down">
-        <h2>
-          <Link href="/publications/" style={{ color: "inherit" }}>
-            Recent Publications
-          </Link>
-        </h2>
-        <hr />
-        <div className="publications">
-          <ol className="bibliography">
-            {publicationsWithAuthors.map(({ publication, authors, abstractHtml }) => (
-              <PublicationEntry
-                key={publication.key}
-                entryKey={publication.key}
-                abbr={publication.abbr}
-                title={publication.title}
-                authors={authors}
-                venue={publication.venue}
-                year={publication.year}
-                month={publication.month}
-                doi={publication.doi}
-                url={publication.url}
-                code={publication.code}
-                articlePage={publication.articlePage}
-                pdf={publication.pdf}
-                abstractHtml={abstractHtml}
-                bibtex={publication.bibtex}
-              />
-            ))}
-          </ol>
-        </div>
-      </div>
-
-      {/* Funding */}
-      <div data-aos="fade-down">
-        <h2>Funding</h2>
-        <hr />
-        <div className="funding">
-          <div className="container-md">
-            <FundingCarousel funders={funders} />
-          </div>
-        </div>
-      </div>
-
-      {/* Social */}
-      <div className="social" data-aos="fade-down">
-        <div className="contact-icons">
-          <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
-            <EmailIcon size={28} />
-          </ObfuscatedEmail>
-          <a href={site.social.googleScholarUrl} title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="external nofollow noopener">
-            <GoogleScholarIcon size={28} />
-          </a>
-          <a href={site.social.githubUrl} title="GitHub" aria-label="GitHub" target="_blank" rel="external nofollow noopener">
-            <GitHubIcon size={28} />
-          </a>
-          <a href={site.social.twitterUrl} title="Twitter" aria-label="Twitter" target="_blank" rel="external nofollow noopener">
-            <TwitterIcon size={28} />
-          </a>
-        </div>
-      </div>
+      <Suspense fallback={null}>
+        <HomeDirectorAndNews />
+      </Suspense>
+      <Suspense fallback={null}>
+        <HomePublications />
+      </Suspense>
+      <Suspense fallback={null}>
+        <HomeFunding />
+      </Suspense>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readCourses } from "@/lib/content/teaching";
 import CourseCard from "@/components/CourseCard";
@@ -11,11 +12,51 @@ export const metadata: Metadata = {
   alternates: { canonical: "/teaching/" },
 };
 
-export default async function TeachingPage() {
+async function TeachingContent() {
   const courses = await readCourses();
   const regular = courses.filter((c) => c.section === "regular");
   const short = courses.filter((c) => c.section === "short");
 
+  return (
+    <div className="teaching-wrapper">
+      <div className="container-md py-4">
+        {regular.length > 0 && (
+          <section className="course-section" data-aos="fade-down">
+            <div className="section-label">
+              <div className="section-label__icon">
+                <BookIcon size={16} />
+              </div>
+              <span className="section-label__text">Regular Course</span>
+            </div>
+            <div className="teaching-grid teaching-grid--courses">
+              {regular.map((course) => (
+                <CourseCard course={course} key={course.slug} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {short.length > 0 && (
+          <section className="course-section" data-aos="fade-down">
+            <div className="section-label">
+              <div className="section-label__icon">
+                <BoltIcon size={16} />
+              </div>
+              <span className="section-label__text">Short Course</span>
+            </div>
+            <div className="teaching-grid teaching-grid--courses">
+              {short.map((course) => (
+                <CourseCard course={course} key={course.slug} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function TeachingPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -23,41 +64,9 @@ export default async function TeachingPage() {
         <h2 className="post-description">Repository of course material</h2>
       </header>
       <article data-aos="fade-down">
-        <div className="teaching-wrapper">
-          <div className="container-md py-4">
-            {regular.length > 0 && (
-              <section className="course-section" data-aos="fade-down">
-                <div className="section-label">
-                  <div className="section-label__icon">
-                    <BookIcon size={16} />
-                  </div>
-                  <span className="section-label__text">Regular Course</span>
-                </div>
-                <div className="teaching-grid teaching-grid--courses">
-                  {regular.map((course) => (
-                    <CourseCard course={course} key={course.slug} />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {short.length > 0 && (
-              <section className="course-section" data-aos="fade-down">
-                <div className="section-label">
-                  <div className="section-label__icon">
-                    <BoltIcon size={16} />
-                  </div>
-                  <span className="section-label__text">Short Course</span>
-                </div>
-                <div className="teaching-grid teaching-grid--courses">
-                  {short.map((course) => (
-                    <CourseCard course={course} key={course.slug} />
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        </div>
+        <Suspense fallback={null}>
+          <TeachingContent />
+        </Suspense>
       </article>
     </div>
   );

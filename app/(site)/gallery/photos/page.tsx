@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readData } from "@/lib/content/data";
 import { galleryEventSchema } from "@/lib/content/schemas";
@@ -13,9 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery/photos/" },
 };
 
-export default async function GalleryPhotosPage() {
+async function GalleryPhotosContent() {
   const events = await readData("gallery-photos.json", galleryEventSchema);
+  return <PhotoGallery events={events} />;
+}
 
+export default function GalleryPhotosPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -23,7 +27,9 @@ export default async function GalleryPhotosPage() {
         <p className="post-description">{DESCRIPTION}</p>
       </header>
       <article data-aos="fade-down">
-        <PhotoGallery events={events} />
+        <Suspense fallback={null}>
+          <GalleryPhotosContent />
+        </Suspense>
       </article>
     </div>
   );

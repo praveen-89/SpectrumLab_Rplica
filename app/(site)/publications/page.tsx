@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readCollection } from "@/lib/content/collection";
 import { readPublications, buildPublicationViews } from "@/lib/content/publications";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
 };
 
-export default async function PublicationsPage() {
+async function PublicationsContent() {
   const [publications, people, coauthors] = await Promise.all([
     readPublications(),
     readCollection("people", personSchema),
@@ -27,6 +28,10 @@ export default async function PublicationsPage() {
 
   const items = await buildPublicationViews(publications, coauthors, directorHref);
 
+  return <PublicationsBrowser items={items} />;
+}
+
+export default function PublicationsPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -34,7 +39,9 @@ export default async function PublicationsPage() {
         <h2 className="post-description">{DESCRIPTION}</h2>
       </header>
       <article data-aos="fade-down">
-        <PublicationsBrowser items={items} />
+        <Suspense fallback={null}>
+          <PublicationsContent />
+        </Suspense>
       </article>
     </div>
   );

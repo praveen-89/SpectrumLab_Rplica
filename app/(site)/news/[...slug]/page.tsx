@@ -1,3 +1,4 @@
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readCollection } from "@/lib/content/collection";
@@ -6,10 +7,10 @@ import NewsDetail from "@/components/NewsDetail";
 
 export const dynamic = "force-dynamic";
 
-async function findItem(slug: string) {
+const findItem = cache(async (slug: string) => {
   const news = await readCollection("news", newsItemSchema);
   return news.find((item) => item.detailSlug === slug);
-}
+});
 
 export async function generateMetadata({
   params,
@@ -30,5 +31,9 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
   const item = await findItem(slug.join("/"));
   if (!item) notFound();
 
-  return <NewsDetail item={item} />;
+  return (
+    <Suspense fallback={null}>
+      <NewsDetail item={item} />
+    </Suspense>
+  );
 }

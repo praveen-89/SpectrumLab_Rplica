@@ -1,3 +1,4 @@
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readArticles } from "@/lib/content/articles";
@@ -5,10 +6,10 @@ import { renderMarkdown } from "@/lib/content/markdown";
 
 export const dynamic = "force-dynamic";
 
-async function findArticle(slug: string) {
+const findArticle = cache(async (slug: string) => {
   const articles = await readArticles();
   return articles.find((article) => article.slug === slug);
-}
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -30,12 +31,19 @@ function formatDate(isoDate: string): string {
   });
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+async function ArticleContent({ slug }: { slug: string }) {
   const article = await findArticle(slug);
   if (!article) notFound();
 
   const bodyHtml = await renderMarkdown(article.body);
+
+  return <div className="article-content" data-aos="fade-down" dangerouslySetInnerHTML={{ __html: bodyHtml }} />;
+}
+
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = await findArticle(slug);
+  if (!article) notFound();
 
   return (
     <div className="article-page">
@@ -62,7 +70,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {article.date && <time className="article-date">{formatDate(article.date)}</time>}
         </div>
       </header>
-      <div className="article-content" data-aos="fade-down" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+      <Suspense fallback={null}>
+        <ArticleContent slug={slug} />
+      </Suspense>
     </div>
   );
 }

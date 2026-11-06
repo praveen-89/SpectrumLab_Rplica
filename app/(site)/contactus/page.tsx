@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readPage } from "@/lib/content/page";
 import { renderMarkdown } from "@/lib/content/markdown";
@@ -14,11 +15,87 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contactus/" },
 };
 
-export default async function ContactPage() {
+async function ContactContent() {
   const [page, site] = await Promise.all([readPage("contact", contactPageSchema), getSite()]);
   const bodyHtml = await renderMarkdown(page.body);
   const collaboratorsHtml = await renderMarkdown(page.collaborators);
 
+  return (
+    <>
+      <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+
+      <iframe
+        src={page.mapEmbedUrl}
+        title="Indian Institute of Science Campus Map"
+        className="contact-map"
+        allowFullScreen
+        loading="lazy"
+      />
+
+      <div dangerouslySetInnerHTML={{ __html: collaboratorsHtml }} />
+
+      <h3 className="contact-subheading">Administrative Assistant</h3>
+      <p>
+        <strong>{page.administrator.name}</strong>
+        <br />
+        Email:{" "}
+        <ObfuscatedEmail
+          encoded={obfuscateEmail(page.administrator.email)}
+          showText
+          title="Email"
+          ariaLabel="Email"
+        />
+        {page.administrator.phone && (
+          <>
+            <br />
+            Phone: {page.administrator.phone}
+          </>
+        )}
+      </p>
+
+      <h3 className="contact-subheading">Mailing Address</h3>
+      <p>
+        {page.address.map((line, i) => (
+          <span key={line}>
+            {i > 0 && <br />}
+            {line}
+          </span>
+        ))}
+      </p>
+
+      <div className="social">
+        <div className="contact-icons">
+          <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
+            <EmailIcon />
+          </ObfuscatedEmail>
+          <a
+            href={site.social.googleScholarUrl}
+            title="Google Scholar"
+            aria-label="Google Scholar"
+            target="_blank"
+            rel="external nofollow noopener"
+          >
+            <GoogleScholarIcon />
+          </a>
+          <a href={site.social.githubUrl} title="GitHub" aria-label="GitHub" target="_blank" rel="external nofollow noopener">
+            <GitHubIcon />
+          </a>
+          <a
+            href={site.social.twitterUrl}
+            title="Twitter"
+            aria-label="Twitter"
+            target="_blank"
+            rel="external nofollow noopener"
+          >
+            <TwitterIcon />
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function ContactPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -26,75 +103,9 @@ export default async function ContactPage() {
         <h2 className="post-description"></h2>
       </header>
       <article data-aos="fade-down">
-        <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
-
-        <iframe
-          src={page.mapEmbedUrl}
-          title="Indian Institute of Science Campus Map"
-          className="contact-map"
-          allowFullScreen
-          loading="lazy"
-        />
-
-        <div dangerouslySetInnerHTML={{ __html: collaboratorsHtml }} />
-
-        <h3 className="contact-subheading">Administrative Assistant</h3>
-        <p>
-          <strong>{page.administrator.name}</strong>
-          <br />
-          Email:{" "}
-          <ObfuscatedEmail
-            encoded={obfuscateEmail(page.administrator.email)}
-            showText
-            title="Email"
-            ariaLabel="Email"
-          />
-          {page.administrator.phone && (
-            <>
-              <br />
-              Phone: {page.administrator.phone}
-            </>
-          )}
-        </p>
-
-        <h3 className="contact-subheading">Mailing Address</h3>
-        <p>
-          {page.address.map((line, i) => (
-            <span key={line}>
-              {i > 0 && <br />}
-              {line}
-            </span>
-          ))}
-        </p>
-
-        <div className="social">
-          <div className="contact-icons">
-            <ObfuscatedEmail encoded={obfuscateEmail(site.social.email)} title="Email" ariaLabel="Email">
-              <EmailIcon />
-            </ObfuscatedEmail>
-            <a
-              href={site.social.googleScholarUrl}
-              title="Google Scholar"
-              aria-label="Google Scholar"
-              target="_blank"
-              rel="external nofollow noopener"
-            >
-              <GoogleScholarIcon />
-            </a>
-            <a href={site.social.githubUrl} title="GitHub" aria-label="GitHub" target="_blank" rel="external nofollow noopener">
-              <GitHubIcon />
-            </a>
-            <a
-              href={site.social.twitterUrl}
-              title="Twitter"
-              aria-label="Twitter"
-              target="_blank"
-              rel="external nofollow noopener"
-            >
-              <TwitterIcon />
-            </a>
-          </div>
-        </div>
+        <Suspense fallback={null}>
+          <ContactContent />
+        </Suspense>
       </article>
     </div>
   );

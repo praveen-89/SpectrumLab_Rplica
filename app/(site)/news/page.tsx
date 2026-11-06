@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readCollection } from "@/lib/content/collection";
 import { newsItemSchema } from "@/lib/content/schemas";
@@ -10,10 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/news/" },
 };
 
-export default async function NewsPage() {
+async function NewsContent() {
   const news = await readCollection("news", newsItemSchema);
   const sorted = [...news].sort((a, b) => b.date.localeCompare(a.date));
+  return <NewsList items={sorted} />;
+}
 
+export default function NewsPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -21,7 +25,9 @@ export default async function NewsPage() {
         <h2 className="post-description"></h2>
       </header>
       <article data-aos="fade-down">
-        <NewsList items={sorted} />
+        <Suspense fallback={null}>
+          <NewsContent />
+        </Suspense>
       </article>
     </div>
   );

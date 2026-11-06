@@ -1,3 +1,4 @@
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readTalks } from "@/lib/content/talks";
@@ -5,10 +6,10 @@ import TalkDetail from "@/components/TalkDetail";
 
 export const dynamic = "force-dynamic";
 
-async function findTalk(year: string, slug: string) {
+const findTalk = cache(async (year: string, slug: string) => {
   const talks = await readTalks("organized");
   return talks.find((talk) => talk.slug === `${year}/${slug}`);
-}
+});
 
 export async function generateMetadata({
   params,
@@ -33,5 +34,9 @@ export default async function TalkOrganizedDetailPage({
   const talk = await findTalk(year, slug);
   if (!talk) notFound();
 
-  return <TalkDetail talk={talk} basePath="organized" />;
+  return (
+    <Suspense fallback={null}>
+      <TalkDetail talk={talk} basePath="organized" />
+    </Suspense>
+  );
 }

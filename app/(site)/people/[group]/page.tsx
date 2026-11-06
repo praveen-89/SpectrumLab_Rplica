@@ -1,8 +1,8 @@
-import { cache } from "react";
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readData } from "@/lib/content/data";
-import { peopleGroupMetaSchema } from "@/lib/content/schemas";
+import { peopleGroupMetaSchema, type PersonGroup } from "@/lib/content/schemas";
 import { readPeopleByGroup } from "@/lib/content/people";
 import PeopleGrid from "@/components/PeopleGrid";
 import CohortTimeline from "@/components/CohortTimeline";
@@ -24,12 +24,17 @@ export async function generateMetadata({ params }: { params: Promise<{ group: st
   };
 }
 
+async function PeopleContent({ group }: { group: string }) {
+  const [meta, people] = await Promise.all([findGroupMeta(group), readPeopleByGroup(group as PersonGroup)]);
+  if (!meta) notFound();
+
+  return meta.group === "mtech-graduates" ? <CohortTimeline people={people} /> : <PeopleGrid people={people} />;
+}
+
 export default async function PeopleGroupPage({ params }: { params: Promise<{ group: string }> }) {
   const { group } = await params;
   const meta = await findGroupMeta(group);
   if (!meta) notFound();
-
-  const people = await readPeopleByGroup(meta.group);
 
   return (
     <div className="post">
@@ -39,7 +44,9 @@ export default async function PeopleGroupPage({ params }: { params: Promise<{ gr
       </header>
       <article data-aos="fade-down">
         <div className="people">
-          {meta.group === "mtech-graduates" ? <CohortTimeline people={people} /> : <PeopleGrid people={people} />}
+          <Suspense fallback={null}>
+            <PeopleContent group={group} />
+          </Suspense>
         </div>
       </article>
     </div>

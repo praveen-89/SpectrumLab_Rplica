@@ -1,3 +1,4 @@
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readCourses } from "@/lib/content/teaching";
@@ -5,10 +6,10 @@ import CourseDetail from "@/components/CourseDetail";
 
 export const dynamic = "force-dynamic";
 
-async function findCourse(slug: string) {
+const findCourse = cache(async (slug: string) => {
   const courses = await readCourses();
   return courses.find((course) => course.slug === slug);
-}
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -31,7 +32,9 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         <h1 className="post-title">{course.title}</h1>
       </header>
       <article>
-        <CourseDetail course={course} />
+        <Suspense fallback={null}>
+          <CourseDetail course={course} />
+        </Suspense>
       </article>
     </div>
   );

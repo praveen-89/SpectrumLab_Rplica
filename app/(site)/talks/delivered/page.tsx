@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { readTalks } from "@/lib/content/talks";
 import TalksList from "@/components/TalksList";
@@ -9,9 +10,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/talks/delivered/" },
 };
 
-export default async function TalksDeliveredPage() {
+async function TalksDeliveredContent() {
   const talks = await readTalks("delivered");
+  return <TalksList talks={talks} basePath="delivered" />;
+}
 
+export default function TalksDeliveredPage() {
   return (
     <div className="post">
       <header className="post-header" data-aos="fade-down">
@@ -19,7 +23,9 @@ export default async function TalksDeliveredPage() {
         <h2 className="post-description">Research talks delivered by Prof. Seelamantula and lab members</h2>
       </header>
       <article data-aos="fade-down">
-        <TalksList talks={talks} basePath="delivered" />
+        <Suspense fallback={null}>
+          <TalksDeliveredContent />
+        </Suspense>
       </article>
     </div>
   );
