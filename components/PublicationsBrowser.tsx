@@ -30,7 +30,7 @@ export default function PublicationsBrowser({ items }: { items: PublicationView[
   // original's own hash handling is bibsearch.js's text-search box
   // (hijacking the hash as a search query instead) — a real entry-anchor
   // like this never actually worked there; reproducing the working,
-  // clearly-intended version per CLAUDE.md's fidelity-vs-bugs rule.
+  // clearly-intended version instead.
   // Also re-runs on "hashchange" (not just mount): a same-page hash edit —
   // clicking another #citekey link, back/forward, or the address bar —
   // doesn't reload the page, so the effect alone would only ever catch the

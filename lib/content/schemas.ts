@@ -77,8 +77,8 @@ export type PersonGroup = z.infer<typeof personGroupSchema>;
 // of year/category groups inside each top-level section (e.g. "Committees
 // & Editorial Boards" contains collapsible "Current Roles", "Editorial
 // Service", ... sub-groups) — modelled here as static (non-collapsing)
-// grouped lists instead of a second collapse level, per CLAUDE.md's
-// allowance for picking "whichever is cleanest" for this content.
+// grouped lists instead of a second collapse level, since both read the
+// same and static is simpler.
 export const accordionItemSchema = z.object({
   title: z.string(),
   meta: z.string().optional(),
@@ -277,9 +277,8 @@ export const talkItemSchema = z.object({
   abstractLabel: z.string().optional(),
   links: talkLinksSchema.default({}),
   // Markdown; the original's "Abstract" (or, for the one SPARC entry,
-  // "Course Description"/"Course Goals"/trailing freeform paragraph,
-  // folded together here — see CLAUDE.md's fidelity-vs-bugs rule and the
-  // Step Report's "Deviations from original").
+  // "Course Description"/"Course Goals"/trailing freeform paragraph)
+  // folded together here.
   body: z.string().default(""),
 });
 export type TalkItem = z.infer<typeof talkItemSchema>;
